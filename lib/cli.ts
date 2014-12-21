@@ -23,8 +23,8 @@ program
 	.usage('[options] <file ...>')
 	.option("--json", "rule set to json")
 	.option("--yaml", "rule set to parsed yaml")
-	.option("--rules <path>", "path to rule yaml file");
-	// TODO .option("--replace", "replace input files");
+	.option("--rules <path>", "path to rule yaml file")
+	.option("-r, --replace", "replace input files");
 
 program.parse(process.argv);
 
@@ -41,4 +41,13 @@ program.parse(process.argv);
 		console.log(yaml.dump(JSON.parse(JSON.stringify(config, null, 2))));
 		return;
 	}
+	program.args.forEach(filePath => {
+		var content = fs.readFileSync(filePath, {encoding: "utf8"});
+		var result = config.replaceByRule(content);
+		if (program.replace) {
+			fs.writeFileSync(filePath, result);
+		} else {
+			console.log(result);
+		}
+	});
 })();
