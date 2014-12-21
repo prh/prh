@@ -1,0 +1,44 @@
+# for WebStorm
+# from http://gihyo.jp/dev/serial/01/android_studio/0035
+.idea/**/*.xml
+!.idea/codeStyleSettings.xml
+!.idea/copyright/*.xml
+!.idea/fileColors.xml
+!.idea/runConfigurations/*.xml
+!.idea/watcherTasks.xml
+
+!.idea/scopes/*.xml
+.idea/scopes/scope_settings.xml
+
+!.idea/templateLanguages.xml
+!.idea/vcs.xml
+
+# for npm
+npm-debug.log
+node_modules/
+
+# for grunt
+.tscache/
+docs/
+typings/
+lib/*.js
+lib/*.js.map
+lib/*.d.ts
+test/**/*.js
+test/**/*.js.map
+test/**/*.d.ts
+test/suite/libs/
+testEspowered/
+test-results.xml
+pages/
+wiki/
+
+bin/out/
+tscommand.tmp.txt
+.baseDir.ts
+
+# for test
+test-tmp/
+test-repository/
+test-cli/
+test-typings/

@@ -1,0 +1,47 @@
+version: 1
+rules:
+  - expected: Cookie
+    pattern: クッキー
+    specs:
+      - from: 今日のクッキー
+        to:   今日のCookie
+      - from: 明日もクッキー
+        to:   明日もCookie
+  - expected: Browserify
+    pattern:
+      - browserify
+      - ブラウザリファイ
+    specs:
+      - from: 最近流行りのbrowserify
+        to:   最近流行りのBrowserify
+      - from: すごいぞブラウザリファイ
+        to:   すごいぞBrowserify
+  - expected: vvakame
+    options:
+      europian: true
+    specs:
+      - from: foovvakamebuzz
+        to:   foovvakamebuzz
+      - from: foo VVakame buzz
+        to:   foo vvakame buzz
+  - expected: ひつじ $1匹目
+    pattern:  /mhidaka([0-9]+)号/
+    specs:
+      - from: mhidaka22号
+        to:   ひつじ 22匹目
+  - expected: mochico
+    specs:
+      - from: MOCHICOMOCHICO
+        to:   mochicomochico
+      - from: Ｍｏｃｈｉｃｏ
+        to:   mochico
+  - expected: Web
+    # 暗黙的に大文字小文字全角半角を統一
+  - expected: jQuery
+    # この書き方だと全角文字が考慮されない
+    pattern: /jquery/i
+    specs:
+      - from: jquery
+        to:   jQuery
+      - from: JQUERY
+        to:   jQuery
