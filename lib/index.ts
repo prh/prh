@@ -3,10 +3,16 @@
 
 "use strict";
 
+import fs = require("fs");
 import yaml = require("js-yaml");
 
 import m = require("./model");
 export import Config = m.Config;
+
+export function fromYAMLFilePath(path:string):m.Config {
+	var content = fs.readFileSync(path, {encoding: "utf8"});
+	return fromYAML(content);
+}
 
 export function fromYAML(yamlContent:string):m.Config {
 	"use strict";

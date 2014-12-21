@@ -1,8 +1,11 @@
 {
   "name": "proofreading-helper",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "",
   "main": "index.js",
+  "bin": {
+    "prh": "./bin/prh"
+  },
   "directories": {
     "test": "test"
   },
