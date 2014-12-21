@@ -150,7 +150,7 @@ export module raw {
 	}
 	export interface Rule {
 		expected: string;
-		pattern?: string; // string | regexp style string
+		pattern?: any; // string | regexp style string or array
 		options?: Options;
 		specs?: RuleSpec[];
 	}

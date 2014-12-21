@@ -10,6 +10,8 @@ import m = require("./model");
 export import Config = m.Config;
 
 export function fromYAMLFilePath(path:string):m.Config {
+	"use strict";
+
 	var content = fs.readFileSync(path, {encoding: "utf8"});
 	return fromYAML(content);
 }
