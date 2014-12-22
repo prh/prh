@@ -17,7 +17,7 @@ $ cat sample.re
 = サンプルですよ
 
 ウェッブではクッキーというものがあります。
-$ phr sample.re
+$ prh sample.re
 = サンプルですよ
 
 WebではCookieというものがあります。
