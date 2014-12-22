@@ -180,4 +180,17 @@ describe("regexp", ()=> {
 			assert(regexp.multiline === false);
 		});
 	});
+
+	describe("excapeSpecialChars", ()=> {
+		it("replace special characters 1", ()=> {
+			var result = r.excapeSpecialChars("/(?!S)ML/");
+
+			assert(result === "\\/\\(\\?!S\\)ML\\/");
+		});
+		it("replace special characters 2", ()=> {
+			var result = r.excapeSpecialChars("¥*+.?{}()[]^$-|/");
+
+			assert(result === "\\¥\\*\\+\\.\\?\\{\\}\\(\\)\\[\\]\\^\\$\\-\\|\\/");
+		});
+	});
 });

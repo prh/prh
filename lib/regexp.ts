@@ -12,6 +12,8 @@ export var jpKana = /[ァ-ヺ]/;
 export var jpKanji = /(?:[々〇〻\u3400-\u9FFF\uF900-\uFAFF]|[\uD840-\uD87F][\uDC00-\uDFFF])/;
 export var jpChar = combine(jpHira, jpKana, jpKanji);
 
+var regexpSpecialChars = "¥*+.?{}()[]^$-|/".split("");
+
 export function concat(...args:any[] /* string | RegExp */):RegExp {
 	"use strict";
 
@@ -96,4 +98,13 @@ export function addDefaultFlags(regexp:RegExp) {
 		flags += "m";
 	}
 	return new RegExp(regexp.source, flags);
+}
+
+export function excapeSpecialChars(str:string):string {
+	"use strict";
+
+	regexpSpecialChars.forEach(char => {
+		str = str.replace(new RegExp("\\" + char, "g"), "\\" + char);
+	});
+	return str;
 }

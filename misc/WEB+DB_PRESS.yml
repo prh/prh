@@ -204,14 +204,13 @@ rules:
     pattern:  セッター
   - expected: セレクタ
     pattern:  セレクター
-  - expected: ソフトウェア
-    pattern:
-      - (?!経)ソフトウエア
+  - expected: $1ソフトウェア
+    pattern: /([^経])ソフトウエア/
     specs:
-      - from: ソフトウエア
-        to:   ソフトウェア
+      - from: 広義のソフトウエア
+        to:   広義のソフトウェア
       - from: 日経ソフトウエア
-        to:   日経ソフトウェア
+        to:   日経ソフトウエア
   - expected: ダイアグラム
     pattern:  ダイヤグラム
   - expected: タイムスタンプ

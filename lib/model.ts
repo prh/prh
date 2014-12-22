@@ -76,7 +76,7 @@ export class Rule {
 			if (this.options.europian) {
 				result = r.addBoundary(pattern);
 			} else {
-				result = new RegExp(pattern);
+				result = new RegExp(r.excapeSpecialChars(pattern));
 			}
 			return r.addDefaultFlags(result);
 		}
