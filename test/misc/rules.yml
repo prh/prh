@@ -24,11 +24,11 @@ rules:
         to:   foovvakamebuzz
       - from: foo VVakame buzz
         to:   foo vvakame buzz
-  - expected: ひつじ $1匹目
+  - expected: ひつじ$1匹目
     pattern:  /mhidaka([0-9]+)号/
     specs:
       - from: mhidaka22号
-        to:   ひつじ 22匹目
+        to:   ひつじ22匹目
   - expected: mochico
     specs:
       - from: MOCHICOMOCHICO

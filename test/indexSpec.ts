@@ -13,12 +13,12 @@ import lib = require("../lib/index");
 describe("index", ()=> {
 	describe("fromYAMLFilePath", ()=> {
 		it("parse yaml to Config", ()=> {
-			lib.fromYAMLFilePath("./misc/rules.yml");
+			lib.fromYAMLFilePath("./misc/WEB+DB_PRESS.yml");
 		});
 	});
 	describe("fromYAML", ()=> {
 		it("parse yaml string to Config", ()=> {
-			var yamlContent = fs.readFileSync("./misc/rules.yml", {encoding: "utf8"});
+			var yamlContent = fs.readFileSync("./misc/WEB+DB_PRESS.yml", {encoding: "utf8"});
 			lib.fromYAML(yamlContent);
 		});
 	});

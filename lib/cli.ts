@@ -29,7 +29,7 @@ program
 program.parse(process.argv);
 
 (()=> {
-	var path = __dirname + "/../misc/rules.yml";
+	var path = __dirname + "/../misc/WEB+DB_PRESS.yml";
 	if (program.rules) {
 		path = program.rules;
 	}
