@@ -1,4 +1,4 @@
-# proofread-helper
+# proofread-helper [![Circle CI](https://circleci.com/gh/vvakame/prh.svg?style=svg)](https://circleci.com/gh/vvakame/prh)
 
 校正を雑にサポートしてくれるライブラリ。
 
