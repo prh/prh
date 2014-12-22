@@ -1,0 +1,25 @@
+.git/
+
+# for WebStorm
+.idea/
+
+# for npm
+node_modules/
+
+# for grunt
+typings/
+.tscache/
+
+# codes
+test/
+
+# misc
+.gitignore
+.editorconfig
+circle.yml
+setup.sh
+Gruntfile.js
+dtsm.json
+tslint.json
+
+npm-debug.log
