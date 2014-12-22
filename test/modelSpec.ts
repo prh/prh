@@ -38,7 +38,7 @@ describe("model", ()=> {
 					expected: "vv",
 					pattern: null,
 					options: {
-						europian: true
+						wordBoundary: true
 					}
 				});
 
@@ -59,7 +59,7 @@ describe("model", ()=> {
 					expected: "vv",
 					pattern: "vv",
 					options: {
-						europian: true
+						wordBoundary: true
 					}
 				});
 

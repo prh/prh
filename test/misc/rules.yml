@@ -18,7 +18,7 @@ rules:
         to:   すごいぞBrowserify
   - expected: vvakame
     options:
-      europian: true
+      wordBoundary: true
     specs:
       - from: foovvakamebuzz
         to:   foovvakamebuzz

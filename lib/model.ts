@@ -63,7 +63,7 @@ export class Rule {
 		var result:RegExp;
 		if (pattern == null) {
 			result = r.spreadAlphaNum(this.expected);
-			if (this.options.europian) {
+			if (this.options.wordBoundary) {
 				result = r.addBoundary(result);
 			}
 			return r.addDefaultFlags(result);
@@ -73,7 +73,7 @@ export class Rule {
 			if (result) {
 				return r.addDefaultFlags(result);
 			}
-			if (this.options.europian) {
+			if (this.options.wordBoundary) {
 				result = r.addBoundary(pattern);
 			} else {
 				result = new RegExp(r.excapeSpecialChars(pattern));
@@ -114,11 +114,11 @@ export class Rule {
 }
 
 export class Options {
-	europian:boolean;
+	wordBoundary:boolean;
 
 	constructor(rule:Rule, src:raw.Options) {
 		src = src || {};
-		this.europian = src.europian != null ? src.europian : false;
+		this.wordBoundary = src.wordBoundary != null ? src.wordBoundary : false;
 	}
 }
 
@@ -155,7 +155,7 @@ export module raw {
 		specs?: RuleSpec[];
 	}
 	export interface Options {
-		europian?: boolean;
+		wordBoundary?: boolean;
 	}
 	export interface RuleSpec {
 		from: string;

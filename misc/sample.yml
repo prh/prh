@@ -7,7 +7,7 @@ rules:
 # - expected: Cookie
 #   pattern: "/[CcＣｃ][OoＯｏ][OoＯｏ][KkＫｋ][IiＩｉ][EeＥｅ]/g"
 #   options:
-#     europian: false
+#     wordBoundary: false
 #   specs: []
 
 # 変換結果についてテストも書ける
@@ -51,7 +51,7 @@ rules:
   - expected: js
   # pattern: "/\b[JjＪｊ][SsＳｓ]\b/g" # と等価 \b が前後に付与される
     options:
-      europian: true
+      wordBoundary: true
     specs:
       - from: foo JS bar
         to:   foo js bar

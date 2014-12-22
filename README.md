@@ -34,4 +34,3 @@
 ## 推奨される使い方
 
 [このへん](https://github.com/vvakame/prh/blob/master/misc/WEB%2BDB_PRESS.yml)をベースに、自分(の団体)用のルールセットを定義するのが良いだろう。
-
