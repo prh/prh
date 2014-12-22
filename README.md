@@ -4,6 +4,27 @@
 
 [WEB+DB PRESS用語統一ルール](https://gist.github.com/inao/f55e8232e150aee918b9)と[wzeditor-word-rules-parser](https://github.com/azu/wzeditor-word-rules-parser)を参考にしています。
 
+## インストール
+
+```
+$ npm install -g prh
+```
+
+## 利用方法
+
+```
+$ cat sample.re
+= サンプルですよ
+
+ウェッブではクッキーというものがあります。
+$ phr sample.re
+= サンプルですよ
+
+WebではCookieというものがあります。
+```
+
+`--replace`オプションなどと併用すると良いでしょう。
+
 ## 目標
 
 [techbooster](http://techbooster.org/)での執筆活動を快適にするぞ。
@@ -30,6 +51,8 @@
 * 独自の無視設定の追加
     * 具体的にはRe:VIEWの構文を解釈し@<list>{module}とかのmoduleを置換しないようにする。
 * 同じexpectedがある場合、後定義を優先してoverrideできるほうがよさそう
+* event-streamとか使ったほうがいいのかもわからん…
+* xregexpとか使って名前付き後方参照を導入したほうがよいかも…
 
 ## 推奨される使い方
 
