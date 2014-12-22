@@ -1,6 +1,6 @@
 {
   "name": "prh",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "",
   "main": "index.js",
   "bin": {
@@ -10,7 +10,6 @@
     "test": "test"
   },
   "scripts": {
-    "postinstall": "grunt setup",
     "test": "grunt test"
   },
   "repository": {
