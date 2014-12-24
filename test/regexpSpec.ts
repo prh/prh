@@ -155,16 +155,8 @@ describe("regexp", ()=> {
 	});
 
 	describe("addDefaultFlags", ()=> {
-		it("add g flags", ()=> {
+		it("add g & m flags", ()=> {
 			var regexp = r.addDefaultFlags(/hello/);
-
-			assert(regexp.source === "hello");
-			assert(regexp.global === true);
-			assert(regexp.ignoreCase === false);
-			assert(regexp.multiline === false);
-		});
-		it("add g flags and keep m flag", ()=> {
-			var regexp = r.addDefaultFlags(/hello/m);
 
 			assert(regexp.source === "hello");
 			assert(regexp.global === true);
@@ -177,7 +169,7 @@ describe("regexp", ()=> {
 			assert(regexp.source === "hello");
 			assert(regexp.global === true);
 			assert(regexp.ignoreCase === true);
-			assert(regexp.multiline === false);
+			assert(regexp.multiline === true);
 		});
 	});
 

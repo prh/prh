@@ -90,12 +90,9 @@ export function spreadAlphaNum(str:string):RegExp {
 export function addDefaultFlags(regexp:RegExp) {
 	"use strict";
 
-	var flags = "g";
+	var flags = "gm";
 	if (regexp.ignoreCase) {
 		flags += "i";
-	}
-	if (regexp.multiline) {
-		flags += "m";
 	}
 	return new RegExp(regexp.source, flags);
 }
