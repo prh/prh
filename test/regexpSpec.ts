@@ -185,4 +185,31 @@ describe("regexp", ()=> {
 			assert(result === "\\¥\\*\\+\\.\\?\\{\\}\\(\\)\\[\\]\\^\\$\\-\\|\\/");
 		});
 	});
+
+	describe("collectAll", ()=> {
+		it("collect all matching place", ()=> {
+			var str = "今日まで広くC言語は使われてきました。\nしかし、ここに至りC++やC#などが登場し隆盛を極め…";
+			var result = r.collectAll(/(C(\+\+|\#)?)/g, str);
+
+			assert(result.length === 3);
+
+			assert(result[0].length === 3);
+			assert(result[0][0] === "C");
+			assert(result[0][1] === "C");
+			assert(result[0][2] === void 0);
+			assert(result[0].index === 6);
+
+			assert(result[1].length === 3);
+			assert(result[1][0] === "C++");
+			assert(result[1][1] === "C++");
+			assert(result[1][2] === "++");
+			assert(result[1].index === 29);
+
+			assert(result[2].length === 3);
+			assert(result[2][0] === "C#");
+			assert(result[2][1] === "C#");
+			assert(result[2][2] === "#");
+			assert(result[2].index === 33);
+		});
+	});
 });

@@ -105,3 +105,21 @@ export function excapeSpecialChars(str:string):string {
 	});
 	return str;
 }
+
+export function collectAll(regexp:RegExp, src:string) {
+	"use strict";
+
+	if (!regexp.global) {
+		throw new Error("g flag is required");
+	}
+	var resultList:RegExpExecArray[] = [];
+	var result:RegExpExecArray;
+	do {
+		result = regexp.exec(src);
+		if (result) {
+			resultList.push(result);
+		}
+	} while (result);
+
+	return resultList;
+}
