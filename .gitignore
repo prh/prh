@@ -21,9 +21,9 @@ node_modules/
 .tscache/
 docs/
 typings/
-lib/*.js
-lib/*.js.map
-lib/*.d.ts
+lib/**/*.js
+lib/**/*.js.map
+lib/**/*.d.ts
 test/**/*.js
 test/**/*.js.map
 test/**/*.d.ts

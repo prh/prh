@@ -1,61 +1,14 @@
 "use strict";
 
-import r = require("./regexp")
+import r = require("./utils/regexp");
 
-export class Config {
-	version:number;
-	rules:Rule[];
+import ChangeSet = require("./changeset");
+import Options = require("./options");
+import RuleSpec = require("./rulespec");
 
-	constructor(src:raw.Config) {
-		if (!src) {
-			throw new Error("src is requried");
-		}
-		this.version = +src.version || 1;
-		this.rules = (src.rules || []).map(rule => new Rule(rule));
-	}
+import raw = require("./raw")
 
-	replaceByRule(content:string) {
-		this.rules.forEach(rule => {
-			content = content.replace(rule.pattern, rule.expected);
-		});
-		return content;
-	}
-}
-
-export class ChangeSet {
-	pattern:RegExp;
-	expected:string;
-	index:number;
-	matches:string[];
-
-	static applyChangeSets(str:string, list:ChangeSet[]):string {
-		list = list.sort((a, b) => a.index - b.index);
-
-		var delta = 0;
-		list.forEach(data => {
-			var result = data.expected.replace(/\$([0-9]{1,2})/g, (match:string, g1:string)=> {
-				var index = parseInt(g1);
-				if (index === 0 || (data.matches.length - 1) < index) {
-					return match;
-				}
-				return data.matches[index] || "";
-			});
-			str = str.slice(0, data.index + delta) + result + str.slice(data.index + delta + data.matches[0].length);
-			delta += result.length - data.matches[0].length;
-		});
-
-		return str;
-	}
-
-	constructor(data:ChangeSet) {
-		this.pattern = data.pattern;
-		this.expected = data.expected;
-		this.index = data.index;
-		this.matches = data.matches;
-	}
-}
-
-export class Rule {
+class Rule {
 	expected:string;
 	pattern:RegExp;
 	options:Options;
@@ -159,52 +112,4 @@ export class Rule {
 	}
 }
 
-export class Options {
-	wordBoundary:boolean;
-
-	constructor(rule:Rule, src:raw.Options) {
-		src = src || {};
-		this.wordBoundary = src.wordBoundary != null ? src.wordBoundary : false;
-	}
-}
-
-export class RuleSpec {
-	from:string;
-	to:string;
-
-	constructor(src:raw.RuleSpec) {
-		if (!src) {
-			throw new Error("src is requried");
-		}
-		if (!src.from) {
-			throw new Error("from is requried");
-		}
-		if (!src.to) {
-			throw new Error("to is requried");
-		}
-		this.from = src.from;
-		this.to = src.to;
-	}
-}
-
-export module raw {
-	"use strict";
-
-	export interface Config {
-		version: number;
-		rules: any[]; // (string | Rule)[]
-	}
-	export interface Rule {
-		expected: string;
-		pattern?: any; // string | regexp style string or array
-		options?: Options;
-		specs?: RuleSpec[];
-	}
-	export interface Options {
-		wordBoundary?: boolean;
-	}
-	export interface RuleSpec {
-		from: string;
-		to: string;
-	}
-}
+export = Rule;
