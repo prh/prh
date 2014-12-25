@@ -1,0 +1,113 @@
+version: 1
+rules:
+  # 記号
+  # 半角括弧を全角括弧に
+  - expected: （$1）
+    pattern:  /\((.+?)\)/
+    specs:
+      - from: そうですね(笑)
+        to:   そうですね（笑）
+      - from: (@<fn>{test})
+        to:   （@<fn>{test}）
+      - from: "(ほげ)ほげ)"
+        to:   "（ほげ）ほげ)"
+  # TODO 英単語の前後の空白を殺す
+
+  # 開き
+  - expected: いえ
+    pattern:  言え
+  - expected: さまざま
+    pattern:  様々
+  # 良い のまま開いてない場合も結構ある
+  - expected: よい
+    pattern:  良い
+  - expected: さらに
+    pattern:  更に
+  - expected: もつ
+    pattern:  持つ
+  - expected: とおり
+    pattern:  通り
+  - expected: 他の
+    pattern:  ほかの
+  - expected: すでに
+    pattern:  既に
+  - expected: 分かる
+    pattern:  わかる
+  - expected: すべて
+    pattern:  全て
+  - expected: たとえば
+    pattern:  例えば
+  - expected: $1中
+    pattern:  /(その)なか/
+  - expected: きれい
+    pattern:  綺麗
+  - expected: その中
+    pattern:  そのなか
+  - expected: こと
+    pattern:  /事(?!情)(?!件)(?!前)(?!後)/
+  # 先読み否定戻りができないので悲惨な事に…
+  # 時の前後1文字がひらがなの時… とかのほうがよいのでは
+  - expected: $1とき
+    pattern:  /([^同行当用発筆])時(?!点)(?!代)(?!間)/
+    specs:
+      - from: その時
+        to:   そのとき
+      - from: 同時
+        to:   同時
+      - from: 実行時
+        to:   実行時
+      - from: 利用時
+        to:   利用時
+      - from: 開発時
+        to:   開発時
+      - from: 執筆時
+        to:   執筆時
+      - from: 時点
+        to:   時点
+      - from: 時代
+        to:   時代
+      - from: 時間
+        to:   時間
+  - expected: でき$1
+    pattern:  /出来(る|て|た|ま|上が)/
+    specs:
+      - from: 出来上がった
+        to:   でき上がった
+  - expected: したがって
+    pattern:  従って
+  - expected: $1ように
+    pattern:  /(の)様に/
+  - expected: 次$1
+    pattern:  /以下(の|に)/
+    specs:
+      - from: 以下の
+        to:   次の
+      - from: 以下に
+        to:   次に
+      - from: 次回
+        to:   次回
+  - expected: かかわらず
+    pattern:  関わらず
+  - expected: なる
+    pattern:  成る
+  - expected: お勧め
+    pattern:  おすすめ
+  - expected: $1あとで
+    pattern:  /(して|した|、)後で/
+    specs:
+      - from: して後で
+        to:   してあとで
+  - expected: あらかじめ
+    pattern:  予め
+  - expected: なぜ
+    pattern:  何故
+  - expected: ゆえに
+    pattern:  故に
+  - expected: うまく
+    pattern:  巧く
+
+  # 横文字
+  - expected: Web
+  - expected: jQuery
+  - expected: ライブラリ
+    pattern:  ラブライブ # C87でやらかした人がいましたね？
