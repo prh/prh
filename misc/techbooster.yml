@@ -41,8 +41,6 @@ rules:
     pattern:  /(その)なか/
   - expected: きれい
     pattern:  綺麗
-  - expected: その中
-    pattern:  そのなか
   - expected: こと
     pattern:  /事(?!情)(?!件)(?!前)(?!後)/
   # 先読み否定戻りができないので悲惨な事に…
