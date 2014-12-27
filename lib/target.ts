@@ -1,0 +1,50 @@
+"use strict";
+
+import r = require("./utils/regexp");
+
+import raw = require("./raw");
+import TargetPattern = require("./targetpattern");
+
+class Target {
+	file:RegExp;
+	includes:TargetPattern[];
+	excludes:TargetPattern[];
+
+	constructor(src:raw.Target) {
+		if (!src) {
+			throw new Error("src is requried");
+		}
+		this.file = r.parseRegExpString(src.file);
+		if (!this.file) {
+			this.file = new RegExp(r.excapeSpecialChars(src.file));
+		}
+		if (src.includes) {
+			this.includes = src.includes.map(include => new TargetPattern(include));
+		} else {
+			this.includes = [];
+		}
+		if (src.excludes) {
+			this.excludes = src.excludes.map(exclude => new TargetPattern(exclude));
+		} else {
+			this.excludes = [];
+		}
+	}
+
+	toJSON() {
+		var alt:any = {};
+		for (var key in this) {
+			if (key.indexOf("_") === 0) {
+				continue;
+			}
+			var value = (<any>this)[key];
+			if (value instanceof RegExp) {
+				alt[key] = value.toString();
+				continue;
+			}
+			alt[key] = value;
+		}
+		return alt;
+	}
+}
+
+export = Target;

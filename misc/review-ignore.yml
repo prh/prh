@@ -1,0 +1,11 @@
+version: 1
+# includeとexclude両方存在する場合はincludeを適用した後excludeが適用される
+targets:
+  - file: /\.re$/
+    excludes:
+      - pattern: /^\/\/(list|cmd)(?:\[.*?\])+{\n(?:.*\n)*\/\/}/im
+      - pattern:  /@<.+?>{.+?}/
+  - file: /\.ts$/
+    includes:
+      - pattern: /^\/\/(.*?)$/m
+      - pattern: //m

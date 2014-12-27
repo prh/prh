@@ -10,6 +10,7 @@
 "use strict";
 
 import fs = require("fs");
+import path = require("path");
 
 import lib = require("../lib/index");
 
@@ -24,5 +25,17 @@ describe("index", ()=> {
 			var yamlContent = fs.readFileSync("./misc/WEB+DB_PRESS.yml", {encoding: "utf8"});
 			lib.fromYAML(yamlContent);
 		});
+	});
+	describe("try all yml files in misc", ()=> {
+		var targetDir = path.resolve(__dirname, "..", "misc");
+		fs
+			.readdirSync(targetDir)
+			.filter(file => /\.yml$/.test(file))
+			.forEach(file => {
+				it("try " + file, ()=> {
+					var yamlContent = fs.readFileSync(targetDir + "/" + file, {encoding: "utf8"});
+					lib.fromYAML(yamlContent);
+				});
+			});
 	});
 });

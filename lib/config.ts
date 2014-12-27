@@ -1,10 +1,12 @@
 "use strict";
 
 import raw = require("./raw");
+import Target = require("./target");
 import Rule = require("./rule");
 
 class Config {
 	version:number;
+	targets:Target[];
 	rules:Rule[];
 
 	constructor(src:raw.Config) {
@@ -12,6 +14,7 @@ class Config {
 			throw new Error("src is requried");
 		}
 		this.version = +src.version || 1;
+		this.targets = (src.targets || []).map(target => new Target(target));
 		this.rules = (src.rules || []).map(rule => new Rule(rule));
 	}
 
