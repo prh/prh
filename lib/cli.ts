@@ -29,11 +29,16 @@ program
 program.parse(process.argv);
 
 (()=> {
-	var path = __dirname + "/../misc/WEB+DB_PRESS.yml";
+	var paths = [__dirname + "/../misc/WEB+DB_PRESS.yml"];
 	if (program.rules) {
-		path = program.rules;
+		paths = program.rules.split(",");
 	}
-	var config = lib.fromYAMLFilePath(path);
+	var config = lib.fromYAMLFilePath(paths[0]);
+	paths.splice(1).forEach(path => {
+		var c = lib.fromYAMLFilePath(path);
+		config.merge(c);
+	});
+
 	if (program.json) {
 		console.log(JSON.stringify(config, null, 2));
 		return;

@@ -1,5 +1,7 @@
 "use strict";
 
+import r = require("./utils/regexp");
+
 import raw = require("./raw");
 import Target = require("./target");
 import Rule = require("./rule");
@@ -19,10 +21,24 @@ class Config {
 	}
 
 	merge(other:Config) {
+		if (!other) {
+			throw new Error("other is required");
+		}
 		if (this.version !== other.version) {
 			throw new Error("version mismatch!");
 		}
-
+		other.targets.forEach(otherTarget => {
+			var exists = this.targets.filter(target => r.equals(target.file, otherTarget.file)).length !== 0;
+			if (!exists) {
+				this.targets.push(otherTarget);
+			}
+		});
+		other.rules.forEach(otherRule => {
+			var exists = this.rules.filter(rule => rule.expected === otherRule.expected).length !== 0;
+			if (!exists) {
+				this.rules.push(otherRule);
+			}
+		});
 	}
 
 	replaceByRule(content:string) {
