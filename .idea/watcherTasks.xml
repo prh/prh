@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectTasksOptions">
     <TaskOptions isEnabled="true">
-      <option name="arguments" value="--sourcemap --module commonjs --noImplicitAny lib/cli.ts" />
+      <option name="arguments" value="--sourcemap --target es5 --module commonjs --noImplicitAny lib/cli.ts" />
       <option name="checkSyntaxErrors" value="true" />
       <option name="description" value="Compiles .ts files into .js files" />
       <option name="exitCodeBehavior" value="ERROR" />
