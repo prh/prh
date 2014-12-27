@@ -1,10 +1,13 @@
 "use strict";
 
+import fs = require("fs");
+
 import r = require("./utils/regexp");
 
 import raw = require("./raw");
 import Target = require("./target");
 import Rule = require("./rule");
+import ChangeSet = require("./changeset");
 
 class Config {
 	version:number;
@@ -41,11 +44,38 @@ class Config {
 		});
 	}
 
-	replaceByRule(content:string) {
-		this.rules.forEach(rule => {
-			content = content.replace(rule.pattern, rule.expected);
+	replaceByRule(filePath:string, content?:string) {
+		if (content == null) {
+			content = fs.readFileSync(filePath, {encoding: "utf8"});
+		}
+		var changeSets:ChangeSet[] = [];
+		this.rules.map(rule => {
+			var set = ChangeSet.makeChangeSet(content, rule.pattern, rule.expected);
+			changeSets = changeSets.concat(set);
 		});
-		return content;
+
+		var includes:ChangeSet[] = [];
+		var excludes:ChangeSet[] = [];
+		this.targets.forEach(target => {
+			if (!target.file.test(filePath)) {
+				return;
+			}
+			target.includes.forEach(include => {
+				includes = includes.concat(ChangeSet.makeChangeSet(content, include.pattern, null));
+			});
+			target.excludes.forEach(exclude => {
+				excludes = excludes.concat(ChangeSet.makeChangeSet(content, exclude.pattern, null));
+			});
+		});
+
+		if (includes.length !== 0) {
+			changeSets = ChangeSet.intersect(changeSets, includes);
+		}
+		if (excludes.length !== 0) {
+			changeSets = ChangeSet.subtract(changeSets, excludes);
+		}
+
+		return ChangeSet.applyChangeSets(content, changeSets);
 	}
 }
 

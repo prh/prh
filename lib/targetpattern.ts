@@ -15,8 +15,9 @@ class TargetPattern {
 			var pattern = <any>src;
 			this.pattern = r.parseRegExpString(pattern);
 			if (!this.pattern) {
-				this.pattern = r.addDefaultFlags(new RegExp(r.excapeSpecialChars(pattern)));
+				this.pattern = new RegExp(r.excapeSpecialChars(pattern));
 			}
+			this.pattern = r.addDefaultFlags(this.pattern);
 			return;
 		}
 		if (!src.pattern) {
@@ -26,6 +27,7 @@ class TargetPattern {
 		if (!this.pattern) {
 			this.pattern = r.addDefaultFlags(new RegExp(r.excapeSpecialChars(src.pattern)));
 		}
+		this.pattern = r.addDefaultFlags(this.pattern);
 	}
 
 	toJSON() {

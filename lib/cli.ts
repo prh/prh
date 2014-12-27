@@ -3,6 +3,7 @@
 /// <reference path="../typings/js-yaml/js-yaml.d.ts" />
 
 import fs = require("fs");
+
 import yaml = require("js-yaml");
 
 import lib = require("./index");
@@ -47,8 +48,7 @@ program.parse(process.argv);
 		return;
 	}
 	program.args.forEach(filePath => {
-		var content = fs.readFileSync(filePath, {encoding: "utf8"});
-		var result = config.replaceByRule(content);
+		var result = config.replaceByRule(filePath);
 		if (program.replace) {
 			fs.writeFileSync(filePath, result);
 		} else {

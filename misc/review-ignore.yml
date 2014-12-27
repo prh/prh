@@ -8,4 +8,5 @@ targets:
   - file: /\.ts$/
     includes:
       - pattern: /^\/\/(.*?)$/m
-      - pattern: //m
+      # new RegExp("/\*.*?\*/", "gm") と解釈されるので/をエスケープする必要はない
+      - pattern: //\*.*?\*//gm
