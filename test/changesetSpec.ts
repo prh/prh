@@ -82,4 +82,18 @@ describe("ChangeSet", ()=> {
 			assert(result === "次に見るJS（@<list>{hoge-js}）はただのJSではありません。\nしかし、altJS（@<fn>{alt-js}）ほどではないでしょう。");
 		});
 	});
+	describe(".intersect", ()=> {
+		it("intersect changeset with audit changeset", ()=> {
+			var base = "var foo = 'js';\n// これがjsだ！\n var bar = 'altjs'; /* これもjsだ */\n var buzz = 'jsx';";
+			var baseSet = ChangeSet.makeChangeSet(base, /js/igm, "JS");
+			var auditA = ChangeSet.makeChangeSet(base, /\/\/\s*(.*?)$/gm, "$1");
+			var auditB = ChangeSet.makeChangeSet(base, /\/\*.*?\*\//gm, "$1");
+			var audit = auditA.concat(auditB);
+
+			var changeSets = ChangeSet.intersect(baseSet, audit);
+
+			var result = ChangeSet.applyChangeSets(base, changeSets);
+			assert(result === "var foo = 'js';\n// これがJSだ！\n var bar = 'altjs'; /* これもJSだ */\n var buzz = 'jsx';");
+		});
+	});
 });

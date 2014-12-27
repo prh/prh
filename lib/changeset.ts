@@ -60,6 +60,31 @@ class ChangeSet {
 		return minuend;
 	}
 
+	static intersect(base:ChangeSet[], audit:ChangeSet[]):ChangeSet[] {
+		base.sort((a, b)=> a.index - b.index);
+		audit.sort((a, b)=> a.index - b.index);
+
+		var result:ChangeSet[] = [];
+		var a = 0;
+		var b = 0;
+
+		while (true) {
+			if (base[a] == null || audit[b] == null) {
+				break;
+			}
+			if (base[a].isCollide(audit[b]) && result.indexOf(base[a]) === -1) {
+				result.push(base[a]);
+			}
+			if (base[a].isBefore(audit[b])) {
+				a++;
+			} else {
+				b++;
+			}
+		}
+
+		return result;
+	}
+
 	constructor(pattern:RegExp, expected:string, index:number, matches:string[]) {
 		this.pattern = pattern;
 		this.expected = expected;
