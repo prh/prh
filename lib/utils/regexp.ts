@@ -123,3 +123,22 @@ export function collectAll(regexp:RegExp, src:string) {
 
 	return resultList;
 }
+
+export function equals(a:RegExp, b:RegExp) {
+	"use strict";
+
+	if (a.source !== b.source) {
+		return false;
+	}
+	if (a.global !== b.global) {
+		return false;
+	}
+	if (a.ignoreCase !== b.ignoreCase) {
+		return false;
+	}
+	if (a.multiline !== b.multiline) {
+		return false;
+	}
+
+	return true;
+}

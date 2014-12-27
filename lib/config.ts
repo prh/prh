@@ -18,6 +18,13 @@ class Config {
 		this.rules = (src.rules || []).map(rule => new Rule(rule));
 	}
 
+	merge(other:Config) {
+		if (this.version !== other.version) {
+			throw new Error("version mismatch!");
+		}
+
+	}
+
 	replaceByRule(content:string) {
 		this.rules.forEach(rule => {
 			content = content.replace(rule.pattern, rule.expected);

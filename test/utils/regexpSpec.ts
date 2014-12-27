@@ -212,4 +212,18 @@ describe("regexp", ()=> {
 			assert(result[2].index === 33);
 		});
 	});
+
+	describe("equals", ()=> {
+		it("can test equality", ()=> {
+			assert(r.equals(/a/, /a/));
+			assert(r.equals(/a/i, /a/i));
+			assert(r.equals(/a/g, /a/g));
+			assert(r.equals(/a/m, /a/m));
+
+			assert(!r.equals(/a/, /b/));
+			assert(!r.equals(/a/i, /a/));
+			assert(!r.equals(/a/g, /a/));
+			assert(!r.equals(/a/m, /a/));
+		});
+	});
 });
