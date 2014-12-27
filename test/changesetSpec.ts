@@ -86,4 +86,13 @@ describe("ChangeSet", ()=> {
 			assert(result === "ある日のWebと、とある日のWebの話");
 		});
 	});
+	describe(".makeChangeSet", ()=> {
+		it("make change sets", ()=> {
+			var base = "今日はjs明日はts明後日はなんのaltjsですかねぇ？";
+			var changeSets = ChangeSet.makeChangeSet(base, /JS/ig, "JS");
+
+			var result = ChangeSet.applyChangeSets(base, changeSets);
+			assert(result === "今日はJS明日はts明後日はなんのaltJSですかねぇ？");
+		});
+	});
 });

@@ -2,7 +2,6 @@
 
 import r = require("./utils/regexp");
 
-import ChangeSet = require("./changeset");
 import Options = require("./options");
 import RuleSpec = require("./rulespec");
 
@@ -79,19 +78,6 @@ class Rule {
 			if (spec.to !== result) {
 				throw new Error(this.expected + " spec failed. \"" + spec.from + "\", expected \"" + spec.to + "\", but got \"" + result + "\", " + this.pattern);
 			}
-		});
-	}
-
-	makeChangeSet(str:string):ChangeSet[] {
-		this.pattern.lastIndex = 0;
-		var resultList = r.collectAll(this.pattern, str);
-		return resultList.map(result => {
-			return new ChangeSet({
-				pattern: this.pattern,
-				expected: this.expected,
-				index: result.index,
-				matches: Array.prototype.slice.call(result)
-			});
 		});
 	}
 

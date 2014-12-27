@@ -1,7 +1,6 @@
 "use strict";
 
 import Rule = require("../lib/rule");
-import ChangeSet = require("../lib/changeset");
 
 describe("Rule", ()=> {
 	it("parse raw.Rule", ()=> {
@@ -86,32 +85,6 @@ describe("Rule", ()=> {
 					to: "vvakame"
 				}]
 			});
-		});
-		it("failed spec", ()=> {
-			try {
-				new Rule({
-					expected: "vvakame",
-					specs: [{
-						from: "masahiro",
-						to: "vvakame"
-					}]
-				});
-			} catch (e) {
-				return;
-			}
-			assert.fail("spec succeed unexpectedly");
-		});
-	});
-	describe("#makeChangeSet", ()=> {
-		it("succeed spec", ()=> {
-			var rule = new Rule({
-				expected: "JS"
-			});
-			var base = "今日はjs明日はts明後日はなんのaltjsですかねぇ？";
-			var changeSets = rule.makeChangeSet(base);
-
-			var result = ChangeSet.applyChangeSets(base, changeSets);
-			assert(result === "今日はJS明日はts明後日はなんのaltJSですかねぇ？");
 		});
 		it("failed spec", ()=> {
 			try {
