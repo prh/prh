@@ -13,12 +13,7 @@ describe("ChangeSet", ()=> {
 			var changeSets = r
 				.collectAll(regexp, base)
 				.map(result => {
-					return new ChangeSet({
-						pattern: regexp,
-						expected: expected,
-						index: result.index,
-						matches: Array.prototype.slice.call(result)
-					});
+					return new ChangeSet(regexp, expected, result.index, Array.prototype.slice.call(result));
 				});
 			var result = ChangeSet.applyChangeSets(base, changeSets);
 			assert(result === "今日の晩御飯はWebさ！そしておかずもWebさ！");
@@ -30,12 +25,7 @@ describe("ChangeSet", ()=> {
 			var changeSets = r
 				.collectAll(regexp, base)
 				.map(result => {
-					return new ChangeSet({
-						pattern: regexp,
-						expected: expected,
-						index: result.index,
-						matches: Array.prototype.slice.call(result)
-					});
+					return new ChangeSet(regexp, expected, result.index, Array.prototype.slice.call(result));
 				});
 			var result = ChangeSet.applyChangeSets(base, changeSets);
 			assert(result === "今日の晩御飯はウェッブだ！そしておかずもウェッブだ！");
@@ -47,12 +37,7 @@ describe("ChangeSet", ()=> {
 			var changeSets = r
 				.collectAll(regexp, base)
 				.map(result => {
-					return new ChangeSet({
-						pattern: regexp,
-						expected: expected,
-						index: result.index,
-						matches: Array.prototype.slice.call(result)
-					});
+					return new ChangeSet(regexp, expected, result.index, Array.prototype.slice.call(result));
 				});
 			var result = ChangeSet.applyChangeSets(base, changeSets);
 			assert(result === "白いご飯と伯方(博多ではない)の塩(潮ではない)！");
@@ -64,22 +49,12 @@ describe("ChangeSet", ()=> {
 			var changeSetsA = r
 				.collectAll(regexpA, base)
 				.map(result => {
-					return new ChangeSet({
-						pattern: regexpA,
-						expected: "Web",
-						index: result.index,
-						matches: Array.prototype.slice.call(result)
-					});
+					return new ChangeSet(regexpA, "Web", result.index, Array.prototype.slice.call(result));
 				});
 			var changeSetsB = r
 				.collectAll(regexpB, base)
 				.map(result => {
-					return new ChangeSet({
-						pattern: regexpB,
-						expected: "日",
-						index: result.index,
-						matches: Array.prototype.slice.call(result)
-					});
+					return new ChangeSet(regexpB, "日", result.index, Array.prototype.slice.call(result));
 				});
 			var changeSets = changeSetsA.concat(changeSetsB);
 			var result = ChangeSet.applyChangeSets(base, changeSets);
@@ -93,6 +68,18 @@ describe("ChangeSet", ()=> {
 
 			var result = ChangeSet.applyChangeSets(base, changeSets);
 			assert(result === "今日はJS明日はts明後日はなんのaltJSですかねぇ？");
+		});
+	});
+	describe(".subtract", ()=> {
+		it("subtract changeset from other changeset", ()=> {
+			var base = "次に見るjs（@<list>{hoge-js}）はただのjsではありません。\nしかし、altjs（@<fn>{alt-js}）ほどではないでしょう。";
+			var minuend = ChangeSet.makeChangeSet(base, /js/ig, "JS");
+			var subtrahend = ChangeSet.makeChangeSet(base, /(@<(?:list|fn)>{.+?})/ig, "$1");
+
+			var changeSets = ChangeSet.subtract(minuend, subtrahend);
+
+			var result = ChangeSet.applyChangeSets(base, changeSets);
+			assert(result === "次に見るJS（@<list>{hoge-js}）はただのJSではありません。\nしかし、altJS（@<fn>{alt-js}）ほどではないでしょう。");
 		});
 	});
 });
