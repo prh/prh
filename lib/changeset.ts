@@ -46,7 +46,7 @@ class ChangeSet {
 			if (minuend[m] == null || subtrahend[s] == null) {
 				break;
 			}
-			if (minuend[m].isCollide(subtrahend[s])) {
+			if (!minuend[m].isEncloser(subtrahend[s]) && minuend[m].isCollide(subtrahend[s])) {
 				minuend.splice(m, 1);
 				continue;
 			}
@@ -94,6 +94,10 @@ class ChangeSet {
 
 	get tailIndex() {
 		return this.index + this.matches[0].length;
+	}
+
+	isEncloser(other:ChangeSet) {
+		return this.index < other.index && other.tailIndex < this.tailIndex;
 	}
 
 	isCollide(other:ChangeSet) {
