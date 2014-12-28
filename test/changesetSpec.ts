@@ -81,6 +81,18 @@ describe("ChangeSet", ()=> {
 			var result = ChangeSet.applyChangeSets(base, changeSets);
 			assert(result === "次に見るJS（@<list>{hoge-js}）はただのJSではありません。\nしかし、altJS（@<fn>{alt-js}）ほどではないでしょう。");
 		});
+		it("not subtract changeset with over wrapped changeset", ()=> {
+			var base = "js(@<list>{js})js";
+			var minuendA = ChangeSet.makeChangeSet(base, /\((.+?)\)/ig, "（$1）");
+			var minuendB = ChangeSet.makeChangeSet(base, /JS/ig, "JS");
+			var minuend = minuendA.concat(minuendB);
+			var subtrahend = ChangeSet.makeChangeSet(base, /(@<(?:list|fn)>{.+?})/ig, "$1");
+
+			var changeSets = ChangeSet.subtract(minuend, subtrahend);
+
+			var result = ChangeSet.applyChangeSets(base, changeSets);
+			assert(result === "JS（@<list>{js}）JS");
+		});
 	});
 	describe(".intersect", ()=> {
 		it("intersect changeset with audit changeset", ()=> {
