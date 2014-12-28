@@ -3,8 +3,9 @@ version: 1
 targets:
   - file: /\.re$/
     excludes:
-      - pattern: /^\/\/(list|cmd)(?:\[.*?\])+{\n(?:.*\n)*\/\/}/im
+      - pattern: /^\/\/(list|cmd)(?:\[.*?\])*{\n(?:.*\n)*\/\/}/im
       - pattern:  /@<.+?>{.+?}/
+      - pattern: /^#@.*$/
   - file: /\.ts$/
     includes:
       - pattern: /^\/\/(.*?)$/m
