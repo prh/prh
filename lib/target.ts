@@ -30,6 +30,12 @@ class Target {
 		}
 	}
 
+	reset() {
+		this.file.lastIndex = 0;
+		this.includes.forEach(include => include.reset());
+		this.excludes.forEach(exclude => exclude.reset());
+	}
+
 	toJSON() {
 		var alt:any = {};
 		for (var key in this) {

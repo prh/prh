@@ -72,6 +72,10 @@ class Rule {
 		return result;
 	}
 
+	reset() {
+		this.pattern.lastIndex = 0;
+	}
+
 	check() {
 		this.specs.forEach(spec => {
 			var result = spec.from.replace(this.pattern, this.expected);

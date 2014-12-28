@@ -30,6 +30,10 @@ class TargetPattern {
 		this.pattern = r.addDefaultFlags(this.pattern);
 	}
 
+	reset() {
+		this.pattern.lastIndex = 0;
+	}
+
 	toJSON() {
 		var alt:any = {};
 		for (var key in this) {

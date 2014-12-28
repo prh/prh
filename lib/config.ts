@@ -50,28 +50,38 @@ class Config {
 		}
 		var changeSets:ChangeSet[] = [];
 		this.rules.map(rule => {
+			rule.reset();
 			var set = ChangeSet.makeChangeSet(content, rule.pattern, rule.expected);
 			changeSets = changeSets.concat(set);
 		});
 
 		var includes:ChangeSet[] = [];
 		var excludes:ChangeSet[] = [];
+		var includesExists = false;
+		var excludesExists = false;
 		this.targets.forEach(target => {
+			target.reset();
 			if (!target.file.test(filePath)) {
 				return;
 			}
-			target.includes.forEach(include => {
-				includes = includes.concat(ChangeSet.makeChangeSet(content, include.pattern, null));
-			});
-			target.excludes.forEach(exclude => {
-				excludes = excludes.concat(ChangeSet.makeChangeSet(content, exclude.pattern, null));
-			});
+			if (target.includes.length !== 0) {
+				includesExists = true;
+				target.includes.forEach(include => {
+					includes = includes.concat(ChangeSet.makeChangeSet(content, include.pattern, null));
+				});
+			}
+			if (target.excludes.length !== 0) {
+				excludesExists = true;
+				target.excludes.forEach(exclude => {
+					excludes = excludes.concat(ChangeSet.makeChangeSet(content, exclude.pattern, null));
+				});
+			}
 		});
 
-		if (includes.length !== 0) {
+		if (includesExists) {
 			changeSets = ChangeSet.intersect(changeSets, includes);
 		}
-		if (excludes.length !== 0) {
+		if (excludesExists) {
 			changeSets = ChangeSet.subtract(changeSets, excludes);
 		}
 
