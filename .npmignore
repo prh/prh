@@ -22,4 +22,5 @@ Gruntfile.js
 dtsm.json
 tslint.json
 
+npm-shrinkwrap.json
 npm-debug.log

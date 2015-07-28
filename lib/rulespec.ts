@@ -1,6 +1,6 @@
 "use strict";
 
-import raw = require("./raw")
+import raw = require("./raw");
 
 class RuleSpec {
 	from:string;

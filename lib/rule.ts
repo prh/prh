@@ -5,7 +5,7 @@ import r = require("./utils/regexp");
 import Options = require("./options");
 import RuleSpec = require("./rulespec");
 
-import raw = require("./raw")
+import raw = require("./raw");
 
 class Rule {
 	expected:string;

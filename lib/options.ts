@@ -2,7 +2,7 @@
 
 import Rule = require("./rule");
 
-import raw = require("./raw")
+import raw = require("./raw");
 
 class Options {
 	wordBoundary:boolean;
