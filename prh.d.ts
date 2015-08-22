@@ -3,6 +3,7 @@
 declare module 'prh' {
     import * as raw from "prh/lib/raw";
     import Config from "prh/lib/config";
+    export { Config };
     export function fromYAMLFilePath(path: string): Config;
     export function fromYAML(yamlContent: string): Config;
     export function fromRowConfig(rawConfig: raw.Config): Config;

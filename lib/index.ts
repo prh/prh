@@ -9,6 +9,8 @@ import * as yaml from "js-yaml";
 import * as raw from "./raw";
 import Config from "./config";
 
+export {Config};
+
 export function fromYAMLFilePath(path: string): Config {
     "use strict";
 
