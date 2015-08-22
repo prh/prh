@@ -42,12 +42,14 @@ declare module 'prh/lib/config' {
     import * as raw from "prh/lib/raw";
     import Target from "prh/lib/target";
     import Rule from "prh/lib/rule";
+    import ChangeSet from "prh/lib/changeset";
     export default class Config {
         version: number;
         targets: Target[];
         rules: Rule[];
         constructor(src: raw.Config);
         merge(other: Config): void;
+        makeChangeSet(filePath: string, content?: string): ChangeSet[];
         replaceByRule(filePath: string, content?: string): string;
     }
 }
@@ -79,6 +81,24 @@ declare module 'prh/lib/rule' {
         reset(): void;
         check(): void;
         toJSON(): any;
+    }
+}
+
+declare module 'prh/lib/changeset' {
+    export default class ChangeSet {
+        pattern: RegExp;
+        expected: string;
+        index: number;
+        matches: string[];
+        static makeChangeSet(str: string, pattern: RegExp, expected: string): ChangeSet[];
+        static applyChangeSets(str: string, list: ChangeSet[]): string;
+        static subtract(minuend: ChangeSet[], subtrahend: ChangeSet[]): ChangeSet[];
+        static intersect(base: ChangeSet[], audit: ChangeSet[]): ChangeSet[];
+        constructor(pattern: RegExp, expected: string, index: number, matches: string[]);
+        tailIndex: number;
+        isEncloser(other: ChangeSet): boolean;
+        isCollide(other: ChangeSet): boolean;
+        isBefore(other: ChangeSet): boolean;
     }
 }
 

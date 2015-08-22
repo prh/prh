@@ -44,7 +44,7 @@ export default class Config {
         });
     }
 
-    replaceByRule(filePath: string, content?: string) {
+    makeChangeSet(filePath: string, content?: string): ChangeSet[] {
         if (content == null) {
             content = fs.readFileSync(filePath, { encoding: "utf8" });
         }
@@ -85,6 +85,14 @@ export default class Config {
             changeSets = ChangeSet.subtract(changeSets, excludes);
         }
 
+        return changeSets;
+    }
+
+    replaceByRule(filePath: string, content?: string) {
+        if (content == null) {
+            content = fs.readFileSync(filePath, { encoding: "utf8" });
+        }
+        let changeSets = this.makeChangeSet(filePath, content);
         return ChangeSet.applyChangeSets(content, changeSets);
     }
 }
