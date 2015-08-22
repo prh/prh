@@ -23,11 +23,11 @@
   },
   "homepage": "https://github.com/vvakame/prh",
   "dependencies": {
-    "commander": "2.5.1",
+    "commandpost": "0.1.1",
     "js-yaml": "3.3.1"
   },
   "devDependencies": {
-    "espower-loader": "0.11.0",
+    "espower-loader": "1.0.0",
     "grunt": "0.4.5",
     "grunt-contrib-clean": "0.6.0",
     "grunt-dtsm": "0.2.9",
