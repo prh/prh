@@ -30,6 +30,7 @@
     "espower-loader": "1.0.0",
     "grunt": "0.4.5",
     "grunt-contrib-clean": "0.6.0",
+    "grunt-dts-bundle": "0.3.0",
     "grunt-dtsm": "0.2.9",
     "grunt-mocha-test": "0.12.7",
     "grunt-ts": "4.2.0",

@@ -68,6 +68,19 @@ module.exports = function (grunt) {
                 }
             }
         },
+        dts_bundle: {
+          build: {
+            options: {
+              name: "prh",
+              main: "lib/index.d.ts",
+              baseDir: "",
+              out: "./prh.d.ts",
+              prefix: '',
+              exclude: function () {return false;},
+              verbose: false
+            }
+          }
+        },
         clean: {
             clientScript: {
                 src: [
@@ -118,7 +131,7 @@ module.exports = function (grunt) {
 
     grunt.registerTask(
         'default',
-        ['ts:clientMain', 'tslint']);
+        ['ts:clientMain', 'tslint', 'dts_bundle']);
 
     grunt.registerTask(
         'test',
