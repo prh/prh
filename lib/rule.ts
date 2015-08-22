@@ -1,35 +1,38 @@
 "use strict";
 
-import r = require("./utils/regexp");
+import * as r from "./utils/regexp";
 
-import Options = require("./options");
-import RuleSpec = require("./rulespec");
+import Options from "./options";
+import RuleSpec from "./rulespec";
 
-import raw = require("./raw");
+import * as raw from "./raw";
 
-class Rule {
+export default class Rule {
     expected: string;
     pattern: RegExp;
     options: Options;
     specs: RuleSpec[];
 
-    constructor(src: raw.Rule) {
+    constructor(src: string | raw.Rule) {
         if (!src) {
             throw new Error("src is requried");
         }
+        let rawRule: raw.Rule;
         if (typeof src === "string") {
-            src = {
-                expected: <any>src
+            rawRule = {
+                expected: src
             };
+        } else {
+            rawRule = src;
         }
-        this.options = new Options(this, src.options);
+        this.options = new Options(this, rawRule.options);
 
-        this.expected = src.expected;
+        this.expected = rawRule.expected;
         if (this.expected == null) {
             throw new Error("expected is required");
         }
 
-        this.pattern = this._patternToRegExp(src.pattern);
+        this.pattern = this._patternToRegExp(rawRule.pattern);
         if (this.pattern == null) {
             throw new Error("pattern is required");
         }
@@ -39,12 +42,12 @@ class Rule {
         delete this.options;
         this.options = options;
 
-        this.specs = (src.specs || []).map(spec => new RuleSpec(spec));
+        this.specs = (rawRule.specs || []).map(spec => new RuleSpec(spec));
 
         this.check();
     }
 
-    _patternToRegExp(pattern: any): RegExp {
+    _patternToRegExp(pattern: string | string[]): RegExp {
         var result: RegExp;
         if (pattern == null) {
             result = r.spreadAlphaNum(this.expected);
@@ -64,9 +67,8 @@ class Rule {
                 result = new RegExp(r.excapeSpecialChars(pattern));
             }
             return r.addDefaultFlags(result);
-        }
-        if (pattern instanceof Array) {
-            result = r.combine.apply(null, pattern.map((p: any) => this._patternToRegExp(p)));
+        } else if (pattern instanceof Array) {
+            result = r.combine.apply(null, pattern.map(p => this._patternToRegExp(p)));
             return r.addDefaultFlags(result);
         }
         return result;
@@ -101,5 +103,3 @@ class Rule {
         return alt;
     }
 }
-
-export = Rule;

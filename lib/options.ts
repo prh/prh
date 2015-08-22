@@ -1,10 +1,9 @@
 "use strict";
 
-import Rule = require("./rule");
+import * as raw from "./raw";
+import Rule from "./rule";
 
-import raw = require("./raw");
-
-class Options {
+export default class Options {
     wordBoundary: boolean;
 
     constructor(rule: Rule, src: raw.Options) {
@@ -12,5 +11,3 @@ class Options {
         this.wordBoundary = src.wordBoundary != null ? src.wordBoundary : false;
     }
 }
-
-export = Options;

@@ -1,15 +1,15 @@
 "use strict";
 
-import fs = require("fs");
+import * as fs from "fs";
 
-import r = require("./utils/regexp");
+import * as r from "./utils/regexp";
 
-import raw = require("./raw");
-import Target = require("./target");
-import Rule = require("./rule");
-import ChangeSet = require("./changeset");
+import * as raw from "./raw";
+import Target from "./target";
+import Rule from "./rule";
+import ChangeSet from "./changeset";
 
-class Config {
+export default class Config {
     version: number;
     targets: Target[];
     rules: Rule[];
@@ -88,5 +88,3 @@ class Config {
         return ChangeSet.applyChangeSets(content, changeSets);
     }
 }
-
-export = Config;

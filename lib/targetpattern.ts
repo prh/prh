@@ -1,33 +1,32 @@
 "use strict";
 
-import r = require("./utils/regexp");
+import * as r from "./utils/regexp";
+import * as raw from "./raw";
 
-import raw = require("./raw");
-
-class TargetPattern {
+export default class TargetPattern {
     pattern: RegExp;
 
-    constructor(src: raw.TargetPattern) {
+    constructor(src: string | raw.TargetPattern) {
         if (!src) {
             throw new Error("src is requried");
         }
         if (typeof src === "string") {
-            var pattern = <any>src;
-            this.pattern = r.parseRegExpString(pattern);
+            this.pattern = r.parseRegExpString(src);
             if (!this.pattern) {
-                this.pattern = new RegExp(r.excapeSpecialChars(pattern));
+                this.pattern = new RegExp(r.excapeSpecialChars(src));
             }
             this.pattern = r.addDefaultFlags(this.pattern);
             return;
+        } else {
+            if (!src.pattern) {
+                throw new Error("pattern is requried");
+            }
+            this.pattern = r.parseRegExpString(src.pattern);
+            if (!this.pattern) {
+                this.pattern = r.addDefaultFlags(new RegExp(r.excapeSpecialChars(src.pattern)));
+            }
+            this.pattern = r.addDefaultFlags(this.pattern);
         }
-        if (!src.pattern) {
-            throw new Error("pattern is requried");
-        }
-        this.pattern = r.parseRegExpString(src.pattern);
-        if (!this.pattern) {
-            this.pattern = r.addDefaultFlags(new RegExp(r.excapeSpecialChars(src.pattern)));
-        }
-        this.pattern = r.addDefaultFlags(this.pattern);
     }
 
     reset() {
@@ -50,5 +49,3 @@ class TargetPattern {
         return alt;
     }
 }
-
-export = TargetPattern;

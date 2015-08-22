@@ -1,8 +1,8 @@
 "use strict";
 
-import raw = require("./raw");
+import * as raw from "./raw";
 
-class RuleSpec {
+export default class RuleSpec {
     from: string;
     to: string;
 
@@ -20,5 +20,3 @@ class RuleSpec {
         this.to = src.to;
     }
 }
-
-export = RuleSpec;

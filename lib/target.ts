@@ -1,11 +1,11 @@
 "use strict";
 
-import r = require("./utils/regexp");
+import * as r from "./utils/regexp";
 
-import raw = require("./raw");
-import TargetPattern = require("./targetpattern");
+import * as raw from "./raw";
+import TargetPattern from "./targetpattern";
 
-class Target {
+export default class Target {
     file: RegExp;
     includes: TargetPattern[];
     excludes: TargetPattern[];
@@ -52,5 +52,3 @@ class Target {
         return alt;
     }
 }
-
-export = Target;

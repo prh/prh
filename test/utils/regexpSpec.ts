@@ -1,4 +1,4 @@
-import r = require("../../lib/utils/regexp");
+import * as r from "../../lib/utils/regexp";
 
 describe("regexp", () => {
     describe("jpHira", () => {

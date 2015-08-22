@@ -1,8 +1,8 @@
 "use strict";
 
-import r = require("./utils/regexp");
+import * as r from "./utils/regexp";
 
-class ChangeSet {
+export default class ChangeSet {
     pattern: RegExp;
     expected: string;
     index: number;
@@ -114,5 +114,3 @@ class ChangeSet {
         return this.index < other.index;
     }
 }
-
-export = ChangeSet;

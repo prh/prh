@@ -3,11 +3,11 @@
 
 "use strict";
 
-import fs = require("fs");
-import yaml = require("js-yaml");
+import * as fs from "fs";
+import * as yaml from "js-yaml";
 
-import raw = require("./raw");
-export import Config = require("./config");
+import * as raw from "./raw";
+import Config from "./config";
 
 export function fromYAMLFilePath(path: string): Config {
     "use strict";

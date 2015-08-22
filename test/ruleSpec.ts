@@ -1,6 +1,6 @@
 "use strict";
 
-import Rule = require("../lib/rule");
+import Rule from "../lib/rule";
 
 describe("Rule", () => {
     it("parse raw.Rule", () => {

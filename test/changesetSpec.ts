@@ -1,8 +1,8 @@
 "use strict";
 
-import r = require("../lib/utils/regexp");
+import * as r from "../lib/utils/regexp";
 
-import ChangeSet = require("../lib/changeset");
+import ChangeSet from "../lib/changeset";
 
 describe("ChangeSet", () => {
     describe(".applyChangeSets", () => {

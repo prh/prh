@@ -14,10 +14,10 @@ export var jpChar = combine(jpHira, jpKana, jpKanji);
 
 var regexpSpecialChars = "¥*+.?{}()[]^$-|/".split("");
 
-export function concat(...args: any[] /* string | RegExp */): RegExp {
+export function concat(...args: (string | RegExp)[]): RegExp {
     "use strict";
 
-    var result = args.reduce((p, c) => {
+    var result = args.reduce<string>((p, c) => {
         if (typeof c === "string") {
             return p + c;
         } else if (c instanceof RegExp) {
@@ -29,7 +29,7 @@ export function concat(...args: any[] /* string | RegExp */): RegExp {
     return new RegExp(result);
 }
 
-export function combine(...args: any[] /* string | RegExp */): RegExp {
+export function combine(...args: (string | RegExp)[]): RegExp {
     "use strict";
 
     var result = args.map(arg => {
@@ -44,7 +44,7 @@ export function combine(...args: any[] /* string | RegExp */): RegExp {
     return concat("(?:", result, ")");
 }
 
-export function addBoundary(arg: any /* string | RegExp */): RegExp {
+export function addBoundary(arg: string | RegExp): RegExp {
     "use strict";
 
     var result: string;

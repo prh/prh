@@ -1,6 +1,6 @@
 "use strict";
 
-import Config = require("../lib/config");
+import Config from "../lib/config";
 
 describe("Config", () => {
     it("parse raw.Config", () => {
