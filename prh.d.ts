@@ -76,6 +76,7 @@ declare module 'prh/lib/rule' {
         pattern: RegExp;
         options: Options;
         specs: RuleSpec[];
+        raw: any;
         constructor(src: string | raw.Rule);
         _patternToRegExp(pattern: string | string[]): RegExp;
         reset(): void;
@@ -85,16 +86,18 @@ declare module 'prh/lib/rule' {
 }
 
 declare module 'prh/lib/changeset' {
+    import Rule from "prh/lib/rule";
     export default class ChangeSet {
         pattern: RegExp;
         expected: string;
         index: number;
         matches: string[];
-        static makeChangeSet(str: string, pattern: RegExp, expected: string): ChangeSet[];
+        rule: Rule;
+        static makeChangeSet(str: string, pattern: RegExp, expected: string, rule?: Rule): ChangeSet[];
         static applyChangeSets(str: string, list: ChangeSet[]): string;
         static subtract(minuend: ChangeSet[], subtrahend: ChangeSet[]): ChangeSet[];
         static intersect(base: ChangeSet[], audit: ChangeSet[]): ChangeSet[];
-        constructor(pattern: RegExp, expected: string, index: number, matches: string[]);
+        constructor(pattern: RegExp, expected: string, index: number, matches: string[], rule?: Rule);
         tailIndex: number;
         isEncloser(other: ChangeSet): boolean;
         isCollide(other: ChangeSet): boolean;

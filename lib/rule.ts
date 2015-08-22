@@ -12,6 +12,7 @@ export default class Rule {
     pattern: RegExp;
     options: Options;
     specs: RuleSpec[];
+    raw: any /* raw.Rule */;
 
     constructor(src: string | raw.Rule) {
         if (!src) {
@@ -43,6 +44,8 @@ export default class Rule {
         this.options = options;
 
         this.specs = (rawRule.specs || []).map(spec => new RuleSpec(spec));
+
+        this.raw = rawRule;
 
         this.check();
     }

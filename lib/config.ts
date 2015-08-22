@@ -51,7 +51,7 @@ export default class Config {
         var changeSets: ChangeSet[] = [];
         this.rules.map(rule => {
             rule.reset();
-            var set = ChangeSet.makeChangeSet(content, rule.pattern, rule.expected);
+            var set = ChangeSet.makeChangeSet(content, rule.pattern, rule.expected, rule);
             changeSets = changeSets.concat(set);
         });
 

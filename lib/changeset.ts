@@ -1,18 +1,20 @@
 "use strict";
 
 import * as r from "./utils/regexp";
+import Rule from "./rule";
 
 export default class ChangeSet {
     pattern: RegExp;
     expected: string;
     index: number;
     matches: string[];
+    rule: Rule;
 
-    static makeChangeSet(str: string, pattern: RegExp, expected: string): ChangeSet[] {
+    static makeChangeSet(str: string, pattern: RegExp, expected: string, rule?: Rule): ChangeSet[] {
         pattern.lastIndex = 0;
         var resultList = r.collectAll(pattern, str);
         return resultList.map(result => {
-            return new ChangeSet(pattern, expected, result.index, <string[]>Array.prototype.slice.call(result));
+            return new ChangeSet(pattern, expected, result.index, <string[]>Array.prototype.slice.call(result), rule);
         });
     }
 
@@ -85,11 +87,12 @@ export default class ChangeSet {
         return result;
     }
 
-    constructor(pattern: RegExp, expected: string, index: number, matches: string[]) {
+    constructor(pattern: RegExp, expected: string, index: number, matches: string[], rule?: Rule) {
         this.pattern = pattern;
         this.expected = expected;
         this.index = index;
         this.matches = matches;
+        this.rule = rule;
     }
 
     get tailIndex() {
