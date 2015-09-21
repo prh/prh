@@ -26,6 +26,7 @@ declare module 'prh/lib/raw' {
     export interface Rule {
         expected: string;
         pattern?: string | string[];
+        patterns?: string | string[];
         options?: Options;
         specs?: RuleSpec[];
     }

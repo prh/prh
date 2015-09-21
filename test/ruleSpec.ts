@@ -75,6 +75,27 @@ describe("Rule", () => {
             assert(rule.pattern.source === "(?:vv|aa)");
             assert(rule.pattern.global === true);
         });
+        it("filled pattern**s** from string", () => {
+            var rule = new Rule({
+                expected: "vv",
+                patterns: "vv"
+            });
+
+            assert(rule.pattern.source === "vv");
+            assert(rule.pattern.global === true);
+        });
+        it("filled pattern**s** from string[]", () => {
+            var rule = new Rule({
+                expected: "vv",
+                patterns: [
+                    "/vv/",
+                    "aa"
+                ]
+            });
+
+            assert(rule.pattern.source === "(?:vv|aa)");
+            assert(rule.pattern.global === true);
+        });
     });
     describe("#check", () => {
         it("succeed spec", () => {

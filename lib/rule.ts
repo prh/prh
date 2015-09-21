@@ -33,7 +33,7 @@ export default class Rule {
             throw new Error("expected is required");
         }
 
-        this.pattern = this._patternToRegExp(rawRule.pattern);
+        this.pattern = this._patternToRegExp(rawRule.pattern || rawRule.patterns);
         if (this.pattern == null) {
             throw new Error("pattern is required");
         }
