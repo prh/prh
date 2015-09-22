@@ -1,6 +1,3 @@
-/// <reference path="../typings/node/node.d.ts" />
-/// <reference path="../typings/js-yaml/js-yaml.d.ts" />
-
 "use strict";
 
 import * as fs from "fs";

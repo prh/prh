@@ -1,7 +1,4 @@
-/// <reference path="../node_modules/typescript/bin/lib.es6.d.ts" />
-/// <reference path="../typings/node/node.d.ts" />
-/// <reference path="../typings/js-yaml/js-yaml.d.ts" />
-/// <reference path="../node_modules/commandpost/commandpost.d.ts" />
+"use strict";
 
 import * as fs from "fs";
 import * as yaml from "js-yaml";

@@ -10,6 +10,10 @@ node_modules/
 typings/
 .tscache/
 
+# for https://github.com/Microsoft/TypeScript/issues/4667
+lib/**/*.ts
+!lib/**/*.d.ts
+
 # codes
 test/
 
