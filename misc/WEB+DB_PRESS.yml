@@ -302,8 +302,8 @@ rules:
     pattern:  パタン
   - expected: ハッシュ
     pattern:
-      - path
-      - Path
+      - hash
+      - Hash
   - expected: バラ
     pattern:  薔薇
   - expected: バラエティ
