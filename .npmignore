@@ -2,6 +2,8 @@
 
 # for WebStorm
 .idea/
+# for VSCode
+.vscode/
 
 # for npm
 node_modules/
