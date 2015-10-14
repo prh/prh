@@ -54,6 +54,14 @@ let root = commandpost
         });
     });
 
+root
+    .subCommand<{}, {}>("init")
+    .description("generate prh.yml")
+    .action((opts, args) => {
+        fs.createReadStream(__dirname + "/../misc/prh.yml").pipe(fs.createWriteStream("prh.yml"));
+        console.log("create prh.yml");
+    });
+
 commandpost
     .exec(root, process.argv)
     .catch(errorHandler);
