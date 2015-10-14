@@ -1,11 +1,12 @@
 "use strict";
 
+import * as path from "path";
 import * as fs from "fs";
 import * as yaml from "js-yaml";
 import * as lib from "./index";
 
 import * as commandpost from "commandpost";
-var pkg = require("../package.json");
+let pkg = require("../package.json");
 
 interface RootOpts {
     json: boolean;
@@ -26,13 +27,13 @@ let root = commandpost
     .option("--rules <path>", "path to rule yaml file")
     .option("-r, --replace", "replace input files")
     .action((opts, args) => {
-        var paths = [__dirname + "/../misc/WEB+DB_PRESS.yml"];
-        if (opts.rules) {
+        let paths = [getConfigFileName(process.cwd(), "prh.yml") || __dirname + "/../misc/WEB+DB_PRESS.yml"];
+        if (opts.rules && opts.rules[0]) {
             paths = opts.rules;
         }
-        var config = lib.fromYAMLFilePath(paths[0]);
+        let config = lib.fromYAMLFilePath(paths[0]);
         paths.splice(1).forEach(path => {
-            var c = lib.fromYAMLFilePath(path);
+            let c = lib.fromYAMLFilePath(path);
             config.merge(c);
         });
 
@@ -44,7 +45,7 @@ let root = commandpost
             return;
         }
         args.files.forEach(filePath => {
-            var result = config.replaceByRule(filePath);
+            let result = config.replaceByRule(filePath);
             if (opts.replace) {
                 fs.writeFileSync(filePath, result);
             } else {
@@ -68,4 +69,19 @@ function errorHandler(err: any) {
     return Promise.resolve(null).then(() => {
         process.exit(1);
     });
+}
+
+export function getConfigFileName(baseDir: string, configFileName: string): string {
+    "use strict";
+
+    let configFilePath = path.resolve(baseDir, configFileName);
+    if (fs.existsSync(configFilePath)) {
+        return configFilePath;
+    }
+
+    if (baseDir.length === path.dirname(baseDir).length) {
+        return null;
+    }
+
+    return getConfigFileName(path.resolve(baseDir, "../"), configFileName);
 }
