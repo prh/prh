@@ -12,6 +12,7 @@
         "noEmitOnError": true,
         "inlineSources": true
     },
+    "exclude": [],
     "filesGlob": [
         "./**/*.ts",
         "./**/*.tsx",

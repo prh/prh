@@ -17,7 +17,7 @@ module.exports = function (grunt) {
           default: {
             tsconfig: {
               tsconfig: "./tsconfig.json",
-              updateFiles:false
+              updateFiles: false
             }
           }
         },

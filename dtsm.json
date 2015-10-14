@@ -9,19 +9,19 @@
   "bundle": "typings/bundle.d.ts",
   "dependencies": {
     "node/node.d.ts": {
-      "ref": "09e37435ffb2c56a6f908081194a74756f24f99d"
+      "ref": "32029fcb4e1a3ef8968711b545d77b584435729d"
     },
     "commander/commander.d.ts": {
-      "ref": "09e37435ffb2c56a6f908081194a74756f24f99d"
+      "ref": "32029fcb4e1a3ef8968711b545d77b584435729d"
     },
     "js-yaml/js-yaml.d.ts": {
-      "ref": "09e37435ffb2c56a6f908081194a74756f24f99d"
+      "ref": "32029fcb4e1a3ef8968711b545d77b584435729d"
     },
     "mocha/mocha.d.ts": {
-      "ref": "09e37435ffb2c56a6f908081194a74756f24f99d"
+      "ref": "32029fcb4e1a3ef8968711b545d77b584435729d"
     },
     "power-assert/power-assert.d.ts": {
-      "ref": "09e37435ffb2c56a6f908081194a74756f24f99d"
+      "ref": "32029fcb4e1a3ef8968711b545d77b584435729d"
     }
   },
   "link": {
