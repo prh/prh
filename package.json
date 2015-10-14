@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/vvakame/prh",
   "dependencies": {
-    "commandpost": "0.2.5",
+    "commandpost": "1.0.0",
     "js-yaml": "3.4.3"
   },
   "devDependencies": {
