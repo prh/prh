@@ -26,7 +26,6 @@ let root = commandpost
     .option("--rules <path>", "path to rule yaml file")
     .option("-r, --replace", "replace input files")
     .action((opts, args) => {
-        console.error(opts, args);
         var paths = [__dirname + "/../misc/WEB+DB_PRESS.yml"];
         if (opts.rules) {
             paths = opts.rules;
