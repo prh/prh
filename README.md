@@ -49,7 +49,7 @@ WebではCookieというものがあります。
 * コンフィグファイルの統合
     * 基本、Android用、TypeScript用と作っておいて組み合わせて使う。
 * 独自の無視設定の追加
-    * 具体的にはRe:VIEWの構文を解釈し@<list>{module}とかのmoduleを置換しないようにする。
+    * 具体的にはRe:VIEWの構文を解釈し`@<list>{module}`とかのmoduleを置換しないようにする。
 * 同じexpectedがある場合、後定義を優先してoverrideできるほうがよさそう
 * event-streamとか使ったほうがいいのかもわからん…
 * xregexpとか使って名前付き後方参照を導入したほうがよいかも…
