@@ -97,7 +97,7 @@ export function addDefaultFlags(regexp: RegExp) {
     return new RegExp(regexp.source, flags);
 }
 
-export function excapeSpecialChars(str: string): string {
+export function escapeSpecialChars(str: string): string {
     "use strict";
 
     regexpSpecialChars.forEach(char => {

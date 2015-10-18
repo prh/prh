@@ -67,7 +67,7 @@ export default class Rule {
             if (this.options.wordBoundary) {
                 result = r.addBoundary(pattern);
             } else {
-                result = new RegExp(r.excapeSpecialChars(pattern));
+                result = new RegExp(r.escapeSpecialChars(pattern));
             }
             return r.addDefaultFlags(result);
         } else if (pattern instanceof Array) {

@@ -13,7 +13,7 @@ export default class TargetPattern {
         if (typeof src === "string") {
             this.pattern = r.parseRegExpString(src);
             if (!this.pattern) {
-                this.pattern = new RegExp(r.excapeSpecialChars(src));
+                this.pattern = new RegExp(r.escapeSpecialChars(src));
             }
             this.pattern = r.addDefaultFlags(this.pattern);
             return;
@@ -23,7 +23,7 @@ export default class TargetPattern {
             }
             this.pattern = r.parseRegExpString(src.pattern);
             if (!this.pattern) {
-                this.pattern = r.addDefaultFlags(new RegExp(r.excapeSpecialChars(src.pattern)));
+                this.pattern = r.addDefaultFlags(new RegExp(r.escapeSpecialChars(src.pattern)));
             }
             this.pattern = r.addDefaultFlags(this.pattern);
         }
