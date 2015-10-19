@@ -16,7 +16,7 @@ export default class Target {
         }
         this.file = r.parseRegExpString(src.file);
         if (!this.file) {
-            this.file = new RegExp(r.excapeSpecialChars(src.file));
+            this.file = new RegExp(r.escapeSpecialChars(src.file));
         }
         if (src.includes) {
             this.includes = src.includes.map(include => new TargetPattern(include));

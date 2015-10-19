@@ -173,14 +173,14 @@ describe("regexp", () => {
         });
     });
 
-    describe("excapeSpecialChars", () => {
+    describe("escapeSpecialChars", () => {
         it("replace special characters 1", () => {
-            var result = r.excapeSpecialChars("/(?!S)ML/");
+            var result = r.escapeSpecialChars("/(?!S)ML/");
 
             assert(result === "\\/\\(\\?!S\\)ML\\/");
         });
         it("replace special characters 2", () => {
-            var result = r.excapeSpecialChars("¥*+.?{}()[]^$-|/");
+            var result = r.escapeSpecialChars("¥*+.?{}()[]^$-|/");
 
             assert(result === "\\¥\\*\\+\\.\\?\\{\\}\\(\\)\\[\\]\\^\\$\\-\\|\\/");
         });
