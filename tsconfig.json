@@ -28,7 +28,7 @@
     "files": [
         "./lib/changeset.ts",
         "./lib/cli.ts",
-        "./lib/config.ts",
+        "./lib/engine.ts",
         "./lib/index.ts",
         "./lib/options.ts",
         "./lib/raw.ts",
@@ -38,7 +38,7 @@
         "./lib/targetpattern.ts",
         "./lib/utils/regexp.ts",
         "./test/changesetSpec.ts",
-        "./test/configSpec.ts",
+        "./test/engineSpec.ts",
         "./test/indexSpec.ts",
         "./test/ruleSpec.ts",
         "./test/utils/regexpSpec.ts",

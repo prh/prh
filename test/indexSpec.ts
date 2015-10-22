@@ -1,18 +1,17 @@
 /// <reference path="../typings/mocha/mocha.d.ts" />
 /// <reference path="../typings/power-assert/power-assert.d.ts" />
 
-/// <reference path="./configSpec.ts" />
-/// <reference path="./changesetSpec.ts" />
-/// <reference path="./ruleSpec.ts" />
-
-/// <reference path="./utils/regexpSpec.ts" />
-
 "use strict";
 
 import * as fs from "fs";
 import * as path from "path";
 
-import * as lib from "../lib/index";
+import * as lib from "../lib/";
+
+export * from "./engineSpec";
+export * from "./changesetSpec";
+export * from "./ruleSpec";
+export * from "./utils/regexpSpec";
 
 describe("index", () => {
     describe("fromYAMLFilePath", () => {

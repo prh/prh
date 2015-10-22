@@ -9,7 +9,7 @@ import Target from "./target";
 import Rule from "./rule";
 import ChangeSet from "./changeset";
 
-export default class Config {
+export default class Engine {
     version: number;
     targets: Target[];
     rules: Rule[];
@@ -23,7 +23,7 @@ export default class Config {
         this.rules = (src.rules || []).map(rule => new Rule(rule));
     }
 
-    merge(other: Config) {
+    merge(other: Engine) {
         if (!other) {
             throw new Error("other is required");
         }

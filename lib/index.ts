@@ -4,26 +4,26 @@ import * as fs from "fs";
 import * as yaml from "js-yaml";
 
 import * as raw from "./raw";
-import Config from "./config";
+import Engine from "./engine";
 
-export {Config};
+export {Engine};
 
-export function fromYAMLFilePath(path: string): Config {
+export function fromYAMLFilePath(path: string): Engine {
     "use strict";
 
     let content = fs.readFileSync(path, { encoding: "utf8" });
     return fromYAML(content);
 }
 
-export function fromYAML(yamlContent: string): Config {
+export function fromYAML(yamlContent: string): Engine {
     "use strict";
 
     let rawConfig = yaml.load(yamlContent);
     return fromRowConfig(rawConfig);
 }
 
-export function fromRowConfig(rawConfig: raw.Config): Config {
+export function fromRowConfig(rawConfig: raw.Config): Engine {
     "use strict";
 
-    return new Config(rawConfig);
+    return new Engine(rawConfig);
 }
