@@ -12,7 +12,7 @@ export default class ChangeSet {
 
     static makeChangeSet(str: string, pattern: RegExp, expected: string, rule?: Rule): ChangeSet[] {
         pattern.lastIndex = 0;
-        var resultList = r.collectAll(pattern, str);
+        let resultList = r.collectAll(pattern, str);
         return resultList.map(result => {
             return new ChangeSet(pattern, expected, result.index, <string[]>Array.prototype.slice.call(result), rule);
         });
@@ -21,10 +21,10 @@ export default class ChangeSet {
     static applyChangeSets(str: string, list: ChangeSet[]): string {
         list = list.sort((a, b) => a.index - b.index);
 
-        var delta = 0;
+        let delta = 0;
         list.forEach(data => {
-            var result = data.expected.replace(/\$([0-9]{1,2})/g, (match: string, g1: string) => {
-                var index = parseInt(g1);
+            let result = data.expected.replace(/\$([0-9]{1,2})/g, (match: string, g1: string) => {
+                let index = parseInt(g1);
                 if (index === 0 || (data.matches.length - 1) < index) {
                     return match;
                 }
@@ -41,8 +41,8 @@ export default class ChangeSet {
         minuend.sort((a, b) => a.index - b.index);
         subtrahend.sort((a, b) => a.index - b.index);
 
-        var m = 0;
-        var s = 0;
+        let m = 0;
+        let s = 0;
 
         while (true) {
             if (minuend[m] == null || subtrahend[s] == null) {
@@ -66,9 +66,9 @@ export default class ChangeSet {
         base.sort((a, b) => a.index - b.index);
         audit.sort((a, b) => a.index - b.index);
 
-        var result: ChangeSet[] = [];
-        var a = 0;
-        var b = 0;
+        let result: ChangeSet[] = [];
+        let a = 0;
+        let b = 0;
 
         while (true) {
             if (base[a] == null || audit[b] == null) {

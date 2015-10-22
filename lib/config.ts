@@ -31,13 +31,13 @@ export default class Config {
             throw new Error("version mismatch!");
         }
         other.targets.forEach(otherTarget => {
-            var exists = this.targets.filter(target => r.equals(target.file, otherTarget.file)).length !== 0;
+            let exists = this.targets.filter(target => r.equals(target.file, otherTarget.file)).length !== 0;
             if (!exists) {
                 this.targets.push(otherTarget);
             }
         });
         other.rules.forEach(otherRule => {
-            var exists = this.rules.filter(rule => rule.expected === otherRule.expected).length !== 0;
+            let exists = this.rules.filter(rule => rule.expected === otherRule.expected).length !== 0;
             if (!exists) {
                 this.rules.push(otherRule);
             }
@@ -48,17 +48,17 @@ export default class Config {
         if (content == null) {
             content = fs.readFileSync(filePath, { encoding: "utf8" });
         }
-        var changeSets: ChangeSet[] = [];
+        let changeSets: ChangeSet[] = [];
         this.rules.map(rule => {
             rule.reset();
-            var set = ChangeSet.makeChangeSet(content, rule.pattern, rule.expected, rule);
+            let set = ChangeSet.makeChangeSet(content, rule.pattern, rule.expected, rule);
             changeSets = changeSets.concat(set);
         });
 
-        var includes: ChangeSet[] = [];
-        var excludes: ChangeSet[] = [];
-        var includesExists = false;
-        var excludesExists = false;
+        let includes: ChangeSet[] = [];
+        let excludes: ChangeSet[] = [];
+        let includesExists = false;
+        let excludesExists = false;
         this.targets.forEach(target => {
             target.reset();
             if (!target.file.test(filePath)) {

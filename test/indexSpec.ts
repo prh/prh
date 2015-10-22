@@ -22,18 +22,18 @@ describe("index", () => {
     });
     describe("fromYAML", () => {
         it("parse yaml string to Config", () => {
-            var yamlContent = fs.readFileSync("./misc/WEB+DB_PRESS.yml", { encoding: "utf8" });
+            let yamlContent = fs.readFileSync("./misc/WEB+DB_PRESS.yml", { encoding: "utf8" });
             lib.fromYAML(yamlContent);
         });
     });
     describe("try all yml files in misc", () => {
-        var targetDir = path.resolve(__dirname, "..", "misc");
+        let targetDir = path.resolve(__dirname, "..", "misc");
         fs
             .readdirSync(targetDir)
             .filter(file => /\.yml$/.test(file))
             .forEach(file => {
                 it("try " + file, () => {
-                    var yamlContent = fs.readFileSync(targetDir + "/" + file, { encoding: "utf8" });
+                    let yamlContent = fs.readFileSync(targetDir + "/" + file, { encoding: "utf8" });
                     lib.fromYAML(yamlContent);
                 });
             });

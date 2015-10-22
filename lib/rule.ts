@@ -39,7 +39,7 @@ export default class Rule {
         }
 
         // for JSON order
-        var options = this.options;
+        let options = this.options;
         delete this.options;
         this.options = options;
 
@@ -51,7 +51,7 @@ export default class Rule {
     }
 
     _patternToRegExp(pattern: string | string[]): RegExp {
-        var result: RegExp;
+        let result: RegExp;
         if (pattern == null) {
             result = r.spreadAlphaNum(this.expected);
             if (this.options.wordBoundary) {
@@ -83,7 +83,7 @@ export default class Rule {
 
     check() {
         this.specs.forEach(spec => {
-            var result = spec.from.replace(this.pattern, this.expected);
+            let result = spec.from.replace(this.pattern, this.expected);
             if (spec.to !== result) {
                 throw new Error(this.expected + " spec failed. \"" + spec.from + "\", expected \"" + spec.to + "\", but got \"" + result + "\", " + this.pattern);
             }
@@ -91,12 +91,12 @@ export default class Rule {
     }
 
     toJSON() {
-        var alt: any = {};
-        for (var key in this) {
+        let alt: any = {};
+        for (let key in this) {
             if (key.indexOf("_") === 0) {
                 continue;
             }
-            var value = (<any>this)[key];
+            let value = (<any>this)[key];
             if (value instanceof RegExp) {
                 alt[key] = value.toString();
                 continue;

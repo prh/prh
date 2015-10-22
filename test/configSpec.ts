@@ -4,7 +4,7 @@ import Config from "../lib/config";
 
 describe("Config", () => {
     it("parse raw.Config", () => {
-        var config = new Config({
+        let config = new Config({
             version: 1,
             rules: [{
                 expected: "vvakame"

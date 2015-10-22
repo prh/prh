@@ -11,14 +11,14 @@ export {Config};
 export function fromYAMLFilePath(path: string): Config {
     "use strict";
 
-    var content = fs.readFileSync(path, { encoding: "utf8" });
+    let content = fs.readFileSync(path, { encoding: "utf8" });
     return fromYAML(content);
 }
 
 export function fromYAML(yamlContent: string): Config {
     "use strict";
 
-    var rawConfig = yaml.load(yamlContent);
+    let rawConfig = yaml.load(yamlContent);
     return fromRowConfig(rawConfig);
 }
 

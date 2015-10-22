@@ -37,12 +37,12 @@ export default class Target {
     }
 
     toJSON() {
-        var alt: any = {};
-        for (var key in this) {
+        let alt: any = {};
+        for (let key in this) {
             if (key.indexOf("_") === 0) {
                 continue;
             }
-            var value = (<any>this)[key];
+            let value = (<any>this)[key];
             if (value instanceof RegExp) {
                 alt[key] = value.toString();
                 continue;
