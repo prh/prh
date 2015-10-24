@@ -3,7 +3,7 @@
 import * as r from "./utils/regexp";
 
 import * as raw from "./raw";
-import TargetPattern from "./targetpattern";
+import TargetPattern from "./targetPattern";
 
 export default class Target {
     file: RegExp;

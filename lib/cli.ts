@@ -3,7 +3,7 @@
 import * as path from "path";
 import * as fs from "fs";
 import * as yaml from "js-yaml";
-import * as lib from "./index";
+import * as lib from "./";
 
 import * as commandpost from "commandpost";
 let pkg = require("../package.json");

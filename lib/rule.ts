@@ -3,7 +3,7 @@
 import * as r from "./utils/regexp";
 
 import Options from "./options";
-import RuleSpec from "./rulespec";
+import RuleSpec from "./ruleSpec";
 
 import * as raw from "./raw";
 
@@ -50,6 +50,7 @@ export default class Rule {
         this.check();
     }
 
+    /* @internal */
     _patternToRegExp(pattern: string | string[]): RegExp {
         let result: RegExp;
         if (pattern == null) {

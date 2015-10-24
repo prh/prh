@@ -8,8 +8,8 @@ export interface Config {
 
 export interface Target {
     file: string; // string | regexp style string
-    includes?: (string | TargetPattern)[]; // (string | TargetPattern) array;
-    excludes?: (string | TargetPattern)[]; // (string | TargetPattern) array;
+    includes?: (string | TargetPattern)[];
+    excludes?: (string | TargetPattern)[];
 }
 
 export interface TargetPattern {

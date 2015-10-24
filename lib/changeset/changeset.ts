@@ -4,25 +4,24 @@ import Diff from "./diff";
 
 export default class ChangeSet {
     constructor(public diffs: Diff[] = []) {
-        this.prepare();
+        this._prepare();
     }
 
     /* @internal */
-    private prepare() {
+    _prepare() {
         this.diffs = this.diffs.sort((a, b) => a.index - b.index);
     }
 
     concat(other: ChangeSet): ChangeSet {
-        this.prepare();
-        other.prepare();
+        this._prepare();
+        other._prepare();
 
         this.diffs = this.diffs.concat(other.diffs);
         return this;
     }
 
-
     applyChangeSets(str: string): string {
-        this.prepare();
+        this._prepare();
 
         let delta = 0;
         this.diffs.forEach(data => {
@@ -41,8 +40,8 @@ export default class ChangeSet {
     }
 
     subtract(subtrahend: ChangeSet): ChangeSet {
-        this.prepare();
-        subtrahend.prepare();
+        this._prepare();
+        subtrahend._prepare();
 
         let result: ChangeSet = new ChangeSet(this.diffs.map(v => v));
         let m = 0;
@@ -70,8 +69,8 @@ export default class ChangeSet {
     }
 
     intersect(audit: ChangeSet): ChangeSet {
-        this.prepare();
-        audit.prepare();
+        this._prepare();
+        audit._prepare();
 
         let result: ChangeSet = new ChangeSet();
         let a = 0;
