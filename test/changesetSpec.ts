@@ -17,7 +17,7 @@ describe("ChangeSet", () => {
                     return new Diff(regexp, expected, result.index, Array.prototype.slice.call(result));
                 });
             let changeSets = new changeSet.ChangeSet(diffs);
-            let result = changeSet.applyChangeSets(base, changeSets);
+            let result = changeSets.applyChangeSets(base);
             assert(result === "今日の晩御飯はWebさ！そしておかずもWebさ！");
         });
         it("can apply change sets. pattern longer", () => {
@@ -30,7 +30,7 @@ describe("ChangeSet", () => {
                     return new Diff(regexp, expected, result.index, Array.prototype.slice.call(result));
                 });
             let changeSets = new changeSet.ChangeSet(diffs);
-            let result = changeSet.applyChangeSets(base, changeSets);
+            let result = changeSets.applyChangeSets(base);
             assert(result === "今日の晩御飯はウェッブだ！そしておかずもウェッブだ！");
         });
         it("can apply change sets with grouping", () => {
@@ -43,7 +43,7 @@ describe("ChangeSet", () => {
                     return new Diff(regexp, expected, result.index, Array.prototype.slice.call(result));
                 });
             let changeSets = new changeSet.ChangeSet(diffs);
-            let result = changeSet.applyChangeSets(base, changeSets);
+            let result = changeSets.applyChangeSets(base);
             assert(result === "白いご飯と伯方(博多ではない)の塩(潮ではない)！");
         });
         it("can apply change sets with grouping", () => {
@@ -63,7 +63,7 @@ describe("ChangeSet", () => {
             let changeSetsA = new changeSet.ChangeSet(diffA);
             let changeSetsB = new changeSet.ChangeSet(diffB);
             let changeSets = changeSetsA.concat(changeSetsB);
-            let result = changeSet.applyChangeSets(base, changeSets);
+            let result = changeSets.applyChangeSets(base);
             assert(result === "ある日のWebと、とある日のWebの話");
         });
     });
@@ -72,7 +72,7 @@ describe("ChangeSet", () => {
             let base = "今日はjs明日はts明後日はなんのaltjsですかねぇ？";
             let changeSets = changeSet.makeChangeSet(base, /JS/ig, "JS");
 
-            let result = changeSet.applyChangeSets(base, changeSets);
+            let result = changeSets.applyChangeSets(base);
             assert(result === "今日はJS明日はts明後日はなんのaltJSですかねぇ？");
         });
     });
@@ -82,9 +82,9 @@ describe("ChangeSet", () => {
             let minuend = changeSet.makeChangeSet(base, /js/ig, "JS");
             let subtrahend = changeSet.makeChangeSet(base, /(@<(?:list|fn)>{.+?})/ig, "$1");
 
-            let changeSets = changeSet.subtract(minuend, subtrahend);
+            let changeSets = minuend.subtract(subtrahend);
 
-            let result = changeSet.applyChangeSets(base, changeSets);
+            let result = changeSets.applyChangeSets(base);
             assert(result === "次に見るJS（@<list>{hoge-js}）はただのJSではありません。\nしかし、altJS（@<fn>{alt-js}）ほどではないでしょう。");
         });
         it("not subtract changeset with over wrapped changeset", () => {
@@ -94,9 +94,9 @@ describe("ChangeSet", () => {
             let minuend = minuendA.concat(minuendB);
             let subtrahend = changeSet.makeChangeSet(base, /(@<(?:list|fn)>{.+?})/ig, "$1");
 
-            let changeSets = changeSet.subtract(minuend, subtrahend);
+            let changeSets = minuend.subtract(subtrahend);
 
-            let result = changeSet.applyChangeSets(base, changeSets);
+            let result = changeSets.applyChangeSets(base);
             assert(result === "JS（@<list>{js}）JS");
         });
     });
@@ -108,9 +108,9 @@ describe("ChangeSet", () => {
             let auditB = changeSet.makeChangeSet(base, /\/\*.*?\*\//gm, "$1");
             let audit = auditA.concat(auditB);
 
-            let changeSets = changeSet.intersect(baseSet, audit);
+            let changeSets = baseSet.intersect(audit);
 
-            let result = changeSet.applyChangeSets(base, changeSets);
+            let result = changeSets.applyChangeSets(base);
             assert(result === "let foo = 'js';\n// これがJSだ！\n let bar = 'altjs'; /* これもJSだ */\n let buzz = 'jsx';");
         });
     });

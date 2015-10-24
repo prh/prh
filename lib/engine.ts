@@ -79,10 +79,10 @@ export default class Engine {
         });
 
         if (includesExists) {
-            changeSets = changeSet.intersect(changeSets, includes);
+            changeSets = changeSets.intersect(includes);
         }
         if (excludesExists) {
-            changeSets = changeSet.subtract(changeSets, excludes);
+            changeSets = changeSets.subtract(excludes);
         }
 
         return changeSets;
@@ -93,6 +93,6 @@ export default class Engine {
             content = fs.readFileSync(filePath, { encoding: "utf8" });
         }
         let changeSets = this.makeChangeSet(filePath, content);
-        return changeSet.applyChangeSets(content, changeSets);
+        return changeSets.applyChangeSets(content);
     }
 }
