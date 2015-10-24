@@ -7,6 +7,7 @@ export default class ChangeSet {
         this.prepare();
     }
 
+    /* @internal */
     private prepare() {
         this.diffs = this.diffs.sort((a, b) => a.index - b.index);
     }

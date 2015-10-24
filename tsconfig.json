@@ -6,6 +6,7 @@
         "experimentalDecorators": true,
         "rootDir": ".",
         "sourceMap": true,
+        "stripInternal": true,
         "declaration": true,
         "listFiles": true,
         "newLine": "LF",
