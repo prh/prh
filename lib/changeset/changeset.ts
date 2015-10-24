@@ -44,18 +44,19 @@ export default class ChangeSet {
         this.prepare();
         subtrahend.prepare();
 
+        let result: ChangeSet = new ChangeSet(this.diffs.map(v => v));
         let m = 0;
         let s = 0;
 
         while (true) {
-            let minuendDiff = this.diffs[m];
+            let minuendDiff = result.diffs[m];
             let subtrahendDiff = subtrahend.diffs[s];
 
             if (!minuendDiff || !subtrahendDiff) {
                 break;
             }
             if (!minuendDiff.isEncloser(subtrahendDiff) && minuendDiff.isCollide(subtrahendDiff)) {
-                this.diffs.splice(m, 1);
+                result.diffs.splice(m, 1);
                 continue;
             }
             if (minuendDiff.isBefore(subtrahendDiff)) {
@@ -65,7 +66,7 @@ export default class ChangeSet {
             }
         }
 
-        return this;
+        return result;
     }
 
     intersect(audit: ChangeSet): ChangeSet {
@@ -94,6 +95,4 @@ export default class ChangeSet {
 
         return result;
     }
-
-
 }
