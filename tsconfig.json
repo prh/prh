@@ -26,7 +26,9 @@
         "./node_modules/typescript/lib/lib.es6.d.ts"
     ],
     "files": [
-        "./lib/changeset.ts",
+        "./lib/changeset/changeset.ts",
+        "./lib/changeset/diff.ts",
+        "./lib/changeset/index.ts",
         "./lib/cli.ts",
         "./lib/engine.ts",
         "./lib/index.ts",

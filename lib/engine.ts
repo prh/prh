@@ -7,7 +7,7 @@ import * as r from "./utils/regexp";
 import * as raw from "./raw";
 import Target from "./target";
 import Rule from "./rule";
-import ChangeSet from "./changeset";
+import * as changeSet from "./changeset";
 
 export default class Engine {
     version: number;
@@ -44,19 +44,19 @@ export default class Engine {
         });
     }
 
-    makeChangeSet(filePath: string, content?: string): ChangeSet[] {
+    makeChangeSet(filePath: string, content?: string): changeSet.ChangeSet {
         if (content == null) {
             content = fs.readFileSync(filePath, { encoding: "utf8" });
         }
-        let changeSets: ChangeSet[] = [];
+        let changeSets = new changeSet.ChangeSet();
         this.rules.map(rule => {
             rule.reset();
-            let set = ChangeSet.makeChangeSet(content, rule.pattern, rule.expected, rule);
+            let set = changeSet.makeChangeSet(content, rule.pattern, rule.expected, rule);
             changeSets = changeSets.concat(set);
         });
 
-        let includes: ChangeSet[] = [];
-        let excludes: ChangeSet[] = [];
+        let includes = new changeSet.ChangeSet();
+        let excludes = new changeSet.ChangeSet();
         let includesExists = false;
         let excludesExists = false;
         this.targets.forEach(target => {
@@ -67,22 +67,22 @@ export default class Engine {
             if (target.includes.length !== 0) {
                 includesExists = true;
                 target.includes.forEach(include => {
-                    includes = includes.concat(ChangeSet.makeChangeSet(content, include.pattern, null));
+                    includes = includes.concat(changeSet.makeChangeSet(content, include.pattern, null));
                 });
             }
             if (target.excludes.length !== 0) {
                 excludesExists = true;
                 target.excludes.forEach(exclude => {
-                    excludes = excludes.concat(ChangeSet.makeChangeSet(content, exclude.pattern, null));
+                    excludes = excludes.concat(changeSet.makeChangeSet(content, exclude.pattern, null));
                 });
             }
         });
 
         if (includesExists) {
-            changeSets = ChangeSet.intersect(changeSets, includes);
+            changeSets = changeSet.intersect(changeSets, includes);
         }
         if (excludesExists) {
-            changeSets = ChangeSet.subtract(changeSets, excludes);
+            changeSets = changeSet.subtract(changeSets, excludes);
         }
 
         return changeSets;
@@ -93,6 +93,6 @@ export default class Engine {
             content = fs.readFileSync(filePath, { encoding: "utf8" });
         }
         let changeSets = this.makeChangeSet(filePath, content);
-        return ChangeSet.applyChangeSets(content, changeSets);
+        return changeSet.applyChangeSets(content, changeSets);
     }
 }
