@@ -2,6 +2,7 @@
 
 export interface Config {
     version: number;
+    imports?: string | string[];
     targets?: Target[];
     rules?: (string | Rule)[]; // string | regexp style string or array
 }

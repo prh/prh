@@ -21,8 +21,9 @@ describe("index", () => {
     });
     describe("fromYAML", () => {
         it("parse yaml string to Config", () => {
-            let yamlContent = fs.readFileSync("./misc/WEB+DB_PRESS.yml", { encoding: "utf8" });
-            lib.fromYAML(yamlContent);
+            let configPath = "./misc/WEB+DB_PRESS.yml";
+            let yamlContent = fs.readFileSync(configPath, { encoding: "utf8" });
+            lib.fromYAML(configPath, yamlContent);
         });
     });
     describe("try all yml files in misc", () => {
@@ -32,9 +33,18 @@ describe("index", () => {
             .filter(file => /\.yml$/.test(file))
             .forEach(file => {
                 it("try " + file, () => {
-                    let yamlContent = fs.readFileSync(targetDir + "/" + file, { encoding: "utf8" });
-                    lib.fromYAML(yamlContent);
+                    let configPath = targetDir + "/" + file;
+                    let yamlContent = fs.readFileSync(configPath, { encoding: "utf8" });
+                    lib.fromYAML(configPath, yamlContent);
                 });
             });
+    });
+    it("can import other yaml file", () => {
+        let miscPrhEngine = lib.fromYAMLFilePath("./misc/imports-a.yml");
+        let miscSampleEngine = lib.fromYAMLFilePath("./misc/imports-b.yml");
+
+        let engine = lib.fromYAMLFilePath("./misc/imports.yml");
+
+        assert(engine.rules.length === miscPrhEngine.rules.length + miscSampleEngine.rules.length);
     });
 });

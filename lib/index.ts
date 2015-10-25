@@ -1,6 +1,7 @@
 "use strict";
 
 import * as fs from "fs";
+import * as path from "path";
 import * as yaml from "js-yaml";
 
 import * as raw from "./raw";
@@ -8,22 +9,34 @@ import Engine from "./engine";
 
 export {Engine};
 
-export function fromYAMLFilePath(path: string): Engine {
+export function fromYAMLFilePath(configPath: string): Engine {
     "use strict";
 
-    let content = fs.readFileSync(path, { encoding: "utf8" });
-    return fromYAML(content);
+    let content = fs.readFileSync(configPath, { encoding: "utf8" });
+    return fromYAML(configPath, content);
 }
 
-export function fromYAML(yamlContent: string): Engine {
+export function fromYAML(configPath: string, yamlContent: string): Engine {
     "use strict";
 
     let rawConfig = yaml.load(yamlContent);
-    return fromRowConfig(rawConfig);
+    return fromRowConfig(configPath, rawConfig);
 }
 
-export function fromRowConfig(rawConfig: raw.Config): Engine {
+export function fromRowConfig(configPath: string, rawConfig: raw.Config): Engine {
     "use strict";
 
-    return new Engine(rawConfig);
+    let engine = new Engine(rawConfig);
+
+    if (rawConfig.imports) {
+        let tmp = rawConfig.imports;
+        let imports = typeof tmp === "string" ? [tmp] : tmp;
+        imports.forEach(im => {
+            let importedConfigPath = path.resolve(path.dirname(configPath), im);
+            let newEngine = fromYAMLFilePath(importedConfigPath);
+            engine.merge(newEngine);
+        });
+    }
+
+    return engine;
 }
