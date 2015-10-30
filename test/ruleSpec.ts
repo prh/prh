@@ -97,6 +97,25 @@ describe("Rule", () => {
             assert(rule.pattern.global === true);
         });
     });
+    describe("#applyRule", () => {
+        it("can process regexpMustEmpty", () => {
+            new Rule({
+                expected: "レイヤ",
+                pattern: "/(プ)?レイヤー/",
+                regexpMustEmpty: "$1",
+                specs: [
+                    {
+                        from: "レイヤー",
+                        to: "レイヤ"
+                    },
+                    {
+                        from: "プレイヤー",
+                        to: "プレイヤー"
+                    }
+                ]
+            });
+        });
+    });
     describe("#check", () => {
         it("succeed spec", () => {
             new Rule({

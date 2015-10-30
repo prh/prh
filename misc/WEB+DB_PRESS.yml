@@ -204,8 +204,9 @@ rules:
     pattern:  セッター
   - expected: セレクタ
     pattern:  セレクター
-  - expected: $1ソフトウェア
-    pattern: /([^経])ソフトウエア/
+  - expected: ソフトウェア
+    pattern: /(日経)?ソフトウエア/
+    regexpMustEmpty: $1
     specs:
       - from: 広義のソフトウエア
         to:   広義のソフトウェア
@@ -489,9 +490,14 @@ rules:
       - レポジトリー
   - expected: ルータ
     pattern:  ルーター
-#  - expected: レイヤ
-# 否定戻り読みができないので実現できない http://d.hatena.ne.jp/satosystems/touch/20100519/1274237784
-#    pattern:  /(?<!プ)レイヤー/
+  - expected: レイヤ
+    pattern:  /(プ)?レイヤー/
+    regexpMustEmpty: $1
+    specs:
+      - from: レイヤー
+        to:   レイヤ
+      - from: プレイヤー
+        to:   プレイヤー
   - expected: レジストリ
     pattern:  レジストリー
   - expected: レイテンシ

@@ -21,6 +21,7 @@ export interface Rule {
     expected: string;
     pattern?: string | string[]; // string | regexp style string or array
     patterns?: string | string[]; // string | regexp style string or array
+    regexpMustEmpty?: string;
     options?: Options;
     specs?: RuleSpec[];
 }

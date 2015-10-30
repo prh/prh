@@ -5,11 +5,15 @@ import * as r from "./utils/regexp";
 import Options from "./options";
 import RuleSpec from "./ruleSpec";
 
+import Diff from "./changeset/diff";
+import ChangeSet from "./changeset/changeset";
+
 import * as raw from "./raw";
 
 export default class Rule {
     expected: string;
     pattern: RegExp;
+    regexpMustEmpty: string;
     options: Options;
     specs: RuleSpec[];
     raw: any /* raw.Rule */;
@@ -37,6 +41,8 @@ export default class Rule {
         if (this.pattern == null) {
             throw new Error("pattern is required");
         }
+
+        this.regexpMustEmpty = rawRule.regexpMustEmpty;
 
         // for JSON order
         let options = this.options;
@@ -84,11 +90,34 @@ export default class Rule {
 
     check() {
         this.specs.forEach(spec => {
-            let result = spec.from.replace(this.pattern, this.expected);
+            let result = this.applyRule(spec.from).applyChangeSets(spec.from);
             if (spec.to !== result) {
-                throw new Error(this.expected + " spec failed. \"" + spec.from + "\", expected \"" + spec.to + "\", but got \"" + result + "\", " + this.pattern);
+                throw new Error(`${this.expected} spec failed. "${spec.from}", expected "${spec.to}", but got "${result}", ${this.pattern}`);
             }
         });
+    }
+
+    applyRule(content: string): ChangeSet {
+        this.reset();
+        let resultList = r.collectAll(this.pattern, content);
+        let diffs = resultList
+            .map(result => {
+                // JavaScriptでの正規表現では /(?<!記|大)事/ のような書き方ができない
+                // /(記|大)事/ で regexpMustEmpty $1 の場合、第一グループが空じゃないとマッチしない、というルールにして回避
+                if (this.regexpMustEmpty) {
+                    let match = /^\$([0-9]+)$/.exec(this.regexpMustEmpty);
+                    if (match == null) {
+                        throw new Error(`${this.expected} target failed. please use $1 format.`);
+                    }
+                    let index = parseInt(match[1], 10);
+                    if (result[index]) {
+                        return null;
+                    }
+                }
+                return new Diff(this.pattern, this.expected, result.index, <string[]>Array.prototype.slice.call(result), this);
+            })
+            .filter(v => !!v);
+        return new ChangeSet(diffs);
     }
 
     toJSON() {

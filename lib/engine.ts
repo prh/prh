@@ -49,9 +49,8 @@ export default class Engine {
             content = fs.readFileSync(filePath, { encoding: "utf8" });
         }
         let changeSets = new changeSet.ChangeSet();
-        this.rules.map(rule => {
-            rule.reset();
-            let set = changeSet.makeChangeSet(content, rule.pattern, rule.expected, rule);
+        this.rules.forEach(rule => {
+            let set = rule.applyRule(content);
             changeSets = changeSets.concat(set);
         });
 
@@ -65,12 +64,14 @@ export default class Engine {
                 return;
             }
             if (target.includes.length !== 0) {
+                // .ts の // の後や /* */ の内部だけ対象にしたい場合のための機能
                 includesExists = true;
                 target.includes.forEach(include => {
                     includes = includes.concat(changeSet.makeChangeSet(content, include.pattern, null));
                 });
             }
             if (target.excludes.length !== 0) {
+                // .re の #@ の後を対象にしたくない場合のための機能
                 excludesExists = true;
                 target.excludes.forEach(exclude => {
                     excludes = excludes.concat(changeSet.makeChangeSet(content, exclude.pattern, null));
