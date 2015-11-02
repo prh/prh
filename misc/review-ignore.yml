@@ -1,4 +1,6 @@
 version: 1
+
+# コマンドラインから実行した時に処理対象とするファイルと、処理対象にする部分、対象外にする部分を設定できる。
 # includeとexclude両方存在する場合はincludeを適用した後excludeが適用される
 targets:
   - file: /\.re$/

@@ -1,10 +1,19 @@
 # proofread-helper [![Circle CI](https://circleci.com/gh/vvakame/prh.svg?style=svg)](https://circleci.com/gh/vvakame/prh)
 
-校正を雑にサポートしてくれるライブラリ。
+あなたの校正を手伝ってくれるライブラリ。
 
-[WEB+DB PRESS用語統一ルール](https://gist.github.com/inao/f55e8232e150aee918b9)と[wzeditor-word-rules-parser](https://github.com/azu/wzeditor-word-rules-parser)を参考にしています。
+今まで、校正作業は主に編集のフェーズの作業でした。
+これからは校正情報を編集者が作り、著者が執筆しながら自分で校正を行うようになります。
 
 ## インストール
+
+自分のライブラリに組み込んで使う場合。
+
+```
+$ npm install --save prh
+```
+
+コマンドラインツールとして使う場合。
 
 ```
 $ npm install -g prh
@@ -12,48 +21,55 @@ $ npm install -g prh
 
 ## 利用方法
 
+### 設定ファイルの作成
+
+基本的な書き方については[misc/prh.yml](https://github.com/vvakame/prh/blob/master/misc/prh.yml)を参照。
+
+実用するための設定ファイルは[misc/techbooster.yml](https://github.com/vvakame/prh/blob/master/misc/techbooster.yml)をおすすめする。
+
+[WEB+DB PRESS用語統一ルール](https://gist.github.com/inao/f55e8232e150aee918b9)と
+[wzeditor-word-rules-parser](https://github.com/azu/wzeditor-word-rules-parser)を参考にした、
+[misc/WEB+DB_PRESS.yml](https://github.com/vvakame/prh/blob/master/misc/WEB%2BDB_PRESS.yml)も用意している。
+
+### コマンドラインツールとして
+
+テキストファイルであれば、どのようなファイルであっても処理対象にすることができます。
+
 ```
-$ cat sample.re
-= サンプルですよ
+$ prh --help
+  Usage: prh [options] [command] [--] <files...>
+
+  Options:
+
+    --json          rule set to json
+    --yaml          rule set to parsed yaml
+    --rules <path>  path to rule yaml file
+    -r, --replace   replace input files
+
+
+  Commands:
+
+    init  generate prh.yml
+
+$ cat sample.md
+# サンプルですよ
 
 ウェッブではクッキーというものがあります。
-$ prh sample.re
-= サンプルですよ
+
+$ prh sample.md
+# サンプルですよ
 
 WebではCookieというものがあります。
 ```
 
-`--replace`オプションなどと併用すると良いでしょう。
+実際に利用する時は`--replace`オプションを併用すると良い。
+注意点として、prh単体の利用ではMarkdownやRe:VIEWなどのファイルの構造は考慮しない。
+そのため、URLの一部が変換されてしまうなどの使いにくさがある。
+実際に利用する際はprhが組み込まれている何らかのツールを介して使うのがよいだろう。
 
-## 目標
+## 関連ツール
 
-[techbooster](http://techbooster.org/)での執筆活動を快適にするぞ。
-[@mhidaka](https://twitter.com/mhidaka)がアホみたいに働くのであいつが過労死しないようにしてやる。
+Atomのプラグインである[language-review](https://atom.io/packages/language-review)に組み込まれている。
+エディタ上で執筆を行っていくと、自動的に校正候補が表示され、その結果を原稿に反映していくことができる。
 
-## 機能
-
-### 現在の機能
-
-[ルールのサンプル](https://github.com/vvakame/prh/blob/master/misc/sample.yml)
-
-* yamlでルールが書ける
-* とりあえず置換できる
-* ルールに対するテストをルールの近くに書くことができる
-    * もちろん書かなくてもよい
-* `--yaml`や`--json`オプション付きで実行すると内部的にどういう正規表現が組み上げられているか確認できる
-
-### あったほうが楽かもしれない機能
-
-* pattern単位でのルール設定
-    * 単一patternでのfooと複数パターンでのfooは挙動が違う。具体的に全角英数変換。
-* コンフィグファイルの統合
-    * 基本、Android用、TypeScript用と作っておいて組み合わせて使う。
-* 独自の無視設定の追加
-    * 具体的にはRe:VIEWの構文を解釈し`@<list>{module}`とかのmoduleを置換しないようにする。
-* 同じexpectedがある場合、後定義を優先してoverrideできるほうがよさそう
-* event-streamとか使ったほうがいいのかもわからん…
-* xregexpとか使って名前付き後方参照を導入したほうがよいかも…
-
-## 推奨される使い方
-
-[このへん](https://github.com/vvakame/prh/blob/master/misc/WEB%2BDB_PRESS.yml)をベースに、自分(の団体)用のルールセットを定義するのが良いだろう。
+azuさんが作成している[textlint](https://www.npmjs.com/package/textlint)のプラグインとして[textlint-rule-prh](https://www.npmjs.com/package/textlint-rule-prh)が作成されている。

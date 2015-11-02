@@ -1,5 +1,6 @@
 version: 1
 
+# 複数の設定ファイルを統合して利用することができます。
 imports:
   - imports-a.yml
   - imports-b.yml
