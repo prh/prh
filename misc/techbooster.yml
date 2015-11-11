@@ -63,10 +63,16 @@ rules:
     pattern:  綺麗
     prh: 漢字で書かず、ひらがなで書くと読みやすくなります
   - expected: こと
-    pattern:  /事(?!情|件|前|後|例)/
+    pattern:  /(記)?事(?!情|件|前|後|例)/
+    regexpMustEmpty: $1
     prh: 漢字で書かず、ひらがなで書くと読みやすくなります
-  # 先読み否定戻りができないので悲惨な事に…
-  # 時の前後1文字がひらがなの時… とかのほうがよいのでは
+    specs:
+      - from: ある事
+        to:   あること
+      - from: 記事
+        to:   記事
+      - from: 事件
+        to:   事件
   - expected: $1とき
     pattern:  /(の)時(?!点|代)/
     specs:
