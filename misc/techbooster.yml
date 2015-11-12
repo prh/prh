@@ -38,8 +38,12 @@ rules:
       - from: 良い例
         to:   良い例
   - expected: さらに
-    pattern:  更に
+    pattern:  /(変)?更に/
+    regexpMustEmpty: $1
     prh: 漢字で書かず、ひらがなで書くと読みやすくなります
+    specs:
+      - from: 変更に
+        to:   変更に
   - expected: もつ
     pattern:  持つ
     prh: 漢字で書かず、ひらがなで書くと読みやすくなります
