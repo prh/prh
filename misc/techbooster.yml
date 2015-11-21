@@ -90,7 +90,7 @@ rules:
       - from: 事件
         to:   事件
   - expected: $1とき
-    pattern:  /(の)時(?!点|代)/
+    pattern:  /(の)時(?!点|代|々)/
     specs:
       - from: その時
         to:   そのとき
