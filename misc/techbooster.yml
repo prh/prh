@@ -222,3 +222,5 @@ rules:
   - expected: ライブラリ
     pattern:  ラブライブ # C87でやらかした人がいましたね？
     prh: C87でざきさんがやらかした思い出
+  - expected: superset
+    pattern: super set
