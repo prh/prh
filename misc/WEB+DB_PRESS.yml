@@ -92,8 +92,8 @@ rules:
       - エンティティー
   - expected: エントリ
     pattern:  エントリー
-  - expected: オブション
-    pattern:  オプション
+  - expected: オプション
+    pattern:  オブション
   - expected: カウンタ
     pattern:  カウンター
   - expected: ガベージ
