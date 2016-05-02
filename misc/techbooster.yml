@@ -145,8 +145,12 @@ rules:
         to:   次の
     prh: 書籍の場合は、以下ではなく次を利用します（常に下にあるとは限らないため）
   - expected: かかわらず
-    pattern:  関わらず
-    pattern:  関らず
+    pattern:  /関わ?らず/
+    specs:
+      - from: 関わらず
+        to:   かかわらず
+      - from: 関らず
+        to:   かかわらず
     prh: 漢字で書かず、ひらがなで書くと読みやすくなります
   - expected: なる
     pattern:  成る
@@ -189,8 +193,7 @@ rules:
     pattern:  最も
     prh: 漢字で書かず、ひらがなで書くと読みやすくなります
   - expected: ちょうど
-    pattern:  丁度
-    pattern:  調度
+    pattern:  /(丁度|調度)/
     prh: 漢字で書かず、ひらがなで書くと読みやすくなります
   # footnoteの末尾は読点を使わない
   # タイトル見出しの末尾は読点を使わない
