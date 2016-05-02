@@ -1,3 +1,21 @@
+<a name="1.0.0"></a>
+# [1.0.0](https://github.com/vvakame/prh/compare/0.9.0...v1.0.0) (2016-05-02)
+
+prh is stable.
+
+### Bug Fixes
+
+* **techbooster.yml:** 記事 を 記こと に開かないようにした([5ee3c62](https://github.com/vvakame/prh/commit/5ee3c62))
+* **techbooster.yml:** 下記の を 次の と言い換えるように修正([73206fe](https://github.com/vvakame/prh/commit/73206fe))
+* **techbooster.yml:** 事実 事体 の 事 を開かないようにした([5ae9ec1](https://github.com/vvakame/prh/commit/5ae9ec1))
+* **techbooster.yml:** 事態 を こと態 に開こうとしていたのを修正([1faea5d](https://github.com/vvakame/prh/commit/1faea5d))
+* **techbooster.yml:** 仕事 を 仕こと に開こうとしていたのを修正([325f92e](https://github.com/vvakame/prh/commit/325f92e))
+* **techbooster.yml:** 変更に を 変さらに に開かないように修正([1a3af91](https://github.com/vvakame/prh/commit/1a3af91))
+* **techbooster.yml:** 大事 を 大こと に開こうとしていたのを修正([265ba48](https://github.com/vvakame/prh/commit/265ba48))
+* **techbooster.yml:** 良い例 を よい例 に開かないように調整 refs [#12](https://github.com/vvakame/prh/issues/12)([18f785a](https://github.com/vvakame/prh/commit/18f785a))
+
+
+
 <a name="0.9.0"></a>
 # [0.9.0](https://github.com/vvakame/prh/compare/0.8.0...v0.9.0) (2015-11-02)
 
