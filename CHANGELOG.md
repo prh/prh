@@ -1,3 +1,14 @@
+<a name="1.0.1"></a>
+## [1.0.1](https://github.com/vvakame/prh/compare/1.0.0...v1.0.1) (2016-05-30)
+
+
+### Bug Fixes
+
+* **prh:** Engine#mergeで別ルールをマージする時にルールの除去を一括で行うようの修正 closes [#18](https://github.com/vvakame/prh/issues/18) ([904b23b](https://github.com/vvakame/prh/commit/904b23b)), closes [#18](https://github.com/vvakame/prh/issues/18)
+* **techbooster.yml:** その時間 が警告にならないように修正 ([e1a9e7f](https://github.com/vvakame/prh/commit/e1a9e7f))
+
+
+
 <a name="1.0.0"></a>
 # [1.0.0](https://github.com/vvakame/prh/compare/0.9.0...v1.0.0) (2016-05-02)
 
