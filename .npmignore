@@ -1,7 +1,5 @@
 .git/
 
-# for WebStorm
-.idea/
 # for VSCode
 .vscode/
 

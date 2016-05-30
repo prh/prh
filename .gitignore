@@ -1,17 +1,5 @@
-# for WebStorm
-# from http://gihyo.jp/dev/serial/01/android_studio/0035
-.idea/**/*.xml
-!.idea/codeStyleSettings.xml
-!.idea/copyright/*.xml
-!.idea/fileColors.xml
-!.idea/runConfigurations/*.xml
-!.idea/watcherTasks.xml
-
-!.idea/scopes/*.xml
-.idea/scopes/scope_settings.xml
-
-!.idea/templateLanguages.xml
-!.idea/vcs.xml
+# for IDE
+.vscode/.browse.VC*
 
 # for npm
 npm-debug.log
