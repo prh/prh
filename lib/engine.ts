@@ -36,12 +36,11 @@ export default class Engine {
                 this.targets.push(otherTarget);
             }
         });
-        other.rules.forEach(otherRule => {
-            let exists = this.rules.filter(rule => rule.expected === otherRule.expected).length !== 0;
-            if (!exists) {
-                this.rules.push(otherRule);
-            }
+        // NOTE https://github.com/vvakame/prh/issues/18#issuecomment-222524140
+        let reqRules = other.rules.filter(otherRule => {
+            return this.rules.filter(rule => rule.expected === otherRule.expected).length === 0;
         });
+        this.rules = this.rules.concat(reqRules);
     }
 
     makeChangeSet(filePath: string, content?: string): changeSet.ChangeSet {
