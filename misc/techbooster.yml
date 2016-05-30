@@ -95,7 +95,7 @@ rules:
       - from: 事件
         to:   事件
   - expected: $1とき
-    pattern:  /(の)時(?!点|代|々)/
+    pattern:  /(の)時(?!点|代|々|間)/
     specs:
       - from: その時
         to:   そのとき
@@ -103,6 +103,8 @@ rules:
         to:   その時点
       - from: その時代
         to:   その時代
+      - from: それまでの時間
+        to:   それまでの時間
       - from: 同時
         to:   同時
       - from: 実行時
