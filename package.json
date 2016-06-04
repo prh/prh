@@ -29,6 +29,7 @@
   "devDependencies": {
     "espower-loader": "1.0.0",
     "grunt": "1.0.1",
+    "grunt-cli": "^1.2.0",
     "grunt-contrib-clean": "1.0.0",
     "grunt-conventional-changelog": "6.1.0",
     "grunt-dtsm": "1.0.0",
