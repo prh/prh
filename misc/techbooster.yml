@@ -228,4 +228,11 @@ rules:
     pattern:  ラブライブ # C87でやらかした人がいましたね？
     prh: C87でざきさんがやらかした思い出
   - expected: superset
-    pattern: super set
+    pattern:  super set
+  - expected: 技術書典
+    pattern:  /技術書(店|…|点|展|てん)/
+    specs:
+      - from: 技術書点
+        to:   技術書典
+      - from: 技術書展
+        to:   技術書典
