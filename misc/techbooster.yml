@@ -236,3 +236,9 @@ rules:
         to:   技術書典
       - from: 技術書展
         to:   技術書典
+  - expected: View
+    pattern:  Vew
+  - expected: aidl
+    pattern:  /adil/
+  - expected: AIDL
+    pattern:  /ADIL/
