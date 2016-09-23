@@ -1,5 +1,3 @@
-"use strict";
-
 import Rule from "../rule";
 
 export default class Diff {
@@ -7,7 +5,7 @@ export default class Diff {
     expected: string;
     index: number;
     matches: string[];
-    rule: Rule;
+    rule?: Rule;
 
     constructor(pattern: RegExp, expected: string, index: number, matches: string[], rule?: Rule) {
         this.pattern = pattern;

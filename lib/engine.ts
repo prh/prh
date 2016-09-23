@@ -1,5 +1,3 @@
-"use strict";
-
 import * as fs from "fs";
 
 import * as r from "./utils/regexp";
@@ -43,10 +41,8 @@ export default class Engine {
         this.rules = this.rules.concat(reqRules);
     }
 
-    makeChangeSet(filePath: string, content?: string): changeSet.ChangeSet {
-        if (content == null) {
-            content = fs.readFileSync(filePath, { encoding: "utf8" });
-        }
+    makeChangeSet(filePath: string, contentArg?: string): changeSet.ChangeSet {
+        const content: string = contentArg ? contentArg : fs.readFileSync(filePath, { encoding: "utf8" });
         let changeSets = new changeSet.ChangeSet();
         this.rules.forEach(rule => {
             let set = rule.applyRule(content);

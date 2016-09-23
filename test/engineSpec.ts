@@ -1,4 +1,4 @@
-"use strict";
+import * as assert from "power-assert";
 
 import Engine from "../lib/engine";
 
@@ -7,8 +7,8 @@ describe("Engine", () => {
         let engine = new Engine({
             version: 1,
             rules: [{
-                expected: "vvakame"
-            }]
+                expected: "vvakame",
+            }],
         });
 
         assert(engine.version === 1);
@@ -23,8 +23,8 @@ describe("Engine", () => {
                 {
                     expected: "Test",
                     pattern: "てすと",
-                }
-            ]
+                },
+            ],
         });
         let sub = new Engine({
             version: 1,

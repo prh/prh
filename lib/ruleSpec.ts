@@ -1,5 +1,3 @@
-"use strict";
-
 import * as raw from "./raw";
 
 export default class RuleSpec {

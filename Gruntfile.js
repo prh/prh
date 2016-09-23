@@ -1,6 +1,4 @@
 module.exports = function (grunt) {
-    require("time-grunt")(grunt);
-
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         opt: {
@@ -13,18 +11,10 @@ module.exports = function (grunt) {
             }
         },
 
-        ts: {
-          default: {
-            tsconfig: {
-              tsconfig: "./tsconfig.json",
-              updateFiles: false
-            }
-          }
-        },
-        tsconfig: {
-            main: {
-            }
-        },
+		exec: {
+			tsc: "tsc -p ./",
+            tsfmt: "tsfmt -r"
+		},
         tslint: {
             options: {
                 configuration: grunt.file.readJSON("tslint.json")
@@ -50,14 +40,6 @@ module.exports = function (grunt) {
                 ]
             }
         },
-        dtsm: {
-            client: {
-                options: {
-                    // optional: specify config file
-                    confog: './dtsm.json'
-                }
-            }
-        },
         clean: {
             clientScript: {
                 src: [
@@ -69,12 +51,6 @@ module.exports = function (grunt) {
                     '<%= opt.client.jsTestOut %>/*.js',
                     '<%= opt.client.jsTestOut %>/*.js.map',
                     '<%= opt.client.jsTestOut %>/*.d.ts'
-                ]
-            },
-            dtsm: {
-                src: [
-                    // dtsm installed
-                    "typings/"
                 ]
             }
         },
@@ -89,9 +65,6 @@ module.exports = function (grunt) {
                                 cwd: process.cwd() + '/' + grunt.config.get("opt.client.jsTestOut"),
                                 pattern: '**/*.js'
                             });
-                        },
-                        function () {
-                            assert = require('power-assert');
                         }
                     ]
                 },
@@ -126,12 +99,8 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask(
-        'setup',
-        ['clean', 'dtsm']);
-
-    grunt.registerTask(
         'default',
-        ['tsconfig', 'ts', 'tslint']);
+        ['exec:tsfmt', 'exec:tsc', 'tslint']);
 
     grunt.registerTask(
         'test',

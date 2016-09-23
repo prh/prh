@@ -1,5 +1,3 @@
-"use strict";
-
 import * as r from "./utils/regexp";
 
 import * as raw from "./raw";

@@ -1,5 +1,3 @@
-"use strict";
-
 import * as path from "path";
 import * as fs from "fs";
 import * as yaml from "js-yaml";
@@ -57,7 +55,7 @@ let root = commandpost
 root
     .subCommand<{}, {}>("init")
     .description("generate prh.yml")
-    .action((opts, args) => {
+    .action((_opts, _args) => {
         fs.createReadStream(__dirname + "/../misc/prh.yml").pipe(fs.createWriteStream("prh.yml"));
         console.log("create prh.yml");
     });
@@ -67,8 +65,6 @@ commandpost
     .catch(errorHandler);
 
 function errorHandler(err: any) {
-    "use strict";
-
     if (err instanceof Error) {
         console.error(err.stack);
     } else {
@@ -79,9 +75,7 @@ function errorHandler(err: any) {
     });
 }
 
-export function getConfigFileName(baseDir: string, configFileName: string): string {
-    "use strict";
-
+export function getConfigFileName(baseDir: string, configFileName: string): string | null {
     let configFilePath = path.resolve(baseDir, configFileName);
     if (fs.existsSync(configFilePath)) {
         return configFilePath;

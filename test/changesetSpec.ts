@@ -1,4 +1,4 @@
-"use strict";
+import * as assert from "power-assert";
 
 import * as r from "../lib/utils/regexp";
 

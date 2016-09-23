@@ -1,3 +1,5 @@
+import * as assert from "power-assert";
+
 import * as r from "../../lib/utils/regexp";
 
 describe("regexp", () => {
@@ -39,25 +41,25 @@ describe("regexp", () => {
 
     describe("concat", () => {
         it("concat string:string", () => {
-            var regexp = r.concat("Hello", "TypeScript");
+            let regexp = r.concat("Hello", "TypeScript");
             assert(regexp.source === "HelloTypeScript");
 
             assert(regexp.test("HelloTypeScript"));
         });
         it("concat string:regexp", () => {
-            var regexp = r.concat("Hello", /TypeScript/);
+            let regexp = r.concat("Hello", /TypeScript/);
             assert(regexp.source === "HelloTypeScript");
 
             assert(regexp.test("HelloTypeScript"));
         });
         it("concat regexp:string", () => {
-            var regexp = r.concat(/Hello/, "TypeScript");
+            let regexp = r.concat(/Hello/, "TypeScript");
             assert(regexp.source === "HelloTypeScript");
 
             assert(regexp.test("HelloTypeScript"));
         });
         it("concat regexp:regexp", () => {
-            var regexp = r.concat(/Hello/, /TypeScript/);
+            let regexp = r.concat(/Hello/, /TypeScript/);
             assert(regexp.source === "HelloTypeScript");
 
             assert(regexp.test("HelloTypeScript"));
@@ -66,28 +68,28 @@ describe("regexp", () => {
 
     describe("combine", () => {
         it("combine string:string", () => {
-            var regexp = r.combine("Hello", "TypeScript");
+            let regexp = r.combine("Hello", "TypeScript");
             assert(regexp.source === "(?:Hello|TypeScript)");
 
             assert(regexp.test("Hello"));
             assert(regexp.test("TypeScript"));
         });
         it("combine string:regexp", () => {
-            var regexp = r.combine("Hello", /TypeScript/);
+            let regexp = r.combine("Hello", /TypeScript/);
             assert(regexp.source === "(?:Hello|TypeScript)");
 
             assert(regexp.test("Hello"));
             assert(regexp.test("TypeScript"));
         });
         it("combine regexp:string", () => {
-            var regexp = r.combine(/Hello/, "TypeScript");
+            let regexp = r.combine(/Hello/, "TypeScript");
             assert(regexp.source === "(?:Hello|TypeScript)");
 
             assert(regexp.test("Hello"));
             assert(regexp.test("TypeScript"));
         });
         it("combine regexp:regexp", () => {
-            var regexp = r.combine(/Hello/, /TypeScript/);
+            let regexp = r.combine(/Hello/, /TypeScript/);
             assert(regexp.source === "(?:Hello|TypeScript)");
 
             assert(regexp.test("Hello"));
@@ -97,19 +99,19 @@ describe("regexp", () => {
 
     describe("addBoundary", () => {
         it("addBoundary to string", () => {
-            var regexp = r.addBoundary("Hello");
+            let regexp = r.addBoundary("Hello");
             assert(regexp.source === "\\bHello\\b");
 
             assert(regexp.test("Hello"));
         });
         it("addBoundary to regexp", () => {
-            var regexp = r.addBoundary(/Hello/);
+            let regexp = r.addBoundary(/Hello/);
             assert(regexp.source === "\\bHello\\b");
 
             assert(regexp.test("Hello"));
         });
         it("detect word boundary by alphabet", () => {
-            var regexp = r.addBoundary(/js/);
+            let regexp = r.addBoundary(/js/);
 
             assert(regexp.test("js") === true);
             assert(regexp.test("A js B") === true);
@@ -120,7 +122,7 @@ describe("regexp", () => {
 
     describe("parseRegExpString", () => {
         it("parse regexp style string", () => {
-            var regexp = r.parseRegExpString("/[3-9]th/ig");
+            let regexp = r.parseRegExpString("/[3-9]th/ig");
 
             assert(regexp.source === "[3-9]th");
             assert(regexp.ignoreCase === true);
@@ -128,7 +130,7 @@ describe("regexp", () => {
             assert(regexp.multiline === false);
         });
         it("can't parse non-regexp style string", () => {
-            var regexp = r.parseRegExpString("Hi!");
+            let regexp = r.parseRegExpString("Hi!");
 
             assert(regexp === null);
         });
@@ -136,12 +138,12 @@ describe("regexp", () => {
 
     describe("spreadAlphaNum", () => {
         it("spread alphabet & number to widely", () => {
-            var regexp = r.spreadAlphaNum("abcdefghijklmnopqrstuvwxyz0123456789");
+            let regexp = r.spreadAlphaNum("abcdefghijklmnopqrstuvwxyz0123456789");
 
             assert(regexp.source === "[AaＡａ][BbＢｂ][CcＣｃ][DdＤｄ][EeＥｅ][FfＦｆ][GgＧｇ][HhＨｈ][IiＩｉ][JjＪｊ][KkＫｋ][LlＬｌ][MmＭｍ][NnＮｎ][OoＯｏ][PpＰｐ][QqＱｑ][RrＲｒ][SsＳｓ][TtＴｔ][UuＵｕ][VvＶｖ][WwＷｗ][XxＸｘ][YyＹｙ][ZzＺｚ][0０][1１][2２][3３][4４][5５][6６][7７][8８][9９]");
         });
         it("match widely expression", () => {
-            var regexp = r.spreadAlphaNum("web");
+            let regexp = r.spreadAlphaNum("web");
 
             assert(regexp.test("Web") === true);
             assert(regexp.test("web") === true);
@@ -156,7 +158,7 @@ describe("regexp", () => {
 
     describe("addDefaultFlags", () => {
         it("add g & m flags", () => {
-            var regexp = r.addDefaultFlags(/hello/);
+            let regexp = r.addDefaultFlags(/hello/);
 
             assert(regexp.source === "hello");
             assert(regexp.global === true);
@@ -164,7 +166,7 @@ describe("regexp", () => {
             assert(regexp.multiline === true);
         });
         it("add g flags and keep i flag", () => {
-            var regexp = r.addDefaultFlags(/hello/i);
+            let regexp = r.addDefaultFlags(/hello/i);
 
             assert(regexp.source === "hello");
             assert(regexp.global === true);
@@ -175,12 +177,12 @@ describe("regexp", () => {
 
     describe("escapeSpecialChars", () => {
         it("replace special characters 1", () => {
-            var result = r.escapeSpecialChars("/(?!S)ML/");
+            let result = r.escapeSpecialChars("/(?!S)ML/");
 
             assert(result === "\\/\\(\\?!S\\)ML\\/");
         });
         it("replace special characters 2", () => {
-            var result = r.escapeSpecialChars("¥*+.?{}()[]^$-|/");
+            let result = r.escapeSpecialChars("¥*+.?{}()[]^$-|/");
 
             assert(result === "\\¥\\*\\+\\.\\?\\{\\}\\(\\)\\[\\]\\^\\$\\-\\|\\/");
         });
@@ -188,8 +190,8 @@ describe("regexp", () => {
 
     describe("collectAll", () => {
         it("collect all matching place", () => {
-            var str = "今日まで広くC言語は使われてきました。\nしかし、ここに至りC++やC#などが登場し隆盛を極め…";
-            var result = r.collectAll(/(C(\+\+|\#)?)/g, str);
+            let str = "今日まで広くC言語は使われてきました。\nしかし、ここに至りC++やC#などが登場し隆盛を極め…";
+            let result = r.collectAll(/(C(\+\+|\#)?)/g, str);
 
             assert(result.length === 3);
 

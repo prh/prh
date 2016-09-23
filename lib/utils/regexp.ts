@@ -1,23 +1,19 @@
-"use strict";
+let regexpRegexp = /^\/(.*)\/([gimy]*)$/;
 
-var regexpRegexp = /^\/(.*)\/([gimy]*)$/;
-
-var hankakuAlphaNum = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-var zenkakuAlphaNum = "ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ０１２３４５６７８９";
+let hankakuAlphaNum = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+let zenkakuAlphaNum = "ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ０１２３４５６７８９";
 
 // http://www.tamasoft.co.jp/ja/general-info/unicode.html
-export var jpHira = /[ぁ-ゖ]/;
-export var jpKana = /[ァ-ヺ]/;
+export let jpHira = /[ぁ-ゖ]/;
+export let jpKana = /[ァ-ヺ]/;
 // http://tama-san.com/?p=196
-export var jpKanji = /(?:[々〇〻\u3400-\u9FFF\uF900-\uFAFF]|[\uD840-\uD87F][\uDC00-\uDFFF])/;
-export var jpChar = combine(jpHira, jpKana, jpKanji);
+export let jpKanji = /(?:[々〇〻\u3400-\u9FFF\uF900-\uFAFF]|[\uD840-\uD87F][\uDC00-\uDFFF])/;
+export let jpChar = combine(jpHira, jpKana, jpKanji);
 
-var regexpSpecialChars = "¥*+.?{}()[]^$-|/".split("");
+let regexpSpecialChars = "¥*+.?{}()[]^$-|/".split("");
 
 export function concat(...args: (string | RegExp)[]): RegExp {
-    "use strict";
-
-    var result = args.reduce<string>((p, c) => {
+    let result = args.reduce<string>((p, c) => {
         if (typeof c === "string") {
             return p + c;
         } else if (c instanceof RegExp) {
@@ -30,9 +26,7 @@ export function concat(...args: (string | RegExp)[]): RegExp {
 }
 
 export function combine(...args: (string | RegExp)[]): RegExp {
-    "use strict";
-
-    var result = args.map(arg => {
+    let result = args.map(arg => {
         if (typeof arg === "string") {
             return arg;
         } else if (arg instanceof RegExp) {
@@ -45,9 +39,7 @@ export function combine(...args: (string | RegExp)[]): RegExp {
 }
 
 export function addBoundary(arg: string | RegExp): RegExp {
-    "use strict";
-
-    var result: string;
+    let result: string;
     if (typeof arg === "string") {
         result = arg;
     } else if (arg instanceof RegExp) {
@@ -55,13 +47,11 @@ export function addBoundary(arg: string | RegExp): RegExp {
     } else {
         throw new Error("unknown type: " + arg);
     }
-    return concat('\\b', result, '\\b');
+    return concat("\\b", result, "\\b");
 }
 
 export function parseRegExpString(str: string): RegExp {
-    "use strict";
-
-    var result = str.match(regexpRegexp);
+    let result = str.match(regexpRegexp);
     if (!result) {
         return null;
     }
@@ -69,11 +59,9 @@ export function parseRegExpString(str: string): RegExp {
 }
 
 export function spreadAlphaNum(str: string): RegExp {
-    "use strict";
-
-    var result = str.split("").map(v => {
-        var tmpIdx1 = hankakuAlphaNum.indexOf(v.toUpperCase());
-        var tmpIdx2 = hankakuAlphaNum.indexOf(v.toLowerCase());
+    let result = str.split("").map(v => {
+        let tmpIdx1 = hankakuAlphaNum.indexOf(v.toUpperCase());
+        let tmpIdx2 = hankakuAlphaNum.indexOf(v.toLowerCase());
         if (tmpIdx1 === -1 && tmpIdx2 === -1) {
             // not alpha num
             return v;
@@ -88,9 +76,7 @@ export function spreadAlphaNum(str: string): RegExp {
 }
 
 export function addDefaultFlags(regexp: RegExp) {
-    "use strict";
-
-    var flags = "gm";
+    let flags = "gm";
     if (regexp.ignoreCase) {
         flags += "i";
     }
@@ -98,8 +84,6 @@ export function addDefaultFlags(regexp: RegExp) {
 }
 
 export function escapeSpecialChars(str: string): string {
-    "use strict";
-
     regexpSpecialChars.forEach(char => {
         str = str.replace(new RegExp("\\" + char, "g"), "\\" + char);
     });
@@ -107,13 +91,11 @@ export function escapeSpecialChars(str: string): string {
 }
 
 export function collectAll(regexp: RegExp, src: string) {
-    "use strict";
-
     if (!regexp.global) {
         throw new Error("g flag is required");
     }
-    var resultList: RegExpExecArray[] = [];
-    var result: RegExpExecArray;
+    let resultList: RegExpExecArray[] = [];
+    let result: RegExpExecArray;
     do {
         result = regexp.exec(src);
         if (result) {
@@ -125,8 +107,6 @@ export function collectAll(regexp: RegExp, src: string) {
 }
 
 export function equals(a: RegExp, b: RegExp) {
-    "use strict";
-
     if (a.source !== b.source) {
         return false;
     }

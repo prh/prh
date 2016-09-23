@@ -1,58 +1,42 @@
 {
     "compilerOptions": {
         "module": "commonjs",
+        "moduleResolution": "node",
         "target": "es5",
+        "lib": [
+            "es2016"
+        ],
+        "types": [
+            "node",
+            "mocha"
+        ],
         "noImplicitAny": true,
+        "strictNullChecks": false,
+        "noFallthroughCasesInSwitch": true,
+        "noImplicitReturns": true,
+        "noImplicitThis": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
         "experimentalDecorators": true,
+        "forceConsistentCasingInFileNames": true,
+        "stripInternal": true,
+        "skipDefaultLibCheck": true,
+        "skipLibCheck": false,
         "rootDir": ".",
         "sourceMap": true,
-        "stripInternal": true,
         "declaration": true,
-        "listFiles": true,
+        "listFiles": false,
+        "traceResolution": false,
         "newLine": "LF",
         "noEmitOnError": true,
-        "inlineSources": true
+        "inlineSources": true,
+        "listEmittedFiles": false
     },
-    "exclude": [],
-    "filesGlob": [
-        "./**/*.ts",
-        "./**/*.tsx",
-        "!./**/*.d.ts",
-        "./lib/typings/**/*.d.ts",
-        "./typings/**/*.d.ts",
-        "!./example/**/*.ts",
-        "!./pages/**/*.ts",
-        "!./bower_components/**/*.ts",
-        "!./node_modules/**/*",
-        "./node_modules/typescript/lib/lib.es6.d.ts"
+    "include": [
+        "lib/**/*.ts",
+        "test/**/*.ts"
     ],
-    "files": [
-        "./lib/changeset/changeset.ts",
-        "./lib/changeset/diff.ts",
-        "./lib/changeset/index.ts",
-        "./lib/cli.ts",
-        "./lib/engine.ts",
-        "./lib/index.ts",
-        "./lib/options.ts",
-        "./lib/raw.ts",
-        "./lib/rule.ts",
-        "./lib/ruleSpec.ts",
-        "./lib/target.ts",
-        "./lib/targetPattern.ts",
-        "./lib/utils/regexp.ts",
-        "./test/changesetSpec.ts",
-        "./test/engineSpec.ts",
-        "./test/indexSpec.ts",
-        "./test/ruleSpec.ts",
-        "./test/utils/regexpSpec.ts",
-        "./typings/bundle.d.ts",
-        "./typings/commander/commander.d.ts",
-        "./typings/empower/empower.d.ts",
-        "./typings/js-yaml/js-yaml.d.ts",
-        "./typings/mocha/mocha.d.ts",
-        "./typings/node/node.d.ts",
-        "./typings/power-assert-formatter/power-assert-formatter.d.ts",
-        "./typings/power-assert/power-assert.d.ts",
-        "./node_modules/typescript/lib/lib.es6.d.ts"
+    "exclude": [
+        "node_modules"
     ]
 }

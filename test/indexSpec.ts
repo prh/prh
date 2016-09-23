@@ -1,7 +1,4 @@
-/// <reference path="../typings/mocha/mocha.d.ts" />
-/// <reference path="../typings/power-assert/power-assert.d.ts" />
-
-"use strict";
+import * as assert from "power-assert";
 
 import * as fs from "fs";
 import * as path from "path";

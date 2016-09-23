@@ -1,11 +1,11 @@
-"use strict";
+import * as assert from "power-assert";
 
 import Rule from "../lib/rule";
 
 describe("Rule", () => {
     it("parse raw.Rule", () => {
         let rule = new Rule({
-            expected: "vvakame"
+            expected: "vvakame",
         });
 
         assert(rule.pattern instanceof RegExp);
@@ -14,7 +14,7 @@ describe("Rule", () => {
         it("filled pattern from null, expected spread to alphabet, number", () => {
             let rule = new Rule({
                 expected: "vv",
-                pattern: null
+                pattern: null,
             });
 
             assert(rule.pattern.source === "[VvＶｖ][VvＶｖ]");
@@ -25,8 +25,8 @@ describe("Rule", () => {
                 expected: "vv",
                 pattern: null,
                 options: {
-                    wordBoundary: true
-                }
+                    wordBoundary: true,
+                },
             });
 
             assert(rule.pattern.source === "\\b[VvＶｖ][VvＶｖ]\\b");
@@ -35,7 +35,7 @@ describe("Rule", () => {
         it("filled pattern from string (not regexp style)", () => {
             let rule = new Rule({
                 expected: "vv",
-                pattern: "vv"
+                pattern: "vv",
             });
 
             assert(rule.pattern.source === "vv");
@@ -46,8 +46,8 @@ describe("Rule", () => {
                 expected: "vv",
                 pattern: "vv",
                 options: {
-                    wordBoundary: true
-                }
+                    wordBoundary: true,
+                },
             });
 
             assert(rule.pattern.source === "\\bvv\\b");
@@ -56,7 +56,7 @@ describe("Rule", () => {
         it("filled pattern from string (regexp style)", () => {
             let rule = new Rule({
                 expected: "vv",
-                pattern: "/vv/m"
+                pattern: "/vv/m",
             });
 
             assert(rule.pattern.source === "vv");
@@ -68,8 +68,8 @@ describe("Rule", () => {
                 expected: "vv",
                 pattern: [
                     "/vv/",
-                    "aa"
-                ]
+                    "aa",
+                ],
             });
 
             assert(rule.pattern.source === "(?:vv|aa)");
@@ -78,7 +78,7 @@ describe("Rule", () => {
         it("filled pattern**s** from string", () => {
             let rule = new Rule({
                 expected: "vv",
-                patterns: "vv"
+                patterns: "vv",
             });
 
             assert(rule.pattern.source === "vv");
@@ -89,8 +89,8 @@ describe("Rule", () => {
                 expected: "vv",
                 patterns: [
                     "/vv/",
-                    "aa"
-                ]
+                    "aa",
+                ],
             });
 
             assert(rule.pattern.source === "(?:vv|aa)");
@@ -106,13 +106,13 @@ describe("Rule", () => {
                 specs: [
                     {
                         from: "レイヤー",
-                        to: "レイヤ"
+                        to: "レイヤ",
                     },
                     {
                         from: "プレイヤー",
-                        to: "プレイヤー"
-                    }
-                ]
+                        to: "プレイヤー",
+                    },
+                ],
             });
         });
     });
@@ -122,8 +122,8 @@ describe("Rule", () => {
                 expected: "vvakame",
                 specs: [{
                     from: "ＶＶＡＫＡＭＥ",
-                    to: "vvakame"
-                }]
+                    to: "vvakame",
+                }],
             });
         });
         it("failed spec", () => {
@@ -132,8 +132,8 @@ describe("Rule", () => {
                     expected: "vvakame",
                     specs: [{
                         from: "masahiro",
-                        to: "vvakame"
-                    }]
+                        to: "vvakame",
+                    }],
                 });
             } catch (e) {
                 return;

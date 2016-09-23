@@ -1,5 +1,3 @@
-"use strict";
-
 import * as r from "./utils/regexp";
 
 import Options from "./options";
@@ -25,7 +23,7 @@ export default class Rule {
         let rawRule: raw.Rule;
         if (typeof src === "string") {
             rawRule = {
-                expected: src
+                expected: src,
             };
         } else {
             rawRule = src;
