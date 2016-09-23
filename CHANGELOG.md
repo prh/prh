@@ -1,3 +1,24 @@
+<a name="1.0.2"></a>
+## [1.0.2](https://github.com/vvakame/prh/compare/1.0.1...v1.0.2) (2016-09-23)
+
+
+use TypeScript 2.0.3 yay!
+
+### Bug Fixes
+
+* **prh.yml:** 否定後読みについてのサンプルを追加 fixes [#17](https://github.com/vvakame/prh/issues/17) ([fbfe747](https://github.com/vvakame/prh/commit/fbfe747))
+
+
+### Features
+
+* **ci:** add grunt-cli to devDependencies ([50f8a63](https://github.com/vvakame/prh/commit/50f8a63))
+* **techbooster.yml:** Android用の語彙を少し追加 ([9ea54f4](https://github.com/vvakame/prh/commit/9ea54f4))
+* **techbooster.yml:** C90-Androidリポジトリの変更差分を取り込み ([18e7959](https://github.com/vvakame/prh/commit/18e7959))
+* **techbooster.yml:** C90-WebTechリポジトリの変更差分を取り込み ([ecc4397](https://github.com/vvakame/prh/commit/ecc4397))
+* **techbooster.yml:** 技術書典のルールを追加 ([53790d3](https://github.com/vvakame/prh/commit/53790d3))
+
+
+
 <a name="1.0.1"></a>
 ## [1.0.1](https://github.com/vvakame/prh/compare/1.0.0...v1.0.1) (2016-05-30)
 
