@@ -42,7 +42,7 @@ export default class Engine {
     }
 
     makeChangeSet(filePath: string, contentArg?: string): changeSet.ChangeSet {
-        const content: string = contentArg ? contentArg : fs.readFileSync(filePath, { encoding: "utf8" });
+        const content: string = contentArg != null ? contentArg : fs.readFileSync(filePath, { encoding: "utf8" });
         let changeSets = new changeSet.ChangeSet();
         this.rules.forEach(rule => {
             let set = rule.applyRule(content);
