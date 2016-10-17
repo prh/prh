@@ -1635,10 +1635,8 @@ rules:
       - from: ハイパフォーマンス
         to:   ハイパフォーマンス
   - expected: Cookie
-    patterns:
-      - クッキー
-      - COOKIE
-      - cookie
+    pattern:  クッキー
+  - expected: Cookie
   - expected: WebSocket
     pattern:  /\bWeb Socket\b/
   - expected: $1Web$2
@@ -1669,8 +1667,13 @@ rules:
     pattern:  /アノーテーション/
   - expected: アプレット
     pattern:  /\bApplet\b/
-  - expected: アプリケーション$1
-    pattern:  /アプリ([^ケ])/
+  - expected: アプリケーション
+    pattern: /アプリ(?!ケ)/
+    specs:
+      - from: アプリケーション
+        to:   アプリケーション
+      - from: アプリ
+        to:   アプリケーション
   - expected: アンダースコア
     pattern:  /アンダーバー/
   - expected: イシュア
@@ -1702,7 +1705,10 @@ rules:
   - expected: ウィンドウ
     pattern:  /ウインドウ/
   - expected: ウェア
-    pattern:  /ウエア/
+    pattern:  ウエア
+    spec:
+      - from: ハードウエア
+        to:   ハードウェア
   - expected: エディタ
     pattern:  /エディター/
   - expected: エミッタ
@@ -1714,10 +1720,10 @@ rules:
   - expected: エミュレータ
     pattern:  /エミュレーター/
   - expected: エンティティ
-    pattern:  /\bEntity\b|\bentity\b|エンティティー/
-    specs:
-      - from: そのentityが
-        to:   そのエンティティが 
+    pattern:
+      - Entity
+      - entity
+      - エンティティー
   - expected: エントリ
     pattern:  /エントリー/
   - expected: オブザーバ
@@ -1740,12 +1746,16 @@ rules:
     pattern:  /コンマ/
   - expected: キャラクタ
     pattern:  /キャラクター/
-  - expected: $1キャッシュ$2
-    pattern:  /(?:([^a-zA-Z\-])\bcache)|(?:cache\b([^a-zA-Z\-]))/
-  - expected: $1キャッシュ$2
-    pattern:  /(?:([^a-zA-Z\-])\bCache)|(?:Cache\b([^a-zA-Z\-]))/
+  - expected: キャッシュ
+    pattern:
+      - /cache(?![^a-zA-Z\-])/
+      - /Cache(?![^a-zA-Z\-])/
   - expected: クエリ文字列
-    pattern:  /\bQueryString\b|\bQuery String\b|クエリストリング|クエリーストリング/
+    pattern:
+      - QueryString
+      - Query String
+      - クエリストリング
+      - クエリーストリング
   - expected: クエリ
     pattern:  /クエリー/
   - expected: クオート
@@ -1753,7 +1763,16 @@ rules:
   - expected: クオリティ
     pattern:  /クオリティー|クォリティ|クォリティー/
   - expected: クライアント／サーバ
-    pattern:  /クライアント\/サーバ|クライアント\/サーバー|クライアント・サーバ|クライアント・サーバー|クライアントサーバ|クライアントサーバー/
+    pattern:
+      - クライアント/サーバー
+      - クライアント/サーバ
+      - クライアント・サーバー
+      - クライアント・サーバ
+      - クライアントサーバー
+      - クライアントサーバ
+    specs:
+      - from: クライアント/サーバー
+        to:   クライアント／サーバ
   - expected: クラスタ
     pattern:  /クラスター/
   - expected: グラウンド
@@ -1766,8 +1785,12 @@ rules:
     pattern:  /クローラー/
   - expected: ゲッタ
     pattern:  /ゲッター/
-  - expected: コピー＆ペースト
-    pattern:  /コピー&ペースト|コピペ|コピーアンドペースト|コピーペースト/
+  - expected: コピー&ペースト
+    pattern:
+      - コピー＆ペースト
+      - コピペ
+      - コピーアンドペースト
+      - コピーペースト
   - expected: コミュニ
     pattern:  /コミニュ/
   - expected: アンコメント
@@ -1789,9 +1812,14 @@ rules:
   - expected: サーバ
     pattern:  /サーバー/
   - expected: サーブレット
-    pattern:  /\bServlet\b|\bSERVLET\b/
+    pattern:
+      - Servlet
+      - SERVLET
   - expected: サーブレット/JSP
-    pattern:  /サーブレット／JSP|サーブレット＆JSP|サーブレット&JSP/
+    pattern:
+      - サーブレット／JSP
+      - サーブレット＆JSP
+      - サーブレット&JSP
   - expected: サンフランシスコ
     pattern:  /\bSan Francisco\b/
   - expected: シェア
@@ -1836,24 +1864,35 @@ rules:
     pattern:  /セレクター/
   - expected: センサ
     pattern:  /センサー/
-  - expected: $1ソフトウェア
-    pattern:  /([^経])ソフトウエア/
+  - expected: ソフトウェア
+    pattern: /(日経)?ソフトウエア/
+    regexpMustEmpty: $1
+    specs:
+      - from: 広義のソフトウエア
+        to:   広義のソフトウェア
+      - from: 日経ソフトウエア
+        to:   日経ソフトウエア
   - expected: ソフトバンク
     pattern:  /\bSoftBank\b/
   - expected: ダイアグラム
     pattern:  /ダイヤグラム/
   - expected: タイムスタンプ
-    pattern:  /\btimestamp\b|\bTimestamp\b/
+    pattern:
+      - timestamp
+      - Timestamp
   - expected: ツイート
-    pattern:  /\btweet\b|\bTweet\b|ツィート/
+    pattern:
+      - tweet
+      - Tweet
+      - ツィート
   - expected: ツリーオブジェクト
     pattern:  /ツリー・オブジェクト/
   - expected: ツリーエントリ
     pattern:  /ツリー・エントリ/
-  - expected: $1テーブル$2
-    pattern:  /(?:([^◆])\btable)|(?:table\b([^◆]))/
-  - expected: $1テーブル$2
-    pattern:  /(?:([^◆])\bTable)|(?:Table\b([^◆]))/
+  - expected: テーブル
+    pattern:
+      - table
+      - Table
   - expected: データサービス
     pattern:  /\bData Services\b/
   - expected: データ
@@ -1943,17 +1982,21 @@ rules:
   - expected: フィーチャーフォン
     pattern:  /フィーチャフォン/
   - expected: ブラウザ
-    pattern:  /Webブラウザー?|WEBブラウザー?/
-  - expected: ブラウザ
-    pattern:  /ブラウザー/
+    pattern:
+      - /Webブラウザー?/
+      - /WEBブラウザー?/
+      - ブラウザ
   - expected: プライマリ
     pattern:  /プライマリー/
   - expected: プラットフォーム
     pattern:  /プラットホーム/
   - expected: ブレーク
     pattern:  /ブレイク/
-  - expected: プレーン$1
-    pattern:  /プレイン([^グ])/
+  - expected: プレーン
+    pattern:  プレイン(?!グ)
+    specs:
+      - from: プレイング
+        to:   プレイング
   - expected: ブローカ$1
     pattern:  /ブローカー([^ー])/
   - expected: プロパティ
@@ -1976,10 +2019,13 @@ rules:
     pattern:  /フッター|フッダ/
   - expected: プロキシ
     pattern:  /プロクシ|プロクシー|プロキシー|\bProxy\b|\bproxy\b/
-  - expected: $1ブログ$2
-    pattern:  /(?:([^/])\bblog)|(?:blog\b([^/]))/
-  - expected: $1ブログ$2
-    pattern:  /(?:([^/])\bBlog)|(?:Blog\b([^/]))/
+  - expected: ブログ
+    pattern: /(?![^/])(?:blog|Blog)(?![^/])/
+    specs:
+      - from: http://blog.example.com/
+        to:   http://blog.example.com/
+      - from: http://example.com/foo-blog/
+        to:   http://example.com/foo-blog/
   - expected: プロシージャ
     pattern:  /プロシージャー/
   - expected: ブロードキャストレシーバ
@@ -2017,7 +2063,14 @@ rules:
   - expected: メーカー
     pattern:  /メーカ/
   - expected: メーリングリスト
-    pattern:  /\bML\b/
+    pattern:  /\bML\b(?!系)/
+    specs:
+      - from: SML#
+        to:   SML#
+      - from: ML系言語
+        to:   ML系言語
+      - from: MLなど
+        to:   メーリングリストなど
   - expected: メタファ
     pattern:  /メタファー/
   - expected: メモリ
@@ -2037,7 +2090,10 @@ rules:
   - expected: ユーティリティ
     pattern:  /ユーティリティー/
   - expected: ユニットテスト
-    pattern:  /Unitテスト|単体テスト/
+    pattern:
+      - Unitテスト
+      # 単体テストはケースバイケース
+      - 単体テスト
   - expected: ライブラリ
     pattern:  /ライブラリー/
   - expected: ラスタ
@@ -2047,7 +2103,10 @@ rules:
   - expected: リガチャ
     pattern:  /リガチャー/
   - expected: リグレッション
-    pattern:  /デグレード|デグレ/
+    pattern:
+      - デグレード
+      # デグレは英語圏では使わない by Jenkins川口さん
+      - デグレ
   - expected: リスナ
     pattern:  /リスナー/
   - expected: リバースプロキシ
@@ -2058,8 +2117,14 @@ rules:
     pattern:  /リポジトリー|レポジトリ|レポジトリー/
   - expected: ルータ
     pattern:  /ルーター/
-  - expected: $1レイヤ
-    pattern:  /([^プ])レイヤー/
+  - expected: レイヤ
+    pattern:  /(プ)?レイヤー/
+    regexpMustEmpty: $1
+    specs:
+      - from: レイヤー
+        to:   レイヤ
+      - from: プレイヤー
+        to:   プレイヤー
   - expected: レジスタ
     pattern:  /レジスター/
   - expected: レジストリ
@@ -2109,7 +2174,10 @@ rules:
   - expected: ユーザビリティ
     pattern:  /ユーザービリティ/
   - expected: ディレクター
-    pattern:  /ディレクタ/
+    pattern:  /ディレクタ(?!ー)/
+    specs:
+      - from: ディレクター
+        to:   ディレクター
   - expected: デザイナー$1
     pattern:  /デザイナ([^ー])/
   - expected: デベロッパー$1
@@ -2138,10 +2206,12 @@ rules:
     pattern:  /マネージャ([^ー])/
   - expected: メンテナー$1
     pattern:  /メンテナ([^ー])/
-  - expected: メンバー$1
-    pattern:  /メンバ([^ー])/
-  - expected: リーダー$1
-    pattern:  /リーダ([^ー])/
+  - expected: メンバー
+    # 人間の意味では「メンバー」、変数などは「メンバ」
+    pattern:  /メンバ(?!ー)/
+  - expected: リーダー
+    # 人間の意味では「リーダー」、readerの意味では「リーダ」
+    pattern:  /リーダ(?!ー)/
   - expected: レビュアー$1
     pattern:  /レビュア([^ー])|レビュワー([^ー])|レビュワ([^ー])|レビューアー([^ー])|レビューア([^ー])|レビューワー([^ー])|レビューワ([^ー])/
   - expected: Action Cable
@@ -2840,7 +2910,10 @@ rules:
   - expected: WARファイル
     pattern:  /\bWARファイル\b/i
   - expected: Web
-    pattern:  /\bWeb\b/i
+  - expected: Web
+    pattern:
+      - ウェブ
+      - ウェッブ
   - expected: Web API
     pattern:  /\bWebAPI\b|\bWEBAPI\b|\bWEB API\b/
   - expected: Web UI
