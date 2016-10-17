@@ -1,10 +1,13 @@
 version: 1
 
-# 非公開リポジトリだけど入手元はこのあたりから。公開許可はもらってある。
+# 非公開リポジトリだけど入手元はこのあたりから。公開許可はもらってある。現時点最新版ぽい。
 # https://github.com/vvakame/webdb-frontend2016/pull/59
 # > ただし、カタカナ語やアルファベットなどについてはそのまま使えなさそうだったため外してあります。
 # > また、うまくprhのルールとできなかったものも外しています。
 # とのこと。
+# 本家webdbrules.rel から @murashitas さんセンスで微妙そうなのが抜いてあるようだ。
+
+# 他のファイルとpattern expectedの順序が逆なのに注意
 
 rules:
   - pattern: /つく([らりるれろっ])/
@@ -187,6 +190,12 @@ rules:
       - ここのつ
       - 九つ
     expected: 9つ
+  - pattern: /([\d]+)つめ
+    expected: $1つ目
+  - pattern: /([\d]+)番め/
+    expected: $1番目
+  - pattern: /いちばん([^め目])|1番([^め目])/
+    expected: 一番$1
   - pattern:
       - ただ1つ
       - 唯1つ
