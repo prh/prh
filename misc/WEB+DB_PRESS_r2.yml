@@ -2979,8 +2979,6 @@ rules:
     pattern:  /\bZIPファイル\b/i
   - expected: オライリー・ジャパン$1
     pattern:  /オライリージャパン([^・])|オライリー([^・])/
-  - expected: ソフトバンク クリエイティブ
-    pattern:  /ソフトバンククリエイティブ/
   - expected: ピアソン・エデュケーション$1
     pattern:  /ピアソンエデュケーション([^・])/
   - expected: を
