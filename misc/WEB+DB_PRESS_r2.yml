@@ -2347,7 +2347,7 @@ rules:
   - expected: DBFlute
     pattern:  /\bDBFlute\b/i
   - expected: Debian GNU/Linux
-    pattern:  /\bDebian\b|Debian\/GNU Linux/
+    pattern:  /\bDebian(?!.* GNU\/Linux)\b|debian|Debian\/GNU Linux/
   - expected: $1DeNA$2
     pattern:  /(?:([^/.])ディー・エヌ・エー)|(?:ディー・エヌ・エー([^/.]))/
   - expected: $1DeNA$2
