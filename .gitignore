@@ -1,3 +1,6 @@
+# misc
+.DS_Store
+
 # for IDE
 .vscode/.browse.VC*
 
@@ -6,7 +9,6 @@ npm-debug.log
 node_modules/
 
 # for grunt
-.tscache/
 docs/
 typings/
 lib/**/*.js
@@ -15,18 +17,3 @@ lib/**/*.d.ts
 test/**/*.js
 test/**/*.js.map
 test/**/*.d.ts
-test/suite/libs/
-testEspowered/
-test-results.xml
-pages/
-wiki/
-
-bin/out/
-tscommand.tmp.txt
-.baseDir.ts
-
-# for test
-test-tmp/
-test-repository/
-test-cli/
-test-typings/

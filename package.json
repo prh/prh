@@ -10,7 +10,8 @@
     "test": "test"
   },
   "scripts": {
-    "test": "grunt test"
+    "test": "grunt test",
+    "update-submodules": "git submodule foreach 'git pull --rebase'"
   },
   "repository": {
     "type": "git",
