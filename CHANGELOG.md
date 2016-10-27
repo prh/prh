@@ -1,3 +1,24 @@
+<a name="1.1.0"></a>
+# [1.1.0](https://github.com/vvakame/prh/compare/1.0.3...v1.1.0) (2016-10-27)
+
+今まで misc フォルダにあったものが、[prh/rules](https://github.com/prh/rules)に移動しました。
+ガイドラインの議論についてはrulesの[#1](https://github.com/prh/rules/issues/1)を見てください。
+
+### Bug Fixes
+
+* **WEB+DB_PRESS_r2.yml:** 2013年に商号がSBクリエイティブになったそうな ([3ed8900](https://github.com/vvakame/prh/commit/3ed8900))
+* **WEB+DB_PRESS_r2.yml:** update WEB+DB_PRESS_r2.yml "Debian GNU/Linux"がfixしても校正されてしまうのを修正 ([#22](https://github.com/vvakame/prh/issues/22)) ([8022761](https://github.com/vvakame/prh/commit/8022761))
+
+
+### Features
+
+* **prh:** rules フォルダ新設とprh org移管に伴い各所を書き換え ([a7eea21](https://github.com/vvakame/prh/commit/a7eea21))
+* **prh:** rules をgit submoduleとして配置 ([b67a462](https://github.com/vvakame/prh/commit/b67a462))
+* **tools:** WZエディタ用ルールセットからprh用yamlに近いものに変換するスクリプトを作成 ([25a52fe](https://github.com/vvakame/prh/commit/25a52fe))
+* **WEB+DB_PRESS_r2.yml:** WEB+DB_PRESS.yml から移植可能な部分を移植した ([e18d98e](https://github.com/vvakame/prh/commit/e18d98e))
+
+
+
 <a name="1.0.3"></a>
 ## [1.0.3](https://github.com/vvakame/prh/compare/1.0.2...v1.0.3) (2016-10-02)
 

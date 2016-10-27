@@ -1,7 +1,7 @@
 {
   "name": "prh",
-  "version": "1.0.3",
-  "description": "",
+  "version": "1.1.0",
+  "description": "proofreading helper",
   "main": "index.js",
   "bin": {
     "prh": "./bin/prh"
