@@ -25,7 +25,7 @@ let root = commandpost
     .option("--rules <path>", "path to rule yaml file")
     .option("-r, --replace", "replace input files")
     .action((opts, args) => {
-        let paths = [getConfigFileName(process.cwd(), "prh.yml") || __dirname + "/../misc/WEB+DB_PRESS.yml"];
+        let paths = [getConfigFileName(process.cwd(), "prh.yml") || __dirname + "/../rules/media/WEB+DB_PRESS.yml"];
         if (opts.rules && opts.rules[0]) {
             paths = opts.rules;
         }
@@ -58,6 +58,7 @@ root
     .action((_opts, _args) => {
         fs.createReadStream(__dirname + "/../misc/prh.yml").pipe(fs.createWriteStream("prh.yml"));
         console.log("create prh.yml");
+        console.log("see prh/rules collection https://github.com/prh/rules");
     });
 
 commandpost

@@ -1,8 +1,8 @@
 version: 1
 
 # もし、もっと別なルールを使いたい時は以下のURLを参照して真似してください。
-# https://github.com/vvakame/prh/tree/master/misc
-# おすすめは techbooster.yml です。
+# https://github.com/prh/rules
+# おすすめは media/techbooster.yml です。
 
 # 別の設定ファイルを読み込み、mergeすることもできます。
 imports:

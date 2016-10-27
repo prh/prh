@@ -1,4 +1,4 @@
-# proofread-helper [![Circle CI](https://circleci.com/gh/vvakame/prh.svg?style=svg)](https://circleci.com/gh/vvakame/prh)
+# proofread-helper [![Circle CI](https://circleci.com/gh/prh/prh.svg?style=svg)](https://circleci.com/gh/prh/prh)
 
 あなたの校正を手伝ってくれるライブラリ。
 
@@ -23,13 +23,11 @@ $ npm install -g prh
 
 ### 設定ファイルの作成
 
-基本的な書き方については[misc/prh.yml](https://github.com/vvakame/prh/blob/master/misc/prh.yml)を参照。
+基本的な書き方については[misc/prh.yml](https://github.com/prh/prh/blob/master/misc/prh.yml)を参照。
 
-実用するための設定ファイルは[misc/techbooster.yml](https://github.com/vvakame/prh/blob/master/misc/techbooster.yml)をおすすめする。
+実用するための設定ファイルは[prh/rulesのmedia/techbooster.yml](https://github.com/prh/rules/blob/master/media/techbooster.yml)をおすすめする。
 
-[WEB+DB PRESS用語統一ルール](https://gist.github.com/inao/f55e8232e150aee918b9)と
-[wzeditor-word-rules-parser](https://github.com/azu/wzeditor-word-rules-parser)を参考にした、
-[misc/WEB+DB_PRESS.yml](https://github.com/vvakame/prh/blob/master/misc/WEB%2BDB_PRESS.yml)も用意している。
+その他、[prh/rules](https://github.com/prh/rules)に各種設定を取り揃えてあるので、好きに組み合わせて使ってほしい。
 
 ### コマンドラインツールとして
 

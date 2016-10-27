@@ -13,12 +13,12 @@ export * from "./utils/regexpSpec";
 describe("index", () => {
     describe("fromYAMLFilePath", () => {
         it("parse yaml to Config", () => {
-            lib.fromYAMLFilePath("./misc/WEB+DB_PRESS.yml");
+            lib.fromYAMLFilePath("./rules/media/WEB+DB_PRESS.yml");
         });
     });
     describe("fromYAML", () => {
         it("parse yaml string to Config", () => {
-            let configPath = "./misc/WEB+DB_PRESS.yml";
+            let configPath = "./rules/media/WEB+DB_PRESS.yml";
             let yamlContent = fs.readFileSync(configPath, { encoding: "utf8" });
             lib.fromYAML(configPath, yamlContent);
         });
