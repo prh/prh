@@ -11,7 +11,7 @@
   },
   "scripts": {
     "build": "tslint --fix --type-check -c tslint.json -p tsconfig.json && tsfmt -r && tsc",
-    "test": "mocha --reporter spec --timeout 20000 --require intelli-espower-loader",
+    "test": "npm run build && mocha --reporter spec --timeout 20000 --require intelli-espower-loader",
     "update-submodules": "git submodule foreach 'git pull --rebase'"
   },
   "repository": {
