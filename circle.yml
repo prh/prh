@@ -1,3 +1,7 @@
 machine:
   node:
     version: 4
+
+dependencies:
+  pre:
+    - git submodule init && git submodule update
