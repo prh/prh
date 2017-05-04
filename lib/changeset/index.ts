@@ -2,7 +2,7 @@ import * as r from "../utils/regexp";
 import Diff from "./diff";
 import ChangeSet from "./changeset";
 
-export { ChangeSet };
+export { ChangeSet, Diff };
 
 export function makeChangeSet(content: string, pattern: RegExp, expected: string): ChangeSet {
     pattern.lastIndex = 0;

@@ -4,8 +4,9 @@ import * as yaml from "js-yaml";
 
 import * as raw from "./raw";
 import Engine from "./engine";
+import { ChangeSet, Diff } from "./changeset/";
 
-export { Engine };
+export { Engine, ChangeSet, Diff };
 
 export function fromYAMLFilePath(configPath: string): Engine {
     let content = fs.readFileSync(configPath, { encoding: "utf8" });
