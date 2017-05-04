@@ -1,3 +1,15 @@
+<a name="2.0.0"></a>
+# [2.0.0](https://github.com/vvakame/prh/compare/1.1.0...2.0.0) (2017-05-04)
+
+
+### Features
+
+* **deps:** 脱gruntしていく ([396fd6f](https://github.com/vvakame/prh/commit/396fd6f))
+* **prh:** ChangeSetとDiffを外部から参照したい場合があったので参照できるようにした ([9f1b985](https://github.com/vvakame/prh/commit/9f1b985))
+* **prh:** tsconfig.jsonでstrictNullChecksを有効にした ([f222506](https://github.com/vvakame/prh/commit/f222506))
+
+
+
 <a name="1.1.0"></a>
 # [1.1.0](https://github.com/vvakame/prh/compare/1.0.3...v1.1.0) (2016-10-27)
 
