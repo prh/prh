@@ -9,20 +9,14 @@ export default class TargetPattern {
             throw new Error("src is requried");
         }
         if (typeof src === "string") {
-            this.pattern = r.parseRegExpString(src);
-            if (!this.pattern) {
-                this.pattern = new RegExp(r.escapeSpecialChars(src));
-            }
+            this.pattern = r.parseRegExpString(src) || new RegExp(r.escapeSpecialChars(src));
             this.pattern = r.addDefaultFlags(this.pattern);
             return;
         } else {
             if (!src.pattern) {
                 throw new Error("pattern is requried");
             }
-            this.pattern = r.parseRegExpString(src.pattern);
-            if (!this.pattern) {
-                this.pattern = r.addDefaultFlags(new RegExp(r.escapeSpecialChars(src.pattern)));
-            }
+            this.pattern = r.parseRegExpString(src.pattern) || r.addDefaultFlags(new RegExp(r.escapeSpecialChars(src.pattern)));
             this.pattern = r.addDefaultFlags(this.pattern);
         }
     }

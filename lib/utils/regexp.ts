@@ -50,7 +50,7 @@ export function addBoundary(arg: string | RegExp): RegExp {
     return concat("\\b", result, "\\b");
 }
 
-export function parseRegExpString(str: string): RegExp {
+export function parseRegExpString(str: string): RegExp | null {
     let result = str.match(regexpRegexp);
     if (!result) {
         return null;
@@ -95,7 +95,7 @@ export function collectAll(regexp: RegExp, src: string) {
         throw new Error("g flag is required");
     }
     let resultList: RegExpExecArray[] = [];
-    let result: RegExpExecArray;
+    let result: RegExpExecArray | null;
     do {
         result = regexp.exec(src);
         if (result) {

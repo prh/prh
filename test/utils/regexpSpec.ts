@@ -123,11 +123,12 @@ describe("regexp", () => {
     describe("parseRegExpString", () => {
         it("parse regexp style string", () => {
             let regexp = r.parseRegExpString("/[3-9]th/ig");
+            assert(!regexp);
 
-            assert(regexp.source === "[3-9]th");
-            assert(regexp.ignoreCase === true);
-            assert(regexp.global === true);
-            assert(regexp.multiline === false);
+            assert(regexp!.source === "[3-9]th");
+            assert(regexp!.ignoreCase === true);
+            assert(regexp!.global === true);
+            assert(regexp!.multiline === false);
         });
         it("can't parse non-regexp style string", () => {
             let regexp = r.parseRegExpString("Hi!");

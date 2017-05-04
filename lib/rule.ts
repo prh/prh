@@ -11,7 +11,7 @@ import * as raw from "./raw";
 export default class Rule {
     expected: string;
     pattern: RegExp;
-    regexpMustEmpty: string;
+    regexpMustEmpty: string | undefined;
     options: Options;
     specs: RuleSpec[];
     raw: any /* raw.Rule */;
@@ -55,17 +55,15 @@ export default class Rule {
     }
 
     /* @internal */
-    _patternToRegExp(pattern: string | string[]): RegExp {
-        let result: RegExp;
+    _patternToRegExp(pattern?: string | string[] | null): RegExp {
         if (pattern == null) {
-            result = r.spreadAlphaNum(this.expected);
+            let result = r.spreadAlphaNum(this.expected);
             if (this.options.wordBoundary) {
                 result = r.addBoundary(result);
             }
             return r.addDefaultFlags(result);
-        }
-        if (typeof pattern === "string") {
-            result = r.parseRegExpString(pattern);
+        } else if (typeof pattern === "string") {
+            let result = r.parseRegExpString(pattern);
             if (result) {
                 return r.addDefaultFlags(result);
             }
@@ -76,10 +74,11 @@ export default class Rule {
             }
             return r.addDefaultFlags(result);
         } else if (pattern instanceof Array) {
-            result = r.combine.apply(null, pattern.map(p => this._patternToRegExp(p)));
-            return r.addDefaultFlags(result);
+            let result = r.combine.apply(null, pattern.map(p => this._patternToRegExp(p)));
+            return r.addDefaultFlags(result!);
+        } else {
+            throw new Error("unexpected pattern: ${pattern}");
         }
-        return result;
     }
 
     reset() {
@@ -114,7 +113,7 @@ export default class Rule {
                 }
                 return new Diff(this.pattern, this.expected, result.index, <string[]>Array.prototype.slice.call(result), this);
             })
-            .filter(v => !!v);
+            .filter(v => !!v) as any as Diff[]; // (Diff | null)[] を Diff[] に変換したい
         return new ChangeSet(diffs);
     }
 

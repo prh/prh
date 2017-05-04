@@ -2,12 +2,12 @@ import Rule from "../rule";
 
 export default class Diff {
     pattern: RegExp;
-    expected: string;
+    expected: string | null;
     index: number;
     matches: string[];
     rule?: Rule;
 
-    constructor(pattern: RegExp, expected: string, index: number, matches: string[], rule?: Rule) {
+    constructor(pattern: RegExp, expected: string | null, index: number, matches: string[], rule?: Rule) {
         this.pattern = pattern;
         this.expected = expected;
         this.index = index;

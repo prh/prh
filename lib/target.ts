@@ -12,10 +12,7 @@ export default class Target {
         if (!src) {
             throw new Error("src is requried");
         }
-        this.file = r.parseRegExpString(src.file);
-        if (!this.file) {
-            this.file = new RegExp(r.escapeSpecialChars(src.file));
-        }
+        this.file = r.parseRegExpString(src.file) || new RegExp(r.escapeSpecialChars(src.file));
         if (src.includes) {
             this.includes = src.includes.map(include => new TargetPattern(include));
         } else {

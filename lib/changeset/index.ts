@@ -4,7 +4,7 @@ import ChangeSet from "./changeset";
 
 export { ChangeSet, Diff };
 
-export function makeChangeSet(content: string, pattern: RegExp, expected: string): ChangeSet {
+export function makeChangeSet(content: string, pattern: RegExp, expected: string | null): ChangeSet {
     pattern.lastIndex = 0;
     let resultList = r.collectAll(pattern, content);
     let diffs = resultList.map(result => {

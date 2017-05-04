@@ -17,8 +17,8 @@ export interface TargetPattern {
 
 export interface Rule {
     expected: string;
-    pattern?: string | string[]; // string | regexp style string or array
-    patterns?: string | string[]; // string | regexp style string or array
+    pattern?: string | string[] | null; // string | regexp style string or array
+    patterns?: string | string[] | null; // string | regexp style string or array
     regexpMustEmpty?: string;
     options?: Options;
     specs?: RuleSpec[];

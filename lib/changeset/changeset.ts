@@ -23,6 +23,9 @@ export default class ChangeSet {
 
         let delta = 0;
         this.diffs.forEach(data => {
+            if (data.expected == null) {
+                return;
+            }
             let result = data.expected.replace(/\$([0-9]{1,2})/g, (match: string, g1: string) => {
                 let index = parseInt(g1, 10);
                 if (index === 0 || (data.matches.length - 1) < index) {
