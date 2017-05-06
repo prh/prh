@@ -3,7 +3,7 @@ import * as assert from "power-assert";
 import {
     jpHira, jpKana, jpKanji, jpChar,
     concat, combine, equals,
-    addBoundary, parseRegExpString, spreadAlphaNum, addDefaultFlags, escapeSpecialChars, collectAll,
+    addBoundary, parseRegExpString, spreadAlphaNum, addDefaultFlags, escapeSpecialChars, collectAll, supportRegExpUnicodeFlag,
 } from "../../lib/utils/regexp";
 
 describe("regexp", () => {
@@ -162,13 +162,18 @@ describe("regexp", () => {
     });
 
     describe("addDefaultFlags", () => {
-        it("add g & m flags", () => {
+        it("add g, u & m flags", () => {
             const regexp = addDefaultFlags(/hello/);
 
             assert(regexp.source === "hello");
             assert(regexp.global === true);
             assert(regexp.ignoreCase === false);
             assert(regexp.multiline === true);
+            if (supportRegExpUnicodeFlag) {
+                assert(regexp.unicode === true);
+            } else {
+                assert(regexp.unicode == null);
+            }
         });
         it("add g flags and keep i flag", () => {
             const regexp = addDefaultFlags(/hello/i);
@@ -177,6 +182,11 @@ describe("regexp", () => {
             assert(regexp.global === true);
             assert(regexp.ignoreCase === true);
             assert(regexp.multiline === true);
+            if (supportRegExpUnicodeFlag) {
+                assert(regexp.unicode === true);
+            } else {
+                assert(regexp.unicode == null);
+            }
         });
     });
 

@@ -3,6 +3,15 @@ const regexpRegexp = /^\/(.*)\/([gimy]*)$/;
 const hankakuAlphaNum = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 const zenkakuAlphaNum = "ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ０１２３４５６７８９";
 
+export const supportRegExpUnicodeFlag = (() => {
+    try {
+        new RegExp("", "u");
+        return true;
+    } catch (e) {
+        return false;
+    }
+})();
+
 // http://www.tamasoft.co.jp/ja/general-info/unicode.html
 export const jpHira = /[ぁ-ゖ]/;
 export const jpKana = /[ァ-ヺ]/;
@@ -77,6 +86,9 @@ export function spreadAlphaNum(str: string): RegExp {
 
 export function addDefaultFlags(regexp: RegExp) {
     let flags = "gm";
+    if (supportRegExpUnicodeFlag) {
+        flags += "u";
+    }
     if (regexp.ignoreCase) {
         flags += "i";
     }
