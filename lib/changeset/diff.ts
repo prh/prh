@@ -27,11 +27,11 @@ export class Diff {
         return this.index + this.matches[0].length;
     }
 
-    isEncloser(other: Diff) {
+    isEncloser(other: { index: number; tailIndex: number; }) {
         return this.index < other.index && other.tailIndex < this.tailIndex;
     }
 
-    isCollide(other: Diff) {
+    isCollide(other: { index: number; tailIndex: number; }) {
         if (other.index < this.index && this.index < other.tailIndex) {
             return true;
         }
@@ -41,7 +41,7 @@ export class Diff {
         return false;
     }
 
-    isBefore(other: Diff) {
+    isBefore(other: { index: number; }) {
         return this.index < other.index;
     }
 }
