@@ -1,3 +1,17 @@
+<a name="3.0.0"></a>
+# [3.0.0](https://github.com/vvakame/prh/compare/2.0.0...3.0.0) (2017-05-06)
+
+APIのクリーニングをやった。
+Language Server Protocolと組み合わせてみるにあたり、ChangeSetに元のファイルパスやコンテンツ内容を保持していたほうが都合がよかったため。
+
+### Features
+
+* **ci:** Circle CI 2.0に移行してみよう ([#23](https://github.com/vvakame/prh/issues/23)) ([3641966](https://github.com/vvakame/prh/commit/3641966))
+* **prh:** コード全体を見返してAPIを整理した ([ad0b89e](https://github.com/vvakame/prh/commit/ad0b89e))
+* **prh:** 正規表現を生成する時にデフォルトでunicodeフラグを追加するように変更 ([815ffda](https://github.com/vvakame/prh/commit/815ffda))
+
+
+
 <a name="2.0.0"></a>
 # [2.0.0](https://github.com/vvakame/prh/compare/1.1.0...2.0.0) (2017-05-04)
 
