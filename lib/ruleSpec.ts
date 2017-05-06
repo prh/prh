@@ -1,6 +1,6 @@
 import * as raw from "./raw";
 
-export default class RuleSpec {
+export class RuleSpec {
     from: string;
     to: string;
 

@@ -1,10 +1,10 @@
 import * as path from "path";
 import * as fs from "fs";
 import * as yaml from "js-yaml";
-import * as lib from "./";
+import { fromYAMLFilePath } from "./";
 
 import * as commandpost from "commandpost";
-let pkg = require("../package.json");
+const pkg = require("../package.json");
 
 interface RootOpts {
     json: boolean;
@@ -17,7 +17,7 @@ interface RootArgs {
     files: string[];
 }
 
-let root = commandpost
+const root = commandpost
     .create<RootOpts, RootArgs>("prh <files...>")
     .version(pkg.version, "-v, --version")
     .option("--json", "rule set to json")
@@ -25,25 +25,25 @@ let root = commandpost
     .option("--rules <path>", "path to rule yaml file")
     .option("-r, --replace", "replace input files")
     .action((opts, args) => {
-        let paths = [getConfigFileName(process.cwd(), "prh.yml") || __dirname + "/../rules/media/WEB+DB_PRESS.yml"];
+        let paths = [getConfigFileName(process.cwd(), "prh.yml") || path.resolve(__dirname, "../rules/media/WEB+DB_PRESS.yml")];
         if (opts.rules && opts.rules[0]) {
             paths = opts.rules;
         }
-        let config = lib.fromYAMLFilePath(paths[0]);
+        const engine = fromYAMLFilePath(paths[0]);
         paths.splice(1).forEach(path => {
-            let c = lib.fromYAMLFilePath(path);
-            config.merge(c);
+            const e = fromYAMLFilePath(path);
+            engine.merge(e);
         });
 
         if (opts.json) {
-            console.log(JSON.stringify(config, null, 2));
+            console.log(JSON.stringify(engine, null, 2));
             return;
         } else if (opts.yaml) {
-            console.log(yaml.dump(JSON.parse(JSON.stringify(config, null, 2))));
+            console.log(yaml.dump(JSON.parse(JSON.stringify(engine, null, 2))));
             return;
         }
         args.files.forEach(filePath => {
-            let result = config.replaceByRule(filePath);
+            const result = engine.replaceByRule(filePath);
             if (opts.replace) {
                 fs.writeFileSync(filePath, result);
             } else {
@@ -56,7 +56,7 @@ root
     .subCommand<{}, {}>("init")
     .description("generate prh.yml")
     .action((_opts, _args) => {
-        fs.createReadStream(__dirname + "/../misc/prh.yml").pipe(fs.createWriteStream("prh.yml"));
+        fs.createReadStream(path.resolve(__dirname, "../misc/prh.yml")).pipe(fs.createWriteStream("prh.yml"));
         console.log("create prh.yml");
         console.log("see prh/rules collection https://github.com/prh/rules");
     });
@@ -77,7 +77,7 @@ function errorHandler(err: any) {
 }
 
 export function getConfigFileName(baseDir: string, configFileName: string): string | null {
-    let configFilePath = path.resolve(baseDir, configFileName);
+    const configFilePath = path.resolve(baseDir, configFileName);
     if (fs.existsSync(configFilePath)) {
         return configFilePath;
     }

@@ -1,7 +1,7 @@
-import * as r from "./utils/regexp";
+import { parseRegExpString, addDefaultFlags, escapeSpecialChars } from "./utils/regexp";
 import * as raw from "./raw";
 
-export default class TargetPattern {
+export class TargetPattern {
     pattern: RegExp;
 
     constructor(src: string | raw.TargetPattern) {
@@ -9,15 +9,15 @@ export default class TargetPattern {
             throw new Error("src is requried");
         }
         if (typeof src === "string") {
-            this.pattern = r.parseRegExpString(src) || new RegExp(r.escapeSpecialChars(src));
-            this.pattern = r.addDefaultFlags(this.pattern);
+            this.pattern = parseRegExpString(src) || new RegExp(escapeSpecialChars(src));
+            this.pattern = addDefaultFlags(this.pattern);
             return;
         } else {
             if (!src.pattern) {
                 throw new Error("pattern is requried");
             }
-            this.pattern = r.parseRegExpString(src.pattern) || r.addDefaultFlags(new RegExp(r.escapeSpecialChars(src.pattern)));
-            this.pattern = r.addDefaultFlags(this.pattern);
+            this.pattern = parseRegExpString(src.pattern) || addDefaultFlags(new RegExp(escapeSpecialChars(src.pattern)));
+            this.pattern = addDefaultFlags(this.pattern);
         }
     }
 
@@ -26,12 +26,12 @@ export default class TargetPattern {
     }
 
     toJSON() {
-        let alt: any = {};
-        for (let key in this) {
+        const alt: any = {};
+        for (const key in this) {
             if (key.indexOf("_") === 0) {
                 continue;
             }
-            let value = (<any>this)[key];
+            const value = (<any>this)[key];
             if (value instanceof RegExp) {
                 alt[key] = value.toString();
                 continue;

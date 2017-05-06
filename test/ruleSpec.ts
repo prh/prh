@@ -1,10 +1,10 @@
 import * as assert from "power-assert";
 
-import Rule from "../lib/rule";
+import { Rule } from "../lib/rule";
 
 describe("Rule", () => {
     it("parse raw.Rule", () => {
-        let rule = new Rule({
+        const rule = new Rule({
             expected: "vvakame",
         });
 
@@ -12,7 +12,7 @@ describe("Rule", () => {
     });
     describe("#_patternToRegExp", () => {
         it("filled pattern from null, expected spread to alphabet, number", () => {
-            let rule = new Rule({
+            const rule = new Rule({
                 expected: "vv",
                 pattern: null,
             });
@@ -21,7 +21,7 @@ describe("Rule", () => {
             assert(rule.pattern.global === true);
         });
         it("filled pattern from null, expected spread to alphabet, number with word boundary", () => {
-            let rule = new Rule({
+            const rule = new Rule({
                 expected: "vv",
                 pattern: null,
                 options: {
@@ -33,7 +33,7 @@ describe("Rule", () => {
             assert(rule.pattern.global === true);
         });
         it("filled pattern from string (not regexp style)", () => {
-            let rule = new Rule({
+            const rule = new Rule({
                 expected: "vv",
                 pattern: "vv",
             });
@@ -42,7 +42,7 @@ describe("Rule", () => {
             assert(rule.pattern.global === true);
         });
         it("filled pattern from string (not regexp style)", () => {
-            let rule = new Rule({
+            const rule = new Rule({
                 expected: "vv",
                 pattern: "vv",
                 options: {
@@ -54,7 +54,7 @@ describe("Rule", () => {
             assert(rule.pattern.global === true);
         });
         it("filled pattern from string (regexp style)", () => {
-            let rule = new Rule({
+            const rule = new Rule({
                 expected: "vv",
                 pattern: "/vv/m",
             });
@@ -64,7 +64,7 @@ describe("Rule", () => {
             assert(rule.pattern.multiline === true);
         });
         it("filled pattern from string[]", () => {
-            let rule = new Rule({
+            const rule = new Rule({
                 expected: "vv",
                 pattern: [
                     "/vv/",
@@ -76,7 +76,7 @@ describe("Rule", () => {
             assert(rule.pattern.global === true);
         });
         it("filled pattern**s** from string", () => {
-            let rule = new Rule({
+            const rule = new Rule({
                 expected: "vv",
                 patterns: "vv",
             });
@@ -85,7 +85,7 @@ describe("Rule", () => {
             assert(rule.pattern.global === true);
         });
         it("filled pattern**s** from string[]", () => {
-            let rule = new Rule({
+            const rule = new Rule({
                 expected: "vv",
                 patterns: [
                     "/vv/",

@@ -1,7 +1,21 @@
-import Diff from "./diff";
+import { Diff } from "./diff";
 
-export default class ChangeSet {
-    constructor(public diffs: Diff[] = []) {
+export interface ChangeSetParams {
+    filePath?: string;
+    content: string;
+    diffs: Diff[];
+}
+
+export class ChangeSet {
+    filePath?: string;
+    content: string;
+    diffs: Diff[];
+
+    constructor(params: ChangeSetParams) {
+        this.filePath = params.filePath;
+        this.content = params.content;
+        this.diffs = params.diffs;
+
         this._prepare();
     }
 
@@ -10,11 +24,9 @@ export default class ChangeSet {
         this.diffs = this.diffs.sort((a, b) => a.index - b.index);
     }
 
-    concat(other: ChangeSet): ChangeSet {
-        this._prepare();
-        other._prepare();
-
+    concat(other: ChangeSet): this {
         this.diffs = this.diffs.concat(other.diffs);
+        this._prepare();
         return this;
     }
 
@@ -26,8 +38,8 @@ export default class ChangeSet {
             if (data.expected == null) {
                 return;
             }
-            let result = data.expected.replace(/\$([0-9]{1,2})/g, (match: string, g1: string) => {
-                let index = parseInt(g1, 10);
+            const result = data.expected.replace(/\$([0-9]{1,2})/g, (match: string, g1: string) => {
+                const index = parseInt(g1, 10);
                 if (index === 0 || (data.matches.length - 1) < index) {
                     return match;
                 }
@@ -44,13 +56,17 @@ export default class ChangeSet {
         this._prepare();
         subtrahend._prepare();
 
-        let result: ChangeSet = new ChangeSet(this.diffs.map(v => v));
+        const result: ChangeSet = new ChangeSet({
+            filePath: this.filePath,
+            content: this.content,
+            diffs: this.diffs.map(v => v),
+        });
         let m = 0;
         let s = 0;
 
         while (true) {
-            let minuendDiff = result.diffs[m];
-            let subtrahendDiff = subtrahend.diffs[s];
+            const minuendDiff = result.diffs[m];
+            const subtrahendDiff = subtrahend.diffs[s];
 
             if (!minuendDiff || !subtrahendDiff) {
                 break;
@@ -73,13 +89,17 @@ export default class ChangeSet {
         this._prepare();
         audit._prepare();
 
-        let result: ChangeSet = new ChangeSet();
+        const result: ChangeSet = new ChangeSet({
+            filePath: this.filePath,
+            content: this.content,
+            diffs: [],
+        });
         let a = 0;
         let b = 0;
 
         while (true) {
-            let baseDiff = this.diffs[a];
-            let auditDiff = audit.diffs[b];
+            const baseDiff = this.diffs[a];
+            const auditDiff = audit.diffs[b];
             if (!baseDiff || !auditDiff) {
                 break;
             }

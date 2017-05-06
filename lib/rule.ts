@@ -1,14 +1,14 @@
-import * as r from "./utils/regexp";
+import { spreadAlphaNum, addBoundary, addDefaultFlags, parseRegExpString, escapeSpecialChars, combine, collectAll } from "./utils/regexp";
 
-import Options from "./options";
-import RuleSpec from "./ruleSpec";
+import { Options } from "./options";
+import { RuleSpec } from "./ruleSpec";
 
-import Diff from "./changeset/diff";
-import ChangeSet from "./changeset/changeset";
+import { Diff } from "./changeset/diff";
 
 import * as raw from "./raw";
+import { ChangeSet } from "./changeset";
 
-export default class Rule {
+export class Rule {
     expected: string;
     pattern: RegExp;
     regexpMustEmpty: string | undefined;
@@ -43,7 +43,7 @@ export default class Rule {
         this.regexpMustEmpty = rawRule.regexpMustEmpty;
 
         // for JSON order
-        let options = this.options;
+        const options = this.options;
         delete this.options;
         this.options = options;
 
@@ -57,25 +57,25 @@ export default class Rule {
     /* @internal */
     _patternToRegExp(pattern?: string | string[] | null): RegExp {
         if (pattern == null) {
-            let result = r.spreadAlphaNum(this.expected);
+            let result = spreadAlphaNum(this.expected);
             if (this.options.wordBoundary) {
-                result = r.addBoundary(result);
+                result = addBoundary(result);
             }
-            return r.addDefaultFlags(result);
+            return addDefaultFlags(result);
         } else if (typeof pattern === "string") {
-            let result = r.parseRegExpString(pattern);
+            let result = parseRegExpString(pattern);
             if (result) {
-                return r.addDefaultFlags(result);
+                return addDefaultFlags(result);
             }
             if (this.options.wordBoundary) {
-                result = r.addBoundary(pattern);
+                result = addBoundary(pattern);
             } else {
-                result = new RegExp(r.escapeSpecialChars(pattern));
+                result = new RegExp(escapeSpecialChars(pattern));
             }
-            return r.addDefaultFlags(result);
+            return addDefaultFlags(result);
         } else if (pattern instanceof Array) {
-            let result = r.combine.apply(null, pattern.map(p => this._patternToRegExp(p)));
-            return r.addDefaultFlags(result!);
+            const result = combine(...pattern.map(p => this._patternToRegExp(p)));
+            return addDefaultFlags(result!);
         } else {
             throw new Error("unexpected pattern: ${pattern}");
         }
@@ -87,43 +87,50 @@ export default class Rule {
 
     check() {
         this.specs.forEach(spec => {
-            let result = this.applyRule(spec.from).applyChangeSets(spec.from);
+            const diffs = this.applyRule(spec.from);
+            const changeSet = new ChangeSet({ content: spec.from, diffs });
+            const result = changeSet.applyChangeSets(spec.from);
             if (spec.to !== result) {
                 throw new Error(`${this.expected} spec failed. "${spec.from}", expected "${spec.to}", but got "${result}", ${this.pattern}`);
             }
         });
     }
 
-    applyRule(content: string): ChangeSet {
+    applyRule(content: string): Diff[] {
         this.reset();
-        let resultList = r.collectAll(this.pattern, content);
-        let diffs = resultList
-            .map(result => {
+        const resultList = collectAll(this.pattern, content);
+        return resultList
+            .map(matches => {
                 // JavaScriptでの正規表現では /(?<!記|大)事/ のような書き方ができない
                 // /(記|大)事/ で regexpMustEmpty $1 の場合、第一グループが空じゃないとマッチしない、というルールにして回避
                 if (this.regexpMustEmpty) {
-                    let match = /^\$([0-9]+)$/.exec(this.regexpMustEmpty);
+                    const match = /^\$([0-9]+)$/.exec(this.regexpMustEmpty);
                     if (match == null) {
                         throw new Error(`${this.expected} target failed. please use $1 format.`);
                     }
-                    let index = parseInt(match[1], 10);
-                    if (result[index]) {
+                    const index = parseInt(match[1], 10);
+                    if (matches[index]) {
                         return null;
                     }
                 }
-                return new Diff(this.pattern, this.expected, result.index, <string[]>Array.prototype.slice.call(result), this);
+                return new Diff({
+                    pattern: this.pattern,
+                    expected: this.expected,
+                    index: matches.index,
+                    matches: matches,
+                    rule: this,
+                });
             })
             .filter(v => !!v) as any as Diff[]; // (Diff | null)[] を Diff[] に変換したい
-        return new ChangeSet(diffs);
     }
 
     toJSON() {
-        let alt: any = {};
-        for (let key in this) {
+        const alt: any = {};
+        for (const key in this) {
             if (key.indexOf("_") === 0) {
                 continue;
             }
-            let value = (<any>this)[key];
+            const value = (<any>this)[key];
             if (value instanceof RegExp) {
                 alt[key] = value.toString();
                 continue;

@@ -1,10 +1,10 @@
 import * as assert from "power-assert";
 
-import Engine from "../lib/engine";
+import { Engine } from "../lib/engine";
 
 describe("Engine", () => {
     it("parse raw.Config", () => {
-        let engine = new Engine({
+        const engine = new Engine({
             version: 1,
             rules: [{
                 expected: "vvakame",
@@ -17,7 +17,7 @@ describe("Engine", () => {
     });
 
     it("merge other Engine", () => {
-        let main = new Engine({
+        const main = new Engine({
             version: 1,
             rules: [
                 {
@@ -26,7 +26,7 @@ describe("Engine", () => {
                 },
             ],
         });
-        let sub = new Engine({
+        const sub = new Engine({
             version: 1,
             rules: [
                 {

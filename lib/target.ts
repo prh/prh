@@ -1,9 +1,9 @@
-import * as r from "./utils/regexp";
+import { parseRegExpString, escapeSpecialChars } from "./utils/regexp";
 
 import * as raw from "./raw";
-import TargetPattern from "./targetPattern";
+import { TargetPattern } from "./targetPattern";
 
-export default class Target {
+export class Target {
     file: RegExp;
     includes: TargetPattern[];
     excludes: TargetPattern[];
@@ -12,7 +12,7 @@ export default class Target {
         if (!src) {
             throw new Error("src is requried");
         }
-        this.file = r.parseRegExpString(src.file) || new RegExp(r.escapeSpecialChars(src.file));
+        this.file = parseRegExpString(src.file) || new RegExp(escapeSpecialChars(src.file));
         if (src.includes) {
             this.includes = src.includes.map(include => new TargetPattern(include));
         } else {
@@ -32,12 +32,12 @@ export default class Target {
     }
 
     toJSON() {
-        let alt: any = {};
-        for (let key in this) {
+        const alt: any = {};
+        for (const key in this) {
             if (key.indexOf("_") === 0) {
                 continue;
             }
-            let value = (<any>this)[key];
+            const value = (<any>this)[key];
             if (value instanceof RegExp) {
                 alt[key] = value.toString();
                 continue;

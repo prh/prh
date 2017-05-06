@@ -1,7 +1,7 @@
 import * as raw from "./raw";
-import Rule from "./rule";
+import { Rule } from "./rule";
 
-export default class Options {
+export class Options {
     wordBoundary: boolean;
 
     constructor(_rule: Rule, src?: raw.Options) {

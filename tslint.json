@@ -142,6 +142,8 @@
       "check-operator",
       "check-separator",
       "check-type"
-    ]
+    ],
+    "prefer-const": true,
+    "prefer-template": true
   }
 }

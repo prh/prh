@@ -1,13 +1,13 @@
 import * as fs from "fs";
 
-import * as r from "./utils/regexp";
+import { equals } from "./utils/regexp";
 
 import * as raw from "./raw";
-import Target from "./target";
-import Rule from "./rule";
-import * as changeSet from "./changeset";
+import { Target } from "./target";
+import { Rule } from "./rule";
+import { makeChangeSet, ChangeSet } from "./changeset";
 
-export default class Engine {
+export class Engine {
     version: number;
     targets: Target[];
     rules: Rule[];
@@ -29,30 +29,25 @@ export default class Engine {
             throw new Error("version mismatch!");
         }
         other.targets.forEach(otherTarget => {
-            let exists = this.targets.filter(target => r.equals(target.file, otherTarget.file)).length !== 0;
+            const exists = this.targets.filter(target => equals(target.file, otherTarget.file)).length !== 0;
             if (!exists) {
                 this.targets.push(otherTarget);
             }
         });
         // NOTE https://github.com/vvakame/prh/issues/18#issuecomment-222524140
-        let reqRules = other.rules.filter(otherRule => {
+        const reqRules = other.rules.filter(otherRule => {
             return this.rules.filter(rule => rule.expected === otherRule.expected).length === 0;
         });
         this.rules = this.rules.concat(reqRules);
     }
 
-    makeChangeSet(filePath: string, contentArg?: string): changeSet.ChangeSet {
+    makeChangeSet(filePath: string, contentArg?: string): ChangeSet {
         const content: string = contentArg != null ? contentArg : fs.readFileSync(filePath, { encoding: "utf8" });
-        let changeSets = new changeSet.ChangeSet();
-        this.rules.forEach(rule => {
-            let set = rule.applyRule(content);
-            changeSets = changeSets.concat(set);
-        });
+        const diffs = this.rules.map(rule => rule.applyRule(content)).reduce((p, c) => p.concat(c), []);
+        let changeSet = new ChangeSet({ filePath, content, diffs });
 
-        let includes = new changeSet.ChangeSet();
-        let excludes = new changeSet.ChangeSet();
-        let includesExists = false;
-        let excludesExists = false;
+        let includes: ChangeSet | null = null;
+        let excludes: ChangeSet | null = null;
         this.targets.forEach(target => {
             target.reset();
             if (!target.file.test(filePath)) {
@@ -60,35 +55,43 @@ export default class Engine {
             }
             if (target.includes.length !== 0) {
                 // .ts の // の後や /* */ の内部だけ対象にしたい場合のための機能
-                includesExists = true;
                 target.includes.forEach(include => {
-                    includes = includes.concat(changeSet.makeChangeSet(content, include.pattern, null));
+                    const intersect = makeChangeSet(filePath, content, include.pattern);
+                    if (includes) {
+                        includes = includes.concat(intersect);
+                    } else {
+                        includes = intersect;
+                    }
                 });
             }
             if (target.excludes.length !== 0) {
                 // .re の #@ の後を対象にしたくない場合のための機能
-                excludesExists = true;
                 target.excludes.forEach(exclude => {
-                    excludes = excludes.concat(changeSet.makeChangeSet(content, exclude.pattern, null));
+                    const subsract = makeChangeSet(filePath, content, exclude.pattern);
+                    if (excludes) {
+                        excludes = excludes.concat(subsract);
+                    } else {
+                        excludes = subsract;
+                    }
                 });
             }
         });
 
-        if (includesExists) {
-            changeSets = changeSets.intersect(includes);
+        if (includes) {
+            changeSet = changeSet.intersect(includes);
         }
-        if (excludesExists) {
-            changeSets = changeSets.subtract(excludes);
+        if (excludes) {
+            changeSet = changeSet.subtract(excludes);
         }
 
-        return changeSets;
+        return changeSet;
     }
 
     replaceByRule(filePath: string, content?: string) {
         if (content == null) {
             content = fs.readFileSync(filePath, { encoding: "utf8" });
         }
-        let changeSets = this.makeChangeSet(filePath, content);
-        return changeSets.applyChangeSets(content);
+        const changeSet = this.makeChangeSet(filePath, content);
+        return changeSet.applyChangeSets(content);
     }
 }

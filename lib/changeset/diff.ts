@@ -1,18 +1,26 @@
-import Rule from "../rule";
+import { Rule } from "../rule";
 
-export default class Diff {
+export interface DiffParams {
     pattern: RegExp;
-    expected: string | null;
+    expected?: string; // replaceが必要ないパターンの時渡されない場合がある
+    index: number;
+    matches: string[];
+    rule?: Rule;
+}
+
+export class Diff {
+    pattern: RegExp;
+    expected?: string;
     index: number;
     matches: string[];
     rule?: Rule;
 
-    constructor(pattern: RegExp, expected: string | null, index: number, matches: string[], rule?: Rule) {
-        this.pattern = pattern;
-        this.expected = expected;
-        this.index = index;
-        this.matches = matches;
-        this.rule = rule;
+    constructor(params: DiffParams) {
+        this.pattern = params.pattern;
+        this.expected = params.expected;
+        this.index = params.index;
+        this.matches = params.matches;
+        this.rule = params.rule;
     }
 
     get tailIndex() {
