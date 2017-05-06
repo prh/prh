@@ -1,3 +1,13 @@
+<a name="3.0.1"></a>
+## [3.0.1](https://github.com/vvakame/prh/compare/3.0.0...3.0.1) (2017-05-06)
+
+
+### Features
+
+* **prh:** Diffのis*系メソッドについて引数の条件を少し緩和した ([e219e27](https://github.com/vvakame/prh/commit/e219e27))
+
+
+
 <a name="3.0.0"></a>
 # [3.0.0](https://github.com/vvakame/prh/compare/2.0.0...3.0.0) (2017-05-06)
 
