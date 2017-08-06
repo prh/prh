@@ -20,8 +20,8 @@ interface RootArgs {
 const root = commandpost
     .create<RootOpts, RootArgs>("prh <files...>")
     .version(pkg.version, "-v, --version")
-    .option("--json", "rule set to json")
-    .option("--yaml", "rule set to parsed yaml")
+    .option("--json", "emit rule set in json format")
+    .option("--yaml", "emit rule set in yaml format")
     .option("--rules <path>", "path to rule yaml file")
     .option("-r, --replace", "replace input files")
     .action((opts, args) => {
