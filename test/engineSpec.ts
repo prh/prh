@@ -53,4 +53,51 @@ describe("Engine", () => {
         assert(main.rules[2].expected === "Web");
         assert(main.rules[2].pattern.source === "ウェッブ");
     });
+
+    it("makeChangeSet", () => {
+        {
+            const engine = new Engine({
+                version: 1,
+                rules: [
+                    { expected: "A" },
+                    { expected: "B" },
+                    { expected: "C" },
+                ],
+            });
+
+            const changeSet = engine.makeChangeSet("test.re", `
+#@# prh:disable:b
+テストaとb。
+
+テストaとbとc。
+#@# prh:disable:c
+        `);
+
+            assert(changeSet.diffs.length === 3);
+            assert(changeSet.diffs[0].index === 22);
+            assert(changeSet.diffs[1].index === 31);
+            assert(changeSet.diffs[2].index === 33);
+        }
+        {
+            const engine = new Engine({
+                version: 1,
+                rules: [
+                    { expected: "Web" },
+                    { expected: "jQuery" },
+                ],
+            });
+
+            const changeSet = engine.makeChangeSet("test.md", `
+<!-- prh:disable:web -->
+# webmaster
+webmasterだよー
+
+<!-- prh:disable:jquery -->
+[リンクだよー](https://jquery.com/)
+        `);
+
+            console.log(JSON.stringify(changeSet, null, 2));
+            assert(changeSet.diffs.length === 0);
+        }
+    });
 });

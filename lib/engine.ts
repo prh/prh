@@ -3,6 +3,7 @@ import * as fs from "fs";
 import { equals } from "./utils/regexp";
 
 import * as raw from "./raw";
+import { Paragraph } from "./paragraph";
 import { Target } from "./target";
 import { Rule } from "./rule";
 import { makeChangeSet, ChangeSet } from "./changeset";
@@ -41,9 +42,25 @@ export class Engine {
         this.rules = this.rules.concat(reqRules);
     }
 
-    makeChangeSet(filePath: string, contentArg?: string): ChangeSet {
-        const content: string = contentArg != null ? contentArg : fs.readFileSync(filePath, { encoding: "utf8" });
-        const diffs = this.rules.map(rule => rule.applyRule(content)).reduce((p, c) => p.concat(c), []);
+    makeChangeSet(filePath: string, contentText?: string): ChangeSet {
+        const content: string = contentText != null ? contentText : fs.readFileSync(filePath, { encoding: "utf8" });
+
+        const re = /([^]*?)\n{2,}/g;
+        const paragraphs: Paragraph[] = [];
+        {
+            let lastIndex = 0;
+            while (true) {
+                const matches = re.exec(content);
+                if (!matches) {
+                    paragraphs.push(new Paragraph(lastIndex, content.substr(lastIndex)));
+                    break;
+                }
+                paragraphs.push(new Paragraph(matches.index, matches[1]));
+                lastIndex = re.lastIndex;
+            }
+        }
+
+        const diffs = paragraphs.map(p => p.makeDiffs(this.rules)).reduce((p, c) => p.concat(c), []);
         let changeSet = new ChangeSet({ filePath, content, diffs });
 
         let includes: ChangeSet | null = null;

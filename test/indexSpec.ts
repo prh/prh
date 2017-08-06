@@ -8,6 +8,7 @@ import { fromYAMLFilePath, fromYAML } from "../lib/";
 export * from "./engineSpec";
 export * from "./changesetSpec";
 export * from "./ruleSpec";
+export * from "./paragraphSpec";
 export * from "./utils/regexpSpec";
 
 describe("index", () => {
