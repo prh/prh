@@ -1,3 +1,14 @@
+<a name="3.1.0"></a>
+# [3.1.0](https://github.com/vvakame/prh/compare/3.0.1...3.1.0) (2017-08-06)
+
+
+### Features
+
+* **prh:** 依存関係の更新 ([b33108b](https://github.com/vvakame/prh/commit/b33108b))
+* **prh:** 段落毎にテキストをブロックに切り、警告を抑制できる仕組みを追加 ([416a2d1](https://github.com/vvakame/prh/commit/416a2d1))
+
+
+
 <a name="3.0.1"></a>
 ## [3.0.1](https://github.com/vvakame/prh/compare/3.0.0...3.0.1) (2017-05-06)
 
