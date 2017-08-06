@@ -23,11 +23,11 @@ $ npm install -g prh
 
 ### 設定ファイルの作成
 
-基本的な書き方については[misc/prh.yml](https://github.com/prh/prh/blob/master/misc/prh.yml)を参照。
+基本的な書き方については[misc/prh.yml](https://github.com/prh/prh/blob/master/misc/prh.yml)を参照してください。
 
-実用するための設定ファイルは[prh/rulesのmedia/techbooster.yml](https://github.com/prh/rules/blob/master/media/techbooster.yml)をおすすめする。
+実用するための設定ファイルは[prh/rulesのmedia/techbooster.yml](https://github.com/prh/rules/blob/master/media/techbooster.yml)がおすすめです。
 
-その他、[prh/rules](https://github.com/prh/rules)に各種設定を取り揃えてあるので、好きに組み合わせて使ってほしい。
+その他、[prh/rules](https://github.com/prh/rules)に各種設定を取り揃えてあるので、好きに組み合わせてご利用ください。
 
 ### コマンドラインツールとして
 
@@ -39,8 +39,8 @@ $ prh --help
 
   Options:
 
-    --json          rule set to json
-    --yaml          rule set to parsed yaml
+    --json          emit rule set by json
+    --yaml          emit rule set by yaml
     --rules <path>  path to rule yaml file
     -r, --replace   replace input files
 
@@ -60,14 +60,38 @@ $ prh sample.md
 WebではCookieというものがあります。
 ```
 
-実際に利用する時は`--replace`オプションを併用すると良い。
-注意点として、prh単体の利用ではMarkdownやRe:VIEWなどのファイルの構造は考慮しない。
-そのため、URLの一部が変換されてしまうなどの使いにくさがある。
-実際に利用する際はprhが組み込まれている何らかのツールを介して使うのがよいだろう。
+実際に利用する時は `--replace` オプションを併用すると便利です。
+
+### 修正点を意図的に無視させる
+
+prh単体の利用ではMarkdownやRe:VIEWなどのファイルの構造は考慮できません。
+そのため、URLの一部が変換されてしまったりします。
+他にも意図的に指摘内容を無視したい場合があります。
+
+そんな時、 `prh:disable` プラグマを使うことができます。
+prhは文章を段落毎に処理し、段落にプラグマが含まれる場合大本のルールよりそちらの支持を優先します。
+具体例を見ていきましょう。
+
+```
+#@# prh:disable
+ここの段落は全く校正されない。
+
+#@# prh:disable:web
+web→Webの校正ルールがある場合。
+ここの段落はwebというワードが含まれていても無視するよう指定されているので警告されない。
+
+#@# prh:disable:web|jquery|[abc]
+無視ルールは正規表現として解釈されるため複雑な条件も記述できる。
+
+ルールは後置することもできる。
+#@# prh:disable
+```
+
+こんな塩梅です。
 
 ## 関連ツール
 
-Atomのプラグインである[language-review](https://atom.io/packages/language-review)に組み込まれている。
-エディタ上で執筆を行っていくと、自動的に校正候補が表示され、その結果を原稿に反映していくことができる。
+Atomのプラグインである[language-review](https://atom.io/packages/language-review)に組み込まれています。
+エディタ上で執筆を行うと自動的に校正候補が表示され、その結果を原稿に反映していくことができます。
 
-azuさんが作成している[textlint](https://www.npmjs.com/package/textlint)のプラグインとして[textlint-rule-prh](https://www.npmjs.com/package/textlint-rule-prh)が作成されている。
+azuさんが作成している[textlint](https://www.npmjs.com/package/textlint)のプラグインとして[textlint-rule-prh](https://www.npmjs.com/package/textlint-rule-prh)が作成されています。
