@@ -1,0 +1,8 @@
+version: 1
+
+rules:
+  - expected: Markdown
+  - expected: Web
+  - expected: jQuery
+  - expected: ライブラリ
+    pattern:  ラブライブ

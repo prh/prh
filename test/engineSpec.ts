@@ -1,5 +1,13 @@
 import * as assert from "power-assert";
 
+import * as fs from "fs";
+import * as path from "path";
+
+import * as glob from "glob";
+import * as mkdirp from "mkdirp";
+
+import { fromYAMLFilePath } from "../lib/";
+
 import { Engine } from "../lib/engine";
 
 describe("Engine", () => {
@@ -96,8 +104,35 @@ webmasterだよー
 [リンクだよー](https://jquery.com/)
         `);
 
-            console.log(JSON.stringify(changeSet, null, 2));
             assert(changeSet.diffs.length === 0);
         }
+    });
+
+    describe("replaceByRule", () => {
+        const fixtureDir = "test/fixture/";
+        const expectedDir = "test/expected/";
+
+        glob.sync(`${fixtureDir}/*`).forEach(dir => {
+            it(dir, () => {
+                const prhYaml = path.join(dir, "prh.yml");
+                const engine = fromYAMLFilePath(prhYaml);
+
+                glob.sync(`${dir}/*`)
+                    .filter(file => file !== prhYaml)
+                    .forEach(file => {
+                        const result = engine.replaceByRule(file);
+
+                        const target = file.replace(fixtureDir, expectedDir);
+                        if (fs.existsSync(target)) {
+                            const expected = fs.readFileSync(target, { encoding: "utf8" });
+                            assert(result === expected);
+
+                        } else {
+                            mkdirp.sync(path.dirname(target));
+                            fs.writeFileSync(target, result);
+                        }
+                    });
+            });
+        });
     });
 });
