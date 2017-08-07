@@ -5,11 +5,11 @@ import * as path from "path";
 
 import { fromYAMLFilePath, fromYAML } from "../lib/";
 
-export * from "./engineSpec";
-export * from "./changesetSpec";
-export * from "./ruleSpec";
-export * from "./paragraphSpec";
-export * from "./utils/regexpSpec";
+import "./engineSpec";
+import "./changesetSpec";
+import "./ruleSpec";
+import "./paragraphSpec";
+import "./utils/regexpSpec";
 
 describe("index", () => {
     describe("fromYAMLFilePath", () => {

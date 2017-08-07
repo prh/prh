@@ -127,7 +127,7 @@ describe("regexp", () => {
     describe("parseRegExpString", () => {
         it("parse regexp style string", () => {
             const regexp = parseRegExpString("/[3-9]th/ig");
-            assert(!regexp);
+            assert(!!regexp);
 
             assert(regexp!.source === "[3-9]th");
             assert(regexp!.ignoreCase === true);

@@ -97,7 +97,7 @@ export function addDefaultFlags(regexp: RegExp) {
 
 export function escapeSpecialChars(str: string): string {
     regexpSpecialChars.forEach(char => {
-        str = str.replace(new RegExp(`\\${char}g`), `\\${char}`);
+        str = str.replace(new RegExp(`\\${char}`, "g"), `\\${char}`);
     });
     return str;
 }
