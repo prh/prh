@@ -1,3 +1,15 @@
+<a name="3.1.1"></a>
+## [3.1.1](https://github.com/vvakame/prh/compare/3.1.0...3.1.1) (2017-08-07)
+
+
+### Bug Fixes
+
+* **prh:** patternが空文字の時にエラーで弾くように修正 fixes [#24](https://github.com/vvakame/prh/issues/24) ([a722165](https://github.com/vvakame/prh/commit/a722165))
+* **prh:** regexpSpec.tsがテスト対象になっていなかったのを修正 ([a53a36b](https://github.com/vvakame/prh/commit/a53a36b))
+* **prh:** 正規表現のconcatとcombineでフラグを考慮して処理するように修正 fixes [#25](https://github.com/vvakame/prh/issues/25) ([997b0f4](https://github.com/vvakame/prh/commit/997b0f4))
+
+
+
 <a name="3.1.0"></a>
 # [3.1.0](https://github.com/vvakame/prh/compare/3.0.1...3.1.0) (2017-08-06)
 
