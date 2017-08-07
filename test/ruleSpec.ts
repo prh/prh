@@ -96,6 +96,17 @@ describe("Rule", () => {
             assert(rule.pattern.source === "(?:vv|aa)");
             assert(rule.pattern.global === true);
         });
+        it("reject empty pattern", () => {
+            try {
+                new Rule({
+                    expected: "vv",
+                    pattern: "",
+                });
+            } catch (e) {
+                return;
+            }
+            assert.fail("spec succeed unexpectedly");
+        });
     });
     describe("#applyRule", () => {
         it("can process regexpMustEmpty", () => {

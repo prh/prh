@@ -106,6 +106,9 @@ export function collectAll(regexp: RegExp, src: string) {
     if (!regexp.global) {
         throw new Error("g flag is required");
     }
+    if (!regexp.source) {
+        throw new Error("source is required");
+    }
     const resultList: RegExpExecArray[] = [];
     let result: RegExpExecArray | null;
     do {

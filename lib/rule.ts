@@ -28,6 +28,10 @@ export class Rule {
         } else {
             rawRule = src;
         }
+        if (rawRule.pattern === "") {
+            throw new Error("pattern can't be empty");
+        }
+
         this.options = new Options(this, rawRule.options);
 
         this.expected = rawRule.expected;
@@ -56,7 +60,9 @@ export class Rule {
 
     /* @internal */
     _patternToRegExp(pattern?: string | string[] | null): RegExp {
-        if (pattern == null) {
+        if (pattern === "") {
+            throw new Error("pattern can't be empty");
+        } else if (pattern == null) {
             let result = spreadAlphaNum(this.expected);
             if (this.options.wordBoundary) {
                 result = addBoundary(result);
@@ -77,7 +83,7 @@ export class Rule {
             const result = combine(...pattern.map(p => this._patternToRegExp(p)));
             return addDefaultFlags(result!);
         } else {
-            throw new Error("unexpected pattern: ${pattern}");
+            throw new Error(`unexpected pattern: ${pattern}`);
         }
     }
 
