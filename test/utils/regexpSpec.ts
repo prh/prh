@@ -45,59 +45,92 @@ describe("regexp", () => {
 
     describe("concat", () => {
         it("concat string:string", () => {
-            const regexp = concat("Hello", "TypeScript");
+            const regexp = concat(["Hello", "TypeScript"]);
             assert(regexp.source === "HelloTypeScript");
 
             assert(regexp.test("HelloTypeScript"));
         });
         it("concat string:regexp", () => {
-            const regexp = concat("Hello", /TypeScript/);
+            const regexp = concat(["Hello", /TypeScript/]);
             assert(regexp.source === "HelloTypeScript");
 
             assert(regexp.test("HelloTypeScript"));
         });
         it("concat regexp:string", () => {
-            const regexp = concat(/Hello/, "TypeScript");
+            const regexp = concat([/Hello/, "TypeScript"]);
             assert(regexp.source === "HelloTypeScript");
 
             assert(regexp.test("HelloTypeScript"));
         });
         it("concat regexp:regexp", () => {
-            const regexp = concat(/Hello/, /TypeScript/);
+            const regexp = concat([/Hello/, /TypeScript/]);
             assert(regexp.source === "HelloTypeScript");
 
             assert(regexp.test("HelloTypeScript"));
+        });
+        it("concat regexp flags", () => {
+            const regexp = concat([/Hello/im, /TypeScript/im]);
+            assert(regexp.source === "HelloTypeScript");
+            assert(regexp.flags === "im");
+
+            assert(regexp.test("HelloTypeScript"));
+        });
+        it("can't concat different regexp flags", () => {
+            try {
+                concat([/Hello/g, /TypeScript/im]);
+            } catch (e) {
+                console.log(e);
+                return;
+            }
+            assert.fail("spec succeed unexpectedly");
         });
     });
 
     describe("combine", () => {
         it("combine string:string", () => {
-            const regexp = combine("Hello", "TypeScript");
+            const regexp = combine(["Hello", "TypeScript"]);
             assert(regexp.source === "(?:Hello|TypeScript)");
 
             assert(regexp.test("Hello"));
             assert(regexp.test("TypeScript"));
         });
         it("combine string:regexp", () => {
-            const regexp = combine("Hello", /TypeScript/);
+            const regexp = combine(["Hello", /TypeScript/]);
             assert(regexp.source === "(?:Hello|TypeScript)");
 
             assert(regexp.test("Hello"));
             assert(regexp.test("TypeScript"));
         });
         it("combine regexp:string", () => {
-            const regexp = combine(/Hello/, "TypeScript");
+            const regexp = combine([/Hello/, "TypeScript"]);
             assert(regexp.source === "(?:Hello|TypeScript)");
 
             assert(regexp.test("Hello"));
             assert(regexp.test("TypeScript"));
         });
         it("combine regexp:regexp", () => {
-            const regexp = combine(/Hello/, /TypeScript/);
+            const regexp = combine([/Hello/, /TypeScript/]);
             assert(regexp.source === "(?:Hello|TypeScript)");
 
             assert(regexp.test("Hello"));
             assert(regexp.test("TypeScript"));
+        });
+        it("combine regexp flags", () => {
+            const regexp = combine([/Hello/im, /TypeScript/im]);
+            assert(regexp.source === "(?:Hello|TypeScript)");
+            assert(regexp.flags === "im");
+
+            assert(regexp.test("hello"));
+            assert(regexp.test("typescript"));
+        });
+        it("can't combine different regexp flags", () => {
+            try {
+                combine([/Hello/g, /TypeScript/im]);
+            } catch (e) {
+                console.log(e);
+                return;
+            }
+            assert.fail("spec succeed unexpectedly");
         });
     });
 

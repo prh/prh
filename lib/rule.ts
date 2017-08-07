@@ -28,9 +28,18 @@ export class Rule {
         } else {
             rawRule = src;
         }
-        if (rawRule.pattern === "") {
-            throw new Error("pattern can't be empty");
+        function checkEmptyPattern(patterns: string | string[] | null | undefined) {
+            if (patterns === "") {
+                throw new Error("pattern can't be empty");
+            }
+            Array.isArray(patterns) && patterns.forEach(pattern => {
+                if (pattern === "") {
+                    throw new Error("patterns can't be empty");
+                }
+            });
         }
+        checkEmptyPattern(rawRule.pattern);
+        checkEmptyPattern(rawRule.patterns);
 
         this.options = new Options(this, rawRule.options);
 
@@ -80,7 +89,7 @@ export class Rule {
             }
             return addDefaultFlags(result);
         } else if (pattern instanceof Array) {
-            const result = combine(...pattern.map(p => this._patternToRegExp(p)));
+            const result = combine(pattern.map(p => this._patternToRegExp(p)));
             return addDefaultFlags(result!);
         } else {
             throw new Error(`unexpected pattern: ${pattern}`);

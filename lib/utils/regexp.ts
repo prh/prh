@@ -17,34 +17,56 @@ export const jpHira = /[ぁ-ゖ]/;
 export const jpKana = /[ァ-ヺ]/;
 // http://tama-san.com/?p=196
 export const jpKanji = /(?:[々〇〻\u3400-\u9FFF\uF900-\uFAFF]|[\uD840-\uD87F][\uDC00-\uDFFF])/;
-export const jpChar = combine(jpHira, jpKana, jpKanji);
+export const jpChar = combine([jpHira, jpKana, jpKanji]);
 
 const regexpSpecialChars = "¥*+.?{}()[]^$-|/".split("");
 
-export function concat(...args: (string | RegExp)[]): RegExp {
+export function concat(args: (string | RegExp)[], flags?: string): RegExp {
+    let prevFlags = flags || "";
+    let foundRegExp = false;
     const result = args.reduce<string>((p, c) => {
         if (typeof c === "string") {
             return p + c;
         } else if (c instanceof RegExp) {
+            c.flags.split("").sort();
+            const currentFlags = c.flags.split("").sort().join("");
+            if (foundRegExp) {
+                if (prevFlags !== currentFlags) {
+                    throw new Error(`combining different flags ${prevFlags} and ${currentFlags}`);
+                }
+            }
+            prevFlags = currentFlags;
+            foundRegExp = true;
             return p + c.source;
         } else {
             throw new Error(`unknown type: ${c}`);
         }
     }, "");
-    return new RegExp(result);
+    return new RegExp(result, prevFlags);
 }
 
-export function combine(...args: (string | RegExp)[]): RegExp {
+export function combine(args: (string | RegExp)[], flags?: string): RegExp {
+    let prevFlags = flags || "";
+    let foundRegExp = false;
     const result = args.map(arg => {
         if (typeof arg === "string") {
             return arg;
         } else if (arg instanceof RegExp) {
+            arg.flags.split("").sort();
+            const currentFlags = arg.flags.split("").sort().join("");
+            if (foundRegExp) {
+                if (prevFlags !== currentFlags) {
+                    throw new Error(`combining different flags ${prevFlags} and ${currentFlags}`);
+                }
+            }
+            prevFlags = currentFlags;
+            foundRegExp = true;
             return arg.source;
         } else {
             throw new Error(`unknown type: ${arg}`);
         }
     }).join("|");
-    return concat("(?:", result, ")");
+    return concat(["(?:", result, ")"], foundRegExp ? prevFlags : void 0);
 }
 
 export function addBoundary(arg: string | RegExp): RegExp {
@@ -56,7 +78,7 @@ export function addBoundary(arg: string | RegExp): RegExp {
     } else {
         throw new Error(`unknown type: ${arg}`);
     }
-    return concat("\\b", result, "\\b");
+    return concat(["\\b", result, "\\b"]);
 }
 
 export function parseRegExpString(str: string): RegExp | null {

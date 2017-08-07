@@ -10,6 +10,18 @@ describe("Rule", () => {
 
         assert(rule.pattern instanceof RegExp);
     });
+    it("parse pattern same as patterns", () => {
+        const ruleA = new Rule({
+            expected: "vvakame",
+            pattern: "/vvakame/i",
+        });
+        const ruleB = new Rule({
+            expected: "vvakame",
+            pattern: ["/vvakame/i"],
+        });
+
+        assert(ruleA.pattern.flags === ruleB.pattern.flags);
+    });
     describe("#_patternToRegExp", () => {
         it("filled pattern from null, expected spread to alphabet, number", () => {
             const rule = new Rule({
