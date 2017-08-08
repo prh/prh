@@ -79,7 +79,6 @@ describe("regexp", () => {
             try {
                 concat([/Hello/g, /TypeScript/im]);
             } catch (e) {
-                console.log(e);
                 return;
             }
             assert.fail("spec succeed unexpectedly");
@@ -127,7 +126,6 @@ describe("regexp", () => {
             try {
                 combine([/Hello/g, /TypeScript/im]);
             } catch (e) {
-                console.log(e);
                 return;
             }
             assert.fail("spec succeed unexpectedly");
