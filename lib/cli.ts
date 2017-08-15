@@ -84,8 +84,12 @@ const root = commandpost
             return;
         } else if (opts.replace) {
             args.files.forEach(filePath => {
-                const result = engine.replaceByRule(filePath);
-                fs.writeFileSync(filePath, result);
+                const content = fs.readFileSync(filePath, { encoding: "utf8" });
+                const result = engine.replaceByRule(filePath, content);
+                if (content !== result) {
+                    fs.writeFileSync(filePath, result);
+                    console.warn(`replaced ${filePath}`);
+                }
             });
             return;
         } else {
