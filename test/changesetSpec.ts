@@ -1,4 +1,4 @@
-import * as assert from "power-assert";
+import * as assert from "assert";
 
 import { collectAll } from "../lib/utils/regexp";
 

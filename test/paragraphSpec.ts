@@ -1,4 +1,4 @@
-import * as assert from "power-assert";
+import * as assert from "assert";
 
 import { Paragraph } from "../lib/paragraph";
 import { Rule } from "../lib/rule";
