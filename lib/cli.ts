@@ -10,6 +10,7 @@ interface RootOpts {
     rulesJson: boolean;
     rulesYaml: boolean;
     replace: boolean;
+    verify: boolean;
     rules: string[];
 }
 
@@ -23,6 +24,7 @@ const root = commandpost
     .option("--rules-json", "emit rule set in json format")
     .option("--rules-yaml", "emit rule set in yaml format")
     .option("--rules <path>", "path to rule yaml file")
+    .option("--verify", "checking file validity")
     .option("-r, --replace", "replace input files")
     .action((opts, args) => {
         let paths = [getConfigFileName(process.cwd(), "prh.yml") || path.resolve(__dirname, "../rules/media/WEB+DB_PRESS.yml")];
@@ -46,6 +48,20 @@ const root = commandpost
         if (args.files.length === 0) {
             throw new Error("files is required more than 1 argument");
         }
+
+        if (opts.verify) {
+            const invalidFiles: string[] = [];
+            args.files.forEach(filePath => {
+                const changeSet = engine.makeChangeSet(filePath);
+                if (changeSet.diffs.length !== 0) {
+                    invalidFiles.push(filePath);
+                }
+            });
+            if (invalidFiles.length !== 0) {
+                throw new Error(`${invalidFiles.join(" ,")} failed proofreading`);
+            }
+        }
+
         args.files.forEach(filePath => {
             const result = engine.replaceByRule(filePath);
             if (opts.replace) {
