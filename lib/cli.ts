@@ -7,8 +7,8 @@ import * as commandpost from "commandpost";
 const pkg = require("../package.json");
 
 interface RootOpts {
-    json: boolean;
-    yaml: boolean;
+    rulesJson: boolean;
+    rulesYaml: boolean;
     replace: boolean;
     rules: string[];
 }
@@ -18,10 +18,10 @@ interface RootArgs {
 }
 
 const root = commandpost
-    .create<RootOpts, RootArgs>("prh <files...>")
+    .create<RootOpts, RootArgs>("prh [files...]")
     .version(pkg.version, "-v, --version")
-    .option("--json", "emit rule set in json format")
-    .option("--yaml", "emit rule set in yaml format")
+    .option("--rules-json", "emit rule set in json format")
+    .option("--rules-yaml", "emit rule set in yaml format")
     .option("--rules <path>", "path to rule yaml file")
     .option("-r, --replace", "replace input files")
     .action((opts, args) => {
@@ -35,12 +35,16 @@ const root = commandpost
             engine.merge(e);
         });
 
-        if (opts.json) {
+        if (opts.rulesJson) {
             console.log(JSON.stringify(engine, null, 2));
             return;
-        } else if (opts.yaml) {
+        } else if (opts.rulesYaml) {
             console.log(yaml.dump(JSON.parse(JSON.stringify(engine, null, 2))));
             return;
+        }
+
+        if (args.files.length === 0) {
+            throw new Error("files is required more than 1 argument");
         }
         args.files.forEach(filePath => {
             const result = engine.replaceByRule(filePath);
