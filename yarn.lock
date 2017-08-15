@@ -2,6 +2,10 @@
 # yarn lockfile v1
 
 
+"@types/diff@^3.2.0":
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/@types/diff/-/diff-3.2.0.tgz#2cf019a98b4cca072102cb48af5675502b5a831f"
+
 "@types/empower@*":
   version "1.2.30"
   resolved "https://registry.yarnpkg.com/@types/empower/-/empower-1.2.30.tgz#c7cfc14b3a61e54c74c674c1fbc91ba2df0d1392"
@@ -453,7 +457,7 @@ diff@3.2.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/diff/-/diff-3.2.0.tgz#c9ce393a4b7cbd0b058a725c93df299027868ff9"
 
-diff@^3.2.0:
+diff@^3.2.0, diff@^3.3.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/diff/-/diff-3.3.0.tgz#056695150d7aa93237ca7e378ac3b1682b7963b9"
 

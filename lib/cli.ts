@@ -1,8 +1,9 @@
 import * as path from "path";
 import * as fs from "fs";
 import * as yaml from "js-yaml";
-import { fromYAMLFilePath } from "./";
+import * as diff from "diff";
 
+import { fromYAMLFilePath } from "./";
 import { indexToLineColumn } from "./utils/content";
 
 import * as commandpost from "commandpost";
@@ -14,6 +15,7 @@ interface RootOpts {
     replace: boolean;
     verify: boolean;
     report: boolean;
+    diff: boolean;
     rules: string[];
 }
 
@@ -29,6 +31,7 @@ const root = commandpost
     .option("--rules <path>", "path to rule yaml file")
     .option("--verify", "checking file validity")
     .option("--report", "show proofreading report")
+    .option("--diff", "show unified diff")
     .option("-r, --replace", "replace input files")
     .action((opts, args) => {
         let paths = [getConfigFileName(process.cwd(), "prh.yml") || path.resolve(__dirname, "../rules/media/WEB+DB_PRESS.yml")];
@@ -85,9 +88,13 @@ const root = commandpost
             });
         } else {
             args.files.forEach(filePath => {
-                const result = engine.replaceByRule(filePath);
+                const content = fs.readFileSync(filePath, { encoding: "utf8" });
+                const result = engine.replaceByRule(filePath, content);
                 if (opts.replace) {
                     fs.writeFileSync(filePath, result);
+                } else if (opts.diff) {
+                    const patch = diff.createPatch(filePath, content, result, "before", "replaced");
+                    console.log(patch);
                 } else {
                     console.log(result);
                 }
