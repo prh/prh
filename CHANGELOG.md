@@ -1,3 +1,38 @@
+<a name="4.0.0"></a>
+# [4.0.0](https://github.com/prh/prh/compare/3.1.1...4.0.0) (2017-08-15)
+
+コマンドラインからの利用がしやすいように色々と手を加えました。
+v3系から破壊的変更もあるので気をつけてください。
+API上の破壊的変更はありません。
+
+* `--json` オプションを `--rules-json` オプションに変更
+* `--yaml` オプションを `--rules-yaml` オプションに変更
+* デフォルトの挙動は校正後のファイルをstdoutに出力していたのを止めた
+  * `--stdout` オプションを導入（v3でのデフォルトの挙動だったもの）
+* `--diff` オプションを導入
+* `--verify` オプションを導入
+
+詳しくはREADME.mdを参照してください。
+
+### Bug Fixes
+
+* **prh:** CIのNode.jsバージョンを6系に変更 ([e2c33dc](https://github.com/prh/prh/commit/e2c33dc))
+* **prh:** prh:disable プラグマの挙動が意図と完全に逆になってたのを修正… ([24f734e](https://github.com/prh/prh/commit/24f734e))
+* **prh:** 差分作成処理で変化がない置き換えパターンが生成されていたのを修正 ([a95f7c4](https://github.com/prh/prh/commit/a95f7c4))
+
+
+### Features
+
+* **prh:** --diff オプションの実装 unified diff形式で差分出力できるようにした ([9ffa09e](https://github.com/prh/prh/commit/9ffa09e))
+* **prh:** --replace で置き換えたファイルがある場合、stderrに置き換えたファイル名を出力するようにした ([f8a07a8](https://github.com/prh/prh/commit/f8a07a8))
+* **prh:** --report オプションの実装 ([bef8ab0](https://github.com/prh/prh/commit/bef8ab0))
+  * --report をデフォルトの挙動に変更 既存の挙動は --stdout に移動 ([83a09cc](https://github.com/prh/prh/commit/83a09cc))
+* **prh:** BREAKING CHANGE --json と --yaml オプションを --rules-json と --rules-yaml オプションに変更 ([69da647](https://github.com/prh/prh/commit/69da647))
+* **prh:** indexから行&列に変換するユーティリティを追加 ([1621b5f](https://github.com/prh/prh/commit/1621b5f))
+* **prh:** 変更差分の有無をexit codeで返す --verify オプションの追加 ([2e38924](https://github.com/prh/prh/commit/2e38924))
+
+
+
 <a name="3.1.1"></a>
 ## [3.1.1](https://github.com/vvakame/prh/compare/3.1.0...3.1.1) (2017-08-07)
 
