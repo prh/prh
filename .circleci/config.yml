@@ -3,7 +3,7 @@ jobs:
   build:
     working_directory: ~/workspace
     docker:
-      - image: node:4
+      - image: node:6
     steps:
       - checkout
       - run: git submodule sync && git submodule update --init
