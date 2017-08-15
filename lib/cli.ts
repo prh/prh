@@ -14,7 +14,7 @@ interface RootOpts {
     rulesYaml: boolean;
     replace: boolean;
     verify: boolean;
-    report: boolean;
+    stdout: boolean;
     diff: boolean;
     rules: string[];
 }
@@ -30,7 +30,7 @@ const root = commandpost
     .option("--rules-yaml", "emit rule set in yaml format")
     .option("--rules <path>", "path to rule yaml file")
     .option("--verify", "checking file validity")
-    .option("--report", "show proofreading report")
+    .option("--stdout", "print replaced content to stdout")
     .option("--diff", "show unified diff")
     .option("-r, --replace", "replace input files")
     .action((opts, args) => {
@@ -67,7 +67,29 @@ const root = commandpost
             if (invalidFiles.length !== 0) {
                 throw new Error(`${invalidFiles.join(" ,")} failed proofreading`);
             }
-        } else if (opts.report) {
+            return;
+        } else if (opts.stdout) {
+            args.files.forEach(filePath => {
+                const result = engine.replaceByRule(filePath);
+                console.log(result);
+            });
+            return;
+        } else if (opts.diff) {
+            args.files.forEach(filePath => {
+                const content = fs.readFileSync(filePath, { encoding: "utf8" });
+                const result = engine.replaceByRule(filePath, content);
+                const patch = diff.createPatch(filePath, content, result, "before", "replaced");
+                console.log(patch);
+            });
+            return;
+        } else if (opts.replace) {
+            args.files.forEach(filePath => {
+                const result = engine.replaceByRule(filePath);
+                fs.writeFileSync(filePath, result);
+            });
+            return;
+        } else {
+            // show report
             args.files.forEach(filePath => {
                 const changeSet = engine.makeChangeSet(filePath);
                 if (changeSet.diffs.length === 0) {
@@ -84,19 +106,7 @@ const root = commandpost
                     console.log(`${changeSet.filePath}(${lineColumn.line + 1},${lineColumn.column + 1}): ${before} → ${after.replaced}`);
                 });
             });
-        } else {
-            args.files.forEach(filePath => {
-                const content = fs.readFileSync(filePath, { encoding: "utf8" });
-                const result = engine.replaceByRule(filePath, content);
-                if (opts.replace) {
-                    fs.writeFileSync(filePath, result);
-                } else if (opts.diff) {
-                    const patch = diff.createPatch(filePath, content, result, "before", "replaced");
-                    console.log(patch);
-                } else {
-                    console.log(result);
-                }
-            });
+            return;
         }
     });
 
