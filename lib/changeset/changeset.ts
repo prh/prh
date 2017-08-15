@@ -34,19 +34,13 @@ export class ChangeSet {
         this._prepare();
 
         let delta = 0;
-        this.diffs.forEach(data => {
-            if (data.expected == null) {
+        this.diffs.forEach(diff => {
+            const applied = diff.apply(str, delta);
+            if (applied == null) {
                 return;
             }
-            const result = data.expected.replace(/\$([0-9]{1,2})/g, (match: string, g1: string) => {
-                const index = parseInt(g1, 10);
-                if (index === 0 || (data.matches.length - 1) < index) {
-                    return match;
-                }
-                return data.matches[index] || "";
-            });
-            str = str.slice(0, data.index + delta) + result + str.slice(data.index + delta + data.matches[0].length);
-            delta += result.length - data.matches[0].length;
+            str = applied.replaced;
+            delta = applied.newDelta;
         });
 
         return str;

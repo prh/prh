@@ -3,6 +3,8 @@ import * as fs from "fs";
 import * as yaml from "js-yaml";
 import { fromYAMLFilePath } from "./";
 
+import { indexToLineColumn } from "./utils/content";
+
 import * as commandpost from "commandpost";
 const pkg = require("../package.json");
 
@@ -11,6 +13,7 @@ interface RootOpts {
     rulesYaml: boolean;
     replace: boolean;
     verify: boolean;
+    report: boolean;
     rules: string[];
 }
 
@@ -25,6 +28,7 @@ const root = commandpost
     .option("--rules-yaml", "emit rule set in yaml format")
     .option("--rules <path>", "path to rule yaml file")
     .option("--verify", "checking file validity")
+    .option("--report", "show proofreading report")
     .option("-r, --replace", "replace input files")
     .action((opts, args) => {
         let paths = [getConfigFileName(process.cwd(), "prh.yml") || path.resolve(__dirname, "../rules/media/WEB+DB_PRESS.yml")];
@@ -60,16 +64,35 @@ const root = commandpost
             if (invalidFiles.length !== 0) {
                 throw new Error(`${invalidFiles.join(" ,")} failed proofreading`);
             }
-        }
+        } else if (opts.report) {
+            args.files.forEach(filePath => {
+                const changeSet = engine.makeChangeSet(filePath);
+                if (changeSet.diffs.length === 0) {
+                    return;
+                }
 
-        args.files.forEach(filePath => {
-            const result = engine.replaceByRule(filePath);
-            if (opts.replace) {
-                fs.writeFileSync(filePath, result);
-            } else {
-                console.log(result);
-            }
-        });
+                changeSet.diffs.forEach(diff => {
+                    const before = changeSet.content.substr(diff.index, diff.tailIndex - diff.index);
+                    const after = diff.apply(before, -diff.index);
+                    if (after == null) {
+                        return;
+                    } else if (before === after.replaced) {
+                        return;
+                    }
+                    const lineColumn = indexToLineColumn(diff.index, changeSet.content);
+                    console.log(`${changeSet.filePath} [${lineColumn.line + 1}:${lineColumn.column + 1}]: ${before} → ${after.replaced}`);
+                });
+            });
+        } else {
+            args.files.forEach(filePath => {
+                const result = engine.replaceByRule(filePath);
+                if (opts.replace) {
+                    fs.writeFileSync(filePath, result);
+                } else {
+                    console.log(result);
+                }
+            });
+        }
     });
 
 root
