@@ -10,6 +10,7 @@ import "./changesetSpec";
 import "./ruleSpec";
 import "./paragraphSpec";
 import "./utils/regexpSpec";
+import "./utils/contentSpec";
 
 describe("index", () => {
     describe("fromYAMLFilePath", () => {
