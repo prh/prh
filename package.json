@@ -16,14 +16,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/vvakame/prh.git"
+    "url": "https://github.com/prh/prh.git"
   },
   "author": "vvakame",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/vvakame/prh/issues"
+    "url": "https://github.com/prh/prh/issues"
   },
-  "homepage": "https://github.com/vvakame/prh",
+  "homepage": "https://github.com/prh/prh",
   "dependencies": {
     "commandpost": "^1.2.1",
     "diff": "^3.3.0",
