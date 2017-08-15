@@ -81,7 +81,7 @@ const root = commandpost
                         return;
                     }
                     const lineColumn = indexToLineColumn(diff.index, changeSet.content);
-                    console.log(`${changeSet.filePath} [${lineColumn.line + 1}:${lineColumn.column + 1}]: ${before} → ${after.replaced}`);
+                    console.log(`${changeSet.filePath}(${lineColumn.line + 1},${lineColumn.column + 1}): ${before} → ${after.replaced}`);
                 });
             });
         } else {
