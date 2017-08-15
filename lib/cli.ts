@@ -79,8 +79,6 @@ const root = commandpost
                     const after = diff.apply(before, -diff.index);
                     if (after == null) {
                         return;
-                    } else if (before === after.replaced) {
-                        return;
                     }
                     const lineColumn = indexToLineColumn(diff.index, changeSet.content);
                     console.log(`${changeSet.filePath} [${lineColumn.line + 1}:${lineColumn.column + 1}]: ${before} → ${after.replaced}`);

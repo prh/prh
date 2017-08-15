@@ -122,7 +122,7 @@ describe("Rule", () => {
     });
     describe("#applyRule", () => {
         it("can process regexpMustEmpty", () => {
-            new Rule({
+            const rule = new Rule({
                 expected: "レイヤ",
                 pattern: "/(プ)?レイヤー/",
                 regexpMustEmpty: "$1",
@@ -137,6 +137,16 @@ describe("Rule", () => {
                     },
                 ],
             });
+            const diffs = rule.applyRule("レイヤーとプレイヤー");
+            assert(diffs.length === 1);
+            assert(diffs[0].expected === "レイヤ");
+        });
+        it("can process regexpMustEmpty", () => {
+            const rule = new Rule({
+                expected: "Web",
+            });
+            const diffs = rule.applyRule("ここでWebです");
+            assert(diffs.length === 0);
         });
     });
     describe("#check", () => {
