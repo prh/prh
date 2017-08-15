@@ -49,7 +49,7 @@ export class Paragraph {
         diffs.forEach(diff => diff.index += this.index);
 
         if (this.ignoreAll) {
-            return diffs;
+            return [];
         }
 
         return diffs.filter(diff => {

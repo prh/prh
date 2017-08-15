@@ -34,11 +34,7 @@ describe("Paragraph", () => {
                     }),
                 ]);
 
-                assert(diffs.length === 2);
-                assert(diffs[0].expected === "Web");
-                assert(diffs[0].index === 10 + "// prh:disable\n".length);
-                assert(diffs[1].expected === "jQuery");
-                assert(diffs[1].index === 10 + "// prh:disable\nwebmasterや".length);
+                assert(diffs.length === 0);
             }
             {
                 const base = "// prh:disable:abc\n";
