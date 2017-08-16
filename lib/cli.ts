@@ -3,7 +3,7 @@ import * as fs from "fs";
 import * as yaml from "js-yaml";
 import * as diff from "diff";
 
-import { fromYAMLFilePath } from "./";
+import { fromYAMLFilePath, getRuleFilePath } from "./";
 import { indexToLineColumn } from "./utils/content";
 
 import * as commandpost from "commandpost";
@@ -34,22 +34,16 @@ const root = commandpost
     .option("--diff", "show unified diff")
     .option("-r, --replace", "replace input files")
     .action((opts, args) => {
-        let paths = [getConfigFileName(process.cwd(), "prh.yml") || path.resolve(__dirname, "../rules/media/WEB+DB_PRESS.yml")];
-        if (opts.rules && opts.rules[0]) {
-            paths = opts.rules;
-        }
-        const engine = fromYAMLFilePath(paths[0]);
-        paths.splice(1).forEach(path => {
-            const e = fromYAMLFilePath(path);
-            engine.merge(e);
-        });
 
-        if (opts.rulesJson) {
-            console.log(JSON.stringify(engine, null, 2));
-            return;
-        } else if (opts.rulesYaml) {
-            console.log(yaml.dump(JSON.parse(JSON.stringify(engine, null, 2))));
-            return;
+        if (opts.rulesJson || opts.rulesYaml) {
+            const engine = getEngineByTargetDir(process.cwd());
+            if (opts.rulesJson) {
+                console.log(JSON.stringify(engine, null, 2));
+                return;
+            } else if (opts.rulesYaml) {
+                console.log(yaml.dump(JSON.parse(JSON.stringify(engine, null, 2))));
+                return;
+            }
         }
 
         if (args.files.length === 0) {
@@ -59,6 +53,7 @@ const root = commandpost
         if (opts.verify) {
             const invalidFiles: string[] = [];
             args.files.forEach(filePath => {
+                const engine = getEngineByTargetDir(path.dirname(filePath));
                 const changeSet = engine.makeChangeSet(filePath);
                 if (changeSet.diffs.length !== 0) {
                     invalidFiles.push(filePath);
@@ -70,6 +65,7 @@ const root = commandpost
             return;
         } else if (opts.stdout) {
             args.files.forEach(filePath => {
+                const engine = getEngineByTargetDir(path.dirname(filePath));
                 const result = engine.replaceByRule(filePath);
                 console.log(result);
             });
@@ -77,6 +73,7 @@ const root = commandpost
         } else if (opts.diff) {
             args.files.forEach(filePath => {
                 const content = fs.readFileSync(filePath, { encoding: "utf8" });
+                const engine = getEngineByTargetDir(path.dirname(filePath));
                 const result = engine.replaceByRule(filePath, content);
                 const patch = diff.createPatch(filePath, content, result, "before", "replaced");
                 console.log(patch);
@@ -85,6 +82,7 @@ const root = commandpost
         } else if (opts.replace) {
             args.files.forEach(filePath => {
                 const content = fs.readFileSync(filePath, { encoding: "utf8" });
+                const engine = getEngineByTargetDir(path.dirname(filePath));
                 const result = engine.replaceByRule(filePath, content);
                 if (content !== result) {
                     fs.writeFileSync(filePath, result);
@@ -95,6 +93,7 @@ const root = commandpost
         } else {
             // show report
             args.files.forEach(filePath => {
+                const engine = getEngineByTargetDir(path.dirname(filePath));
                 const changeSet = engine.makeChangeSet(filePath);
                 if (changeSet.diffs.length === 0) {
                     return;
@@ -111,6 +110,27 @@ const root = commandpost
                 });
             });
             return;
+        }
+
+        function getEngineByTargetDir(targetDir: string) {
+            let rulePaths: string[];
+
+            if (opts.rules && opts.rules[0]) {
+                rulePaths = opts.rules;
+            } else {
+                const foundPath = getRuleFilePath(targetDir);
+                if (!foundPath) {
+                    throw new Error(`can't find rule file from ${targetDir}`);
+                }
+
+                rulePaths = [foundPath];
+            }
+
+            const engine = fromYAMLFilePath(rulePaths[0]);
+            rulePaths.splice(1).forEach(path => {
+                engine.merge(fromYAMLFilePath(path));
+            });
+            return engine;
         }
     });
 
@@ -136,17 +156,4 @@ function errorHandler(err: any) {
     return Promise.resolve(null).then(() => {
         process.exit(1);
     });
-}
-
-export function getConfigFileName(baseDir: string, configFileName: string): string | null {
-    const configFilePath = path.resolve(baseDir, configFileName);
-    if (fs.existsSync(configFilePath)) {
-        return configFilePath;
-    }
-
-    if (baseDir.length === path.dirname(baseDir).length) {
-        return null;
-    }
-
-    return getConfigFileName(path.resolve(baseDir, "../"), configFileName);
 }
