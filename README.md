@@ -35,6 +35,7 @@ $ prh --help
     --verify        checking file validity
     --stdout        print replaced content to stdout
     --diff          show unified diff
+    --verbose       makes output more verbose
     -r, --replace   replace input files
 
 
@@ -44,7 +45,6 @@ $ prh --help
 ```
 
 実際に利用した場合の出力例。
-校正ルールは無指定の場合、pwdのprh.ymlを参照しようとします。
 
 ```
 # 校正前のファイル例
@@ -58,6 +58,9 @@ $ prh sample.md
 sample.md(3,1): cookie → Cookie
 sample.md(3,8): jquery → jQuery
 ```
+
+校正ルールをオプションで指定しない場合、校正対象となるファイルと同じディレクトリ、またはそれより上の階層で最初に見つかったprh.ymlを利用します。
+どのファイルに対してどの校正ルールが利用されているか確認したい場合、 `--verbose` オプションを利用してください。
 
 ### 設定ファイルについて
 

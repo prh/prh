@@ -1,8 +1,13 @@
 version: 1
 
-# もし、もっと別なルールを使いたい時は以下のURLを参照して真似してください。
+# 本ファイルは設定の仕方の見本であり、実用的な校正ルールではありません。
+# もし、もっと充実した別のルールを使いたい時は以下のURLを参照してください。
 # https://github.com/prh/rules
 # おすすめは media/techbooster.yml です。
+
+# 下記の説明を参考に、git submoduleとimportsを使って参照するのがよいでしょう。
+# リポジトリの設定 git submodule add https://github.com/prh/rules.git prh-rules
+# prh.ymlの設定  imports: [ ./prh-rules/media/techbooster.yml ]
 
 # 別の設定ファイルを読み込み、mergeすることもできます。
 imports:
