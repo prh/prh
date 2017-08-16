@@ -1,3 +1,22 @@
+<a name="5.0.0"></a>
+# [5.0.0](https://github.com/prh/prh/compare/4.0.0...5.0.0) (2017-08-16)
+
+`--rules` 指定無しの時の設定ファイルを探索するルールが変わりました。
+v4.xまではコマンドを実行したディレクトリにある`prh.yml`でしたが、v5からは処理対象ファイルと同じディレクトリまたはそれより上の階層の`prh.yml`を個別に探索し利用します。
+`prh.yml`を発見できなかった場合はエラーになります。
+
+連日のBREAKING CHANGEですんません…！今後落ち着くはずです。
+
+### Features
+
+* **prh:** --verify と他のオプションを組み合わせて実行できるように変更 ([3a08ec1](https://github.com/prh/prh/commit/3a08ec1))
+* **prh:** .npmignoreにCircle CIやtoolsを追加 ([de16162](https://github.com/prh/prh/commit/de16162))
+* **prh:** BREAKING CHANGE --rules 指定なしの場合、処理対象ファイルから直近のprh.ymlを探索して使うように変更 ([9f94875](https://github.com/prh/prh/commit/9f94875))
+* **prh:** getRuleFilePath を公開された関数として追加 ([7b72efe](https://github.com/prh/prh/commit/7b72efe))
+* **prh:** どのファイルがどの設定を元に動作しているかわからないとつらそうなので --verbose オプションを追加 ([bffcef2](https://github.com/prh/prh/commit/bffcef2))
+
+
+
 <a name="4.0.0"></a>
 # [4.0.0](https://github.com/prh/prh/compare/3.1.1...4.0.0) (2017-08-15)
 
