@@ -14,10 +14,12 @@ lib/**/*.ts
 
 # codes
 test/
+tools/
 
 # misc
 .gitignore
 .editorconfig
+.circleci/
 circle.yml
 setup.sh
 Gruntfile.js
