@@ -33,3 +33,16 @@ export function fromRowConfig(configPath: string, rawConfig: raw.Config): Engine
 
     return engine;
 }
+
+export function getRuleFilePath(baseDir: string, configFileName = "prh.yml"): string | null {
+    const configFilePath = path.resolve(baseDir, configFileName);
+    if (fs.existsSync(configFilePath)) {
+        return configFilePath;
+    }
+
+    if (baseDir.length === path.dirname(baseDir).length) {
+        return null;
+    }
+
+    return getRuleFilePath(path.resolve(baseDir, "../"), configFileName);
+}

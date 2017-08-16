@@ -3,7 +3,7 @@ import * as assert from "assert";
 import * as fs from "fs";
 import * as path from "path";
 
-import { fromYAMLFilePath, fromYAML } from "../lib/";
+import { fromYAMLFilePath, fromYAML, getRuleFilePath } from "../lib/";
 
 import "./engineSpec";
 import "./changesetSpec";
@@ -23,6 +23,11 @@ describe("index", () => {
             const configPath = "./rules/media/WEB+DB_PRESS.yml";
             const yamlContent = fs.readFileSync(configPath, { encoding: "utf8" });
             fromYAML(configPath, yamlContent);
+        });
+    });
+    describe("getRuleFilePath", () => {
+        it("can find prh.yml", () => {
+            assert(getRuleFilePath("./misc") === path.join(process.cwd(), "misc/prh.yml"));
         });
     });
     describe("try all yml files in misc", () => {
