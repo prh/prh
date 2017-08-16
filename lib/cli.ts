@@ -16,6 +16,7 @@ interface RootOpts {
     verify: boolean;
     stdout: boolean;
     diff: boolean;
+    verbose: boolean;
     rules: string[];
 }
 
@@ -32,10 +33,14 @@ const root = commandpost
     .option("--verify", "checking file validity")
     .option("--stdout", "print replaced content to stdout")
     .option("--diff", "show unified diff")
+    .option("--verbose", "makes output more verbose")
     .option("-r, --replace", "replace input files")
     .action((opts, args) => {
 
         if (opts.rulesJson || opts.rulesYaml) {
+            if (opts.verbose) {
+                console.warn(`processing ${process.cwd()} dir...`);
+            }
             const engine = getEngineByTargetDir(process.cwd());
             if (opts.rulesJson) {
                 console.log(JSON.stringify(engine, null, 2));
@@ -52,6 +57,9 @@ const root = commandpost
 
         const invalidFiles: string[] = [];
         args.files.forEach(filePath => {
+            if (opts.verbose) {
+                console.warn(`processing ${filePath}...`);
+            }
             const content = fs.readFileSync(filePath, { encoding: "utf8" });
             const engine = getEngineByTargetDir(path.dirname(filePath));
             const changeSet = engine.makeChangeSet(filePath);
@@ -93,9 +101,8 @@ const root = commandpost
 
         function getEngineByTargetDir(targetDir: string) {
             let rulePaths: string[];
-
             if (opts.rules && opts.rules[0]) {
-                rulePaths = opts.rules;
+                rulePaths = opts.rules.concat([]);
             } else {
                 const foundPath = getRuleFilePath(targetDir);
                 if (!foundPath) {
@@ -105,10 +112,17 @@ const root = commandpost
                 rulePaths = [foundPath];
             }
 
+            if (opts.verbose) {
+                rulePaths.forEach((path, i) => {
+                    console.warn(`  apply ${i + 1}: ${path}`);
+                });
+            }
+
             const engine = fromYAMLFilePath(rulePaths[0]);
             rulePaths.splice(1).forEach(path => {
                 engine.merge(fromYAMLFilePath(path));
             });
+
             return engine;
         }
     });
