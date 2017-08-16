@@ -50,55 +50,32 @@ const root = commandpost
             throw new Error("files is required more than 1 argument");
         }
 
-        if (opts.verify) {
-            const invalidFiles: string[] = [];
-            args.files.forEach(filePath => {
-                const engine = getEngineByTargetDir(path.dirname(filePath));
-                const changeSet = engine.makeChangeSet(filePath);
-                if (changeSet.diffs.length !== 0) {
-                    invalidFiles.push(filePath);
-                }
-            });
-            if (invalidFiles.length !== 0) {
-                throw new Error(`${invalidFiles.join(" ,")} failed proofreading`);
+        const invalidFiles: string[] = [];
+        args.files.forEach(filePath => {
+            const content = fs.readFileSync(filePath, { encoding: "utf8" });
+            const engine = getEngineByTargetDir(path.dirname(filePath));
+            const changeSet = engine.makeChangeSet(filePath);
+            if (changeSet.diffs.length !== 0) {
+                invalidFiles.push(filePath);
             }
-            return;
-        } else if (opts.stdout) {
-            args.files.forEach(filePath => {
-                const engine = getEngineByTargetDir(path.dirname(filePath));
-                const result = engine.replaceByRule(filePath);
+
+            if (opts.stdout) {
+                const result = changeSet.applyChangeSets(content);
                 console.log(result);
-            });
-            return;
-        } else if (opts.diff) {
-            args.files.forEach(filePath => {
-                const content = fs.readFileSync(filePath, { encoding: "utf8" });
-                const engine = getEngineByTargetDir(path.dirname(filePath));
-                const result = engine.replaceByRule(filePath, content);
+
+            } else if (opts.diff) {
+                const result = changeSet.applyChangeSets(content);
                 const patch = diff.createPatch(filePath, content, result, "before", "replaced");
                 console.log(patch);
-            });
-            return;
-        } else if (opts.replace) {
-            args.files.forEach(filePath => {
-                const content = fs.readFileSync(filePath, { encoding: "utf8" });
-                const engine = getEngineByTargetDir(path.dirname(filePath));
-                const result = engine.replaceByRule(filePath, content);
+
+            } else if (opts.replace) {
+                const result = changeSet.applyChangeSets(content);
                 if (content !== result) {
                     fs.writeFileSync(filePath, result);
                     console.warn(`replaced ${filePath}`);
                 }
-            });
-            return;
-        } else {
-            // show report
-            args.files.forEach(filePath => {
-                const engine = getEngineByTargetDir(path.dirname(filePath));
-                const changeSet = engine.makeChangeSet(filePath);
-                if (changeSet.diffs.length === 0) {
-                    return;
-                }
 
+            } else {
                 changeSet.diffs.forEach(diff => {
                     const before = changeSet.content.substr(diff.index, diff.tailIndex - diff.index);
                     const after = diff.apply(before, -diff.index);
@@ -108,8 +85,10 @@ const root = commandpost
                     const lineColumn = indexToLineColumn(diff.index, changeSet.content);
                     console.log(`${changeSet.filePath}(${lineColumn.line + 1},${lineColumn.column + 1}): ${before} → ${after.replaced}`);
                 });
-            });
-            return;
+            }
+        });
+        if (opts.verify && invalidFiles.length !== 0) {
+            throw new Error(`${invalidFiles.join(" ,")} failed proofreading`);
         }
 
         function getEngineByTargetDir(targetDir: string) {
