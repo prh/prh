@@ -3,7 +3,7 @@ import * as fs from "fs";
 import * as yaml from "js-yaml";
 import * as diff from "diff";
 
-import { fromYamlFilePaths, getRuleFilePath } from "./";
+import { fromYAMLFilePaths, getRuleFilePath } from "./";
 import { indexToLineColumn } from "./utils/content";
 
 import * as commandpost from "commandpost";
@@ -118,7 +118,7 @@ const root = commandpost
                 });
             }
 
-            return fromYamlFilePaths(...rulePaths);
+            return fromYAMLFilePaths(...rulePaths);
         }
     });
 
