@@ -1,3 +1,15 @@
+<a name="5.2.0"></a>
+# [5.2.0](https://github.com/prh/prh/compare/5.1.1...5.2.0) (2017-08-17)
+
+
+### Features
+
+* **prh:** Diffから変換後のnewTextを取得できるようにした ([717b7c1](https://github.com/prh/prh/commit/717b7c1))
+* **prh:** gitのsubmoduleをrulesからprh-rulesに移動 ([eb5812b](https://github.com/prh/prh/commit/eb5812b))
+* **prh:** misc/prh.yml の内容をより実践ですぐ使える形式に変更 ([b34ee1d](https://github.com/prh/prh/commit/b34ee1d))
+
+
+
 <a name="5.1.1"></a>
 ## [5.1.1](https://github.com/prh/prh/compare/v5.1.0...v5.1.1) (2017-08-17)
 
