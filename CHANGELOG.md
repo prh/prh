@@ -1,3 +1,13 @@
+<a name="5.1.0"></a>
+# [5.1.0](https://github.com/prh/prh/compare/5.0.0...5.1.0) (2017-08-17)
+
+
+### Features
+
+* **prh:** 複数の設定ファイルから単一のEngineを作る fromYamlFilePaths 公開関数を追加 ([df6679a](https://github.com/prh/prh/commit/df6679a))
+
+
+
 <a name="5.0.0"></a>
 # [5.0.0](https://github.com/prh/prh/compare/4.0.0...5.0.0) (2017-08-16)
 
