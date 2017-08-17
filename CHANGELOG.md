@@ -1,3 +1,13 @@
+<a name="5.1.1"></a>
+## [5.1.1](https://github.com/prh/prh/compare/v5.1.0...v5.1.1) (2017-08-17)
+
+
+### Bug Fixes
+
+* **prh:** 命名の一貫性が損なわれてたのを修正 fromYAMLFilePaths に変更 ([b2f6fd2](https://github.com/prh/prh/commit/b2f6fd2))
+
+
+
 <a name="5.1.0"></a>
 # [5.1.0](https://github.com/prh/prh/compare/5.0.0...5.1.0) (2017-08-17)
 
