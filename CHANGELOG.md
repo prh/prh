@@ -1,3 +1,13 @@
+<a name="5.3.0"></a>
+# [5.3.0](https://github.com/prh/prh/compare/5.2.0...5.3.0) (2017-08-17)
+
+
+### Features
+
+* **prh:** EngineにsourcePathsプロパティを追加 どのファイルをソースにして生成されたかを保持する ([4bcdeb8](https://github.com/prh/prh/commit/4bcdeb8))
+
+
+
 <a name="5.2.0"></a>
 # [5.2.0](https://github.com/prh/prh/compare/5.1.1...5.2.0) (2017-08-17)
 
