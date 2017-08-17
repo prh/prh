@@ -86,12 +86,12 @@ const root = commandpost
             } else {
                 changeSet.diffs.forEach(diff => {
                     const before = changeSet.content.substr(diff.index, diff.tailIndex - diff.index);
-                    const after = diff.apply(before, -diff.index);
+                    const after = diff.newText;
                     if (after == null) {
                         return;
                     }
                     const lineColumn = indexToLineColumn(diff.index, changeSet.content);
-                    console.log(`${changeSet.filePath}(${lineColumn.line + 1},${lineColumn.column + 1}): ${before} → ${after.replaced}`);
+                    console.log(`${changeSet.filePath}(${lineColumn.line + 1},${lineColumn.column + 1}): ${before} → ${after}`);
                 });
             }
         });

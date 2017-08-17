@@ -6,9 +6,10 @@ import * as path from "path";
 import { fromYAMLFilePaths, fromYAMLFilePath, fromYAML, getRuleFilePath } from "../lib/";
 
 import "./engineSpec";
-import "./changesetSpec";
 import "./ruleSpec";
 import "./paragraphSpec";
+import "./changeset/changesetSpec";
+import "./changeset/diffSpec";
 import "./utils/regexpSpec";
 import "./utils/contentSpec";
 

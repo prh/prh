@@ -1,9 +1,9 @@
 import * as assert from "assert";
 
-import { collectAll } from "../lib/utils/regexp";
+import { collectAll } from "../../lib/utils/regexp";
 
-import { makeChangeSet, ChangeSet } from "../lib/changeset";
-import { Diff } from "../lib/changeset/diff";
+import { makeChangeSet, ChangeSet } from "../../lib/changeset";
+import { Diff } from "../../lib/changeset/diff";
 
 describe("ChangeSet", () => {
     describe(".applyChangeSets", () => {
