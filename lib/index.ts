@@ -8,6 +8,14 @@ import { ChangeSet, Diff } from "./changeset/";
 
 export { Engine, ChangeSet, Diff };
 
+export function fromYamlFilePaths(...configPaths: string[]): Engine {
+    const engine = fromYAMLFilePath(configPaths[0]);
+    configPaths.splice(1).forEach(path => {
+        engine.merge(fromYAMLFilePath(path));
+    });
+    return engine;
+}
+
 export function fromYAMLFilePath(configPath: string): Engine {
     const content = fs.readFileSync(configPath, { encoding: "utf8" });
     return fromYAML(configPath, content);

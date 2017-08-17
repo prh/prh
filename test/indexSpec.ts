@@ -3,7 +3,7 @@ import * as assert from "assert";
 import * as fs from "fs";
 import * as path from "path";
 
-import { fromYAMLFilePath, fromYAML, getRuleFilePath } from "../lib/";
+import { fromYamlFilePaths, fromYAMLFilePath, fromYAML, getRuleFilePath } from "../lib/";
 
 import "./engineSpec";
 import "./changesetSpec";
@@ -13,8 +13,13 @@ import "./utils/regexpSpec";
 import "./utils/contentSpec";
 
 describe("index", () => {
+    describe("fromYamlFilePaths", () => {
+        it("parse yaml files to Config", () => {
+            fromYamlFilePaths("./rules/media/WEB+DB_PRESS.yml", "./rules/files/markdown.yml");
+        });
+    });
     describe("fromYAMLFilePath", () => {
-        it("parse yaml to Config", () => {
+        it("parse yaml file to Config", () => {
             fromYAMLFilePath("./rules/media/WEB+DB_PRESS.yml");
         });
     });
