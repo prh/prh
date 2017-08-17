@@ -16,17 +16,17 @@ import "./utils/contentSpec";
 describe("index", () => {
     describe("fromYAMLFilePaths", () => {
         it("parse yaml files to Config", () => {
-            fromYAMLFilePaths("./rules/media/WEB+DB_PRESS.yml", "./rules/files/markdown.yml");
+            fromYAMLFilePaths("./prh-rules/media/WEB+DB_PRESS.yml", "./prh-rules/files/markdown.yml");
         });
     });
     describe("fromYAMLFilePath", () => {
         it("parse yaml file to Config", () => {
-            fromYAMLFilePath("./rules/media/WEB+DB_PRESS.yml");
+            fromYAMLFilePath("./prh-rules/media/WEB+DB_PRESS.yml");
         });
     });
     describe("fromYAML", () => {
         it("parse yaml string to Config", () => {
-            const configPath = "./rules/media/WEB+DB_PRESS.yml";
+            const configPath = "./prh-rules/media/WEB+DB_PRESS.yml";
             const yamlContent = fs.readFileSync(configPath, { encoding: "utf8" });
             fromYAML(configPath, yamlContent);
         });
