@@ -16,7 +16,11 @@ import "./utils/contentSpec";
 describe("index", () => {
     describe("fromYAMLFilePaths", () => {
         it("parse yaml files to Config", () => {
-            fromYAMLFilePaths("./prh-rules/media/WEB+DB_PRESS.yml", "./prh-rules/files/markdown.yml");
+            const engine = fromYAMLFilePaths("./prh-rules/media/WEB+DB_PRESS.yml", "./prh-rules/files/markdown.yml");
+
+            assert(engine.sourcePaths.length === 2);
+            assert(engine.sourcePaths[0] === "prh-rules/media/WEB+DB_PRESS.yml");
+            assert(engine.sourcePaths[1] === "prh-rules/files/markdown.yml");
         });
     });
     describe("fromYAMLFilePath", () => {
@@ -56,5 +60,10 @@ describe("index", () => {
         const engine = fromYAMLFilePath("./misc/imports.yml");
 
         assert(engine.rules.length === miscPrhEngine.rules.length + miscSampleEngine.rules.length);
+
+        assert(engine.sourcePaths.length === 3);
+        assert(engine.sourcePaths[0] === "misc/imports.yml");
+        assert(engine.sourcePaths[1] === "misc/imports-a.yml");
+        assert(engine.sourcePaths[2] === "misc/imports-b.yml");
     });
 });

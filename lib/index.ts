@@ -28,12 +28,13 @@ export function fromYAML(configPath: string, yamlContent: string): Engine {
 
 export function fromRowConfig(configPath: string, rawConfig: raw.Config): Engine {
     const engine = new Engine(rawConfig);
+    engine.sourcePaths.push(path.normalize(configPath));
 
     if (rawConfig.imports) {
         const tmp = rawConfig.imports;
         const imports = typeof tmp === "string" ? [tmp] : tmp;
         imports.forEach(im => {
-            const importedConfigPath = path.resolve(path.dirname(configPath), im);
+            const importedConfigPath = path.join(path.dirname(configPath), im);
             const newEngine = fromYAMLFilePath(importedConfigPath);
             engine.merge(newEngine);
         });

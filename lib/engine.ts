@@ -12,6 +12,7 @@ export class Engine {
     version: number;
     targets: Target[];
     rules: Rule[];
+    sourcePaths: string[]; // NOTE ソースとなったファイルのパス
 
     constructor(src: raw.Config) {
         if (!src) {
@@ -20,6 +21,7 @@ export class Engine {
         this.version = +src.version || 1;
         this.targets = (src.targets || []).map(target => new Target(target));
         this.rules = (src.rules || []).map(rule => new Rule(rule));
+        this.sourcePaths = [];
     }
 
     merge(other: Engine) {
@@ -29,6 +31,12 @@ export class Engine {
         if (this.version !== other.version) {
             throw new Error("version mismatch!");
         }
+        other.sourcePaths.forEach(sourcePath => {
+            const exists = this.sourcePaths.filter(otherSourcePath => otherSourcePath === sourcePath).length !== 0;
+            if (!exists) {
+                this.sourcePaths.push(sourcePath);
+            }
+        });
         other.targets.forEach(otherTarget => {
             const exists = this.targets.filter(target => equals(target.file, otherTarget.file)).length !== 0;
             if (!exists) {
