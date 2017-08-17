@@ -7,11 +7,12 @@ version: 1
 
 # 下記の説明を参考に、git submoduleとimportsを使って参照するのがよいでしょう。
 # リポジトリの設定 git submodule add https://github.com/prh/rules.git prh-rules
-# prh.ymlの設定  imports: [ ./prh-rules/media/techbooster.yml ]
 
 # 別の設定ファイルを読み込み、mergeすることもできます。
 imports:
-  # - ./techbooster.yml
+  # - ./prh-rules/media/techbooster.yml
+  # - ./prh-rules/files/markdown.yml
+  # - ./prh-rules/files/review.yml
 
 rules:
 
