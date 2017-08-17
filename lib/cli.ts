@@ -3,7 +3,7 @@ import * as fs from "fs";
 import * as yaml from "js-yaml";
 import * as diff from "diff";
 
-import { fromYAMLFilePath, getRuleFilePath } from "./";
+import { fromYamlFilePaths, getRuleFilePath } from "./";
 import { indexToLineColumn } from "./utils/content";
 
 import * as commandpost from "commandpost";
@@ -102,7 +102,7 @@ const root = commandpost
         function getEngineByTargetDir(targetDir: string) {
             let rulePaths: string[];
             if (opts.rules && opts.rules[0]) {
-                rulePaths = opts.rules.concat([]);
+                rulePaths = [...opts.rules];
             } else {
                 const foundPath = getRuleFilePath(targetDir);
                 if (!foundPath) {
@@ -118,12 +118,7 @@ const root = commandpost
                 });
             }
 
-            const engine = fromYAMLFilePath(rulePaths[0]);
-            rulePaths.splice(1).forEach(path => {
-                engine.merge(fromYAMLFilePath(path));
-            });
-
-            return engine;
+            return fromYamlFilePaths(...rulePaths);
         }
     });
 
