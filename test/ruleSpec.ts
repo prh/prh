@@ -65,6 +65,39 @@ describe("Rule", () => {
             assert(rule.pattern.source === "\\bvv\\b");
             assert(rule.pattern.global === true);
         });
+
+        it("filled pattern from string[], string with word boundary", () => {
+            const rule = new Rule({
+                expected: "vv",
+                pattern: [
+                    "VV",
+                    "AA",
+                ],
+                options: {
+                    wordBoundary: true,
+                },
+            });
+
+            assert(rule.pattern.source === "(?:\\bVV\\b|\\bAA\\b)");
+            assert(rule.pattern.flags === "gmu");
+            assert(rule.pattern.global === true);
+        });
+        it("filled pattern from string[] (regexp style), string with word boundary", () => {
+            const rule = new Rule({
+                expected: "vv",
+                pattern: [
+                    "/VV/i",
+                    "/AA/i",
+                ],
+                options: {
+                    wordBoundary: true,
+                },
+            });
+
+            assert(rule.pattern.source === "(?:\\bVV\\b|\\bAA\\b)");
+            assert(rule.pattern.flags === "gimu");
+            assert(rule.pattern.global === true);
+        });
         it("filled pattern from string (regexp style)", () => {
             const rule = new Rule({
                 expected: "vv",

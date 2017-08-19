@@ -80,6 +80,9 @@ export class Rule {
         } else if (typeof pattern === "string") {
             let result = parseRegExpString(pattern);
             if (result) {
+                if (this.options.wordBoundary) {
+                    return addDefaultFlags(addBoundary(result));
+                }
                 return addDefaultFlags(result);
             }
             if (this.options.wordBoundary) {
