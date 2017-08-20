@@ -71,14 +71,16 @@ export function combine(args: (string | RegExp)[], flags?: string): RegExp {
 
 export function addBoundary(arg: string | RegExp): RegExp {
     let result: string;
+    let flags = "";
     if (typeof arg === "string") {
         result = arg;
     } else if (arg instanceof RegExp) {
         result = arg.source;
+        flags = arg.flags;
     } else {
         throw new Error(`unknown type: ${arg}`);
     }
-    return concat(["\\b", result, "\\b"]);
+    return concat(["\\b", result, "\\b"], flags);
 }
 
 export function parseRegExpString(str: string): RegExp | null {
