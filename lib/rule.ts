@@ -94,6 +94,22 @@ export class Rule {
         }
     }
 
+    /* @internal */
+    _shouldIgnore(ignoreRule: raw.IgnoreRule) {
+        // NOTE 考え方：--rules-yaml で表示されるpattern or expectedで指定する
+        // patternは配列で指定できて、そのうちの1つのパターンが指定された時に
+        // そのルール全体が無視されるのか該当の1パターンだけ無視されるのか予想できないため
+
+        if (ignoreRule.pattern != null && this.pattern.toString() === ignoreRule.pattern) {
+            return true;
+        }
+        if (ignoreRule.expected != null && ignoreRule.expected === this.expected) {
+            return true;
+        }
+
+        return false;
+    }
+
     reset() {
         this.pattern.lastIndex = 0;
     }

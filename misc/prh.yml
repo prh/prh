@@ -14,6 +14,18 @@ imports:
   # - ./prh-rules/files/markdown.yml
   # - ./prh-rules/files/review.yml
 
+  # imports にはいくつかのオプションが指定できる
+  # - path: other-rules.yml
+    # 連鎖的なimportを禁止する
+    # disableImports: true
+    # importするルールで不都合なものは殺すことができる
+    # patternやexpectedに指定する文字列は --rules-yaml で得られるパース後の表現を使うこと
+    # ignoreRules:
+      # pattern: /a/ と等価
+      # - /a/ 
+      # - pattern:  /a/
+      # - expected: /b/
+
 rules:
 
   # 大文字小文字全角半角の統一

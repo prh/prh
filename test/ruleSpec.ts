@@ -153,6 +153,24 @@ describe("Rule", () => {
             assert.fail("spec succeed unexpectedly");
         });
     });
+    describe("#_shouldIgnore", () => {
+        it("ignore expected only pattern", () => {
+            const rule = new Rule({
+                expected: "vv",
+                pattern: null,
+            });
+
+            assert(rule._shouldIgnore({ expected: "vv" }) === true);
+        });
+        it("ignore expected only pattern", () => {
+            const rule = new Rule({
+                expected: "vv",
+                pattern: "vv",
+            });
+
+            assert(rule._shouldIgnore({ pattern: "/vv/gmu" }) === true);
+        });
+    });
     describe("#applyRule", () => {
         it("can process regexpMustEmpty", () => {
             const rule = new Rule({

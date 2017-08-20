@@ -1,8 +1,20 @@
 export interface Config {
     version: number;
-    imports?: string | string[];
+    imports?: string | (string | ImportSpec)[];
     targets?: Target[];
     rules?: (string | Rule)[]; // string | regexp style string or array
+}
+
+export interface ImportSpec {
+    path: string;
+    disableImports?: boolean;
+    // when string comming, evaluate to { pattern: string; }
+    ignoreRules?: (string | IgnoreRule)[];
+}
+
+export interface IgnoreRule {
+    pattern?: string;
+    expected?: string;
 }
 
 export interface Target {

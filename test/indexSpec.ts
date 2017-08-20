@@ -61,9 +61,16 @@ describe("index", () => {
 
         assert(engine.rules.length === miscPrhEngine.rules.length + miscSampleEngine.rules.length);
 
-        assert(engine.sourcePaths.length === 3);
+        assert(engine.sourcePaths.length === 5);
         assert(engine.sourcePaths[0] === "misc/imports.yml");
         assert(engine.sourcePaths[1] === "misc/imports-a.yml");
         assert(engine.sourcePaths[2] === "misc/imports-b.yml");
+        assert(engine.sourcePaths[3] === "misc/imports-c.yml");
+        assert(engine.sourcePaths[4] === "misc/imports-d.yml");
+    });
+    it("passed disableImports option", () => {
+        const engine = fromYAMLFilePath("./misc/imports.yml", { disableImports: true });
+
+        assert(engine.rules.length === 0);
     });
 });
