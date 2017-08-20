@@ -3,7 +3,7 @@ import * as assert from "assert";
 import * as fs from "fs";
 import * as path from "path";
 
-import { fromYAMLFilePaths, fromYAMLFilePath, fromYAML, getRuleFilePath } from "../lib/";
+import { fromYAMLFilePaths, fromYAMLFilePath, fromYAMLFilePathAsync, fromYAML, getRuleFilePath } from "../lib/";
 
 import "./engineSpec";
 import "./ruleSpec";
@@ -26,6 +26,19 @@ describe("index", () => {
     describe("fromYAMLFilePath", () => {
         it("parse yaml file to Config", () => {
             fromYAMLFilePath("./prh-rules/media/WEB+DB_PRESS.yml");
+        });
+    });
+    describe("fromYAMLFilePathAsync", () => {
+        it("parse yaml file to Config", async () => {
+            const engine = await fromYAMLFilePathAsync("./prh-rules/media/WEB+DB_PRESS.yml");
+            assert(!!engine);
+        });
+        it("can convert exception to rejected Promise", () => {
+            return fromYAMLFilePathAsync("./notFound.yml").then(() => {
+                assert.fail("should be failed");
+            }, () => {
+                // OK!
+            });
         });
     });
     describe("fromYAML", () => {

@@ -77,6 +77,38 @@ export function fromRowConfig(configPath: string, rawConfig: raw.Config, opts: O
     return engine;
 }
 
+export function fromYAMLFilePathsAsync(...configPaths: string[]): Promise<Engine> {
+    try {
+        return Promise.resolve(fromYAMLFilePaths(...configPaths));
+    } catch (e) {
+        return Promise.reject(e);
+    }
+}
+
+export function fromYAMLFilePathAsync(configPath: string, opts: Options = {}): Promise<Engine> {
+    try {
+        return Promise.resolve(fromYAMLFilePath(configPath, opts));
+    } catch (e) {
+        return Promise.reject(e);
+    }
+}
+
+export function fromYAMLAsync(configPath: string, yamlContent: string, opts: Options = {}): Promise<Engine> {
+    try {
+        return Promise.resolve(fromYAML(configPath, yamlContent, opts));
+    } catch (e) {
+        return Promise.reject(e);
+    }
+}
+
+export function fromRowConfigAsync(configPath: string, rawConfig: raw.Config, opts: Options = {}): Promise<Engine> {
+    try {
+        return Promise.resolve(fromRowConfig(configPath, rawConfig, opts));
+    } catch (e) {
+        return Promise.reject(e);
+    }
+}
+
 export function getRuleFilePath(baseDir: string, configFileName = "prh.yml"): string | null {
     const configFilePath = path.resolve(baseDir, configFileName);
     if (fs.existsSync(configFilePath)) {
