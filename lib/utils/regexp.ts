@@ -71,7 +71,7 @@ export function combine(args: (string | RegExp)[], flags?: string): RegExp {
 
 export function addBoundary(arg: string | RegExp): RegExp {
     let result: string;
-    let flags: string | undefined;
+    let flags = "";
     if (typeof arg === "string") {
         result = arg;
     } else if (arg instanceof RegExp) {

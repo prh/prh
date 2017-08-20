@@ -79,16 +79,11 @@ export class Rule {
             return addDefaultFlags(result);
         } else if (typeof pattern === "string") {
             let result = parseRegExpString(pattern);
-            if (result) {
-                if (this.options.wordBoundary) {
-                    return addDefaultFlags(addBoundary(result));
-                }
-                return addDefaultFlags(result);
+            if (!result) {
+                result = new RegExp(escapeSpecialChars(pattern));
             }
             if (this.options.wordBoundary) {
-                result = addBoundary(pattern);
-            } else {
-                result = new RegExp(escapeSpecialChars(pattern));
+                result = addBoundary(result);
             }
             return addDefaultFlags(result);
         } else if (pattern instanceof Array) {

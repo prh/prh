@@ -91,18 +91,3 @@ rules:
       # 日本語+単語境界の仕様は自分で調べてね…！
       - from: 今日もJS祭り
         to:   今日もjs祭り
-  # patternsと共にwordBoundaryを指定した場合
-  # それぞれのパターンの前後に \b が付与される
-  - expected: Angular$1
-    patterns:
-      - /angular(js)?/i # /\bangular(js)?\b/i
-    options:
-      wordBoundary: true
-    specs:
-      - from: angular
-        to: Angular
-      - from: angularJS
-        to: AngularJS
-      # \bにより異なる単語として認識されるので置換されない
-      - from: angulardart
-        to: angulardart
