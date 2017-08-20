@@ -1,3 +1,21 @@
+<a name="5.4.0"></a>
+# [5.4.0](https://github.com/prh/prh/compare/5.3.0...5.4.0) (2017-08-20)
+
+fromYAMLFilePathなどに非同期版を用意しました。
+将来的にEngine生成の非同期化を行ったり、Node.js環境縛りを緩和するために同期版のサポートを打ち切る可能性があります。
+
+### Bug Fixes
+
+* **prh:** patternsとwordBoundaryを同時に指定した場合も\bを付加するように ([b52261f](https://github.com/prh/prh/commit/b52261f))
+
+
+### Features
+
+* **prh:** 別のファイルをimportする時の挙動をある程度制御できるように変更 fixes [#19](https://github.com/prh/prh/issues/19) ([cd17abe](https://github.com/prh/prh/commit/cd17abe))
+* **prh:** 将来的な変更に備え、処理を非同期化したAPIを用意した ([9cb0c79](https://github.com/prh/prh/commit/9cb0c79))
+
+
+
 <a name="5.3.0"></a>
 # [5.3.0](https://github.com/prh/prh/compare/5.2.0...5.3.0) (2017-08-17)
 
