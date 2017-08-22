@@ -1,3 +1,18 @@
+<a name="5.4.2"></a>
+## [5.4.2](https://github.com/prh/prh/compare/5.4.1...5.4.2) (2017-08-22)
+
+
+### Bug Fixes
+
+* **prh:** Diffの作成時に変換前と変換後が一致する場合、それをどのようなパターンでも結果から除外するように修正 ([dc61ede](https://github.com/prh/prh/commit/dc61ede))
+
+
+### Features
+
+* **rules:** バンドルするルールの更新 ([72bc03b](https://github.com/prh/prh/commit/72bc03b))
+
+
+
 <a name="5.4.1"></a>
 ## [5.4.1](https://github.com/prh/prh/compare/5.4.0...5.4.1) (2017-08-22)
 
