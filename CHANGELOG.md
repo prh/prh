@@ -1,3 +1,18 @@
+<a name="5.4.1"></a>
+## [5.4.1](https://github.com/prh/prh/compare/5.4.0...5.4.1) (2017-08-22)
+
+
+### Bug Fixes
+
+* **prh:** --stdout を指定した時に余計な空行を末尾に追加していたのを修正 fixes [#28](https://github.com/prh/prh/issues/28) ([55cb83a](https://github.com/prh/prh/commit/55cb83a))
+
+
+### Features
+
+* **prh:** conventional-changelogの呼び出し方法を変えて脱grunt化した ([f3a2786](https://github.com/prh/prh/commit/f3a2786))
+
+
+
 <a name="5.4.0"></a>
 # [5.4.0](https://github.com/prh/prh/compare/5.3.0...5.4.0) (2017-08-20)
 

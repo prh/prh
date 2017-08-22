@@ -1,6 +1,6 @@
 {
   "name": "prh",
-  "version": "5.4.0",
+  "version": "5.4.1",
   "description": "proofreading helper",
   "main": "index.js",
   "bin": {
