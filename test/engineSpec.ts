@@ -106,6 +106,22 @@ webmasterだよー
 
             assert(changeSet.diffs.length === 0);
         }
+        {
+            const engine = new Engine({
+                version: 1,
+                rules: [
+                    { expected: "Web", pattern: "/\\bWeb\\b/i" },
+                ],
+            });
+
+            const changeSet = engine.makeChangeSet("test.md", "webとWebとWEB");
+
+            console.log(JSON.stringify(changeSet.diffs, null, 2));
+
+            assert(changeSet.diffs.length === 2);
+            assert(changeSet.diffs[0].matches[0] === "web");
+            assert(changeSet.diffs[1].matches[0] === "WEB");
+        }
     });
 
     describe("replaceByRule", () => {

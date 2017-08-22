@@ -142,12 +142,9 @@ export class Rule {
                         return null;
                     }
                 }
-                // expected: Web で pattern /[WwＷｗ][EeＥｅ][BbＢｂ]/gmu 系がマッチしないようにしたい
-                // spreadAlphaNum で処理した系
-                if ((this.raw.pattern || this.raw.patterns) == null) {
-                    if (this.expected === matches[0]) {
-                        return null;
-                    }
+                // 検出したものと期待するものが一致している場合無視させる
+                if (this.expected === matches[0]) {
+                    return null;
                 }
                 return new Diff({
                     pattern: this.pattern,
