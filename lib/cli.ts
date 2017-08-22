@@ -69,7 +69,7 @@ const root = commandpost
 
             if (opts.stdout) {
                 const result = changeSet.applyChangeSets(content);
-                console.log(result);
+                process.stdout.write(result);
 
             } else if (opts.diff) {
                 const result = changeSet.applyChangeSets(content);
