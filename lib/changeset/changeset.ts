@@ -21,7 +21,37 @@ export class ChangeSet {
 
     /* @internal */
     _prepare() {
-        this.diffs = this.diffs.sort((a, b) => a.index - b.index);
+        this.diffs = this.diffs.sort((a, b) => {
+            if (a.index !== b.index) {
+                return a.index - b.index;
+            }
+            return a.tailIndex - b.tailIndex;
+        });
+
+        // VSCodeのLSPでworkspace/applyEditを送った時に重複した範囲があるとエラーになる
+        // よって、重複する箇所のあるdiffを排除する必要がある
+        //   1. 同じindexからスタート→検出文字数が長い方を優先（より複雑なルール
+        this.diffs = this.diffs.filter((diff, idx) => {
+            const next = this.diffs[idx + 1];
+            if (!next) {
+                return true;
+            }
+            if (diff.index === next.index && diff.tailIndex < next.tailIndex) {
+                return false;
+            }
+            return true;
+        });
+        //   2. 異なるindexからスタート→indexが先の方を優先（先勝ち
+        this.diffs = this.diffs.filter((diff, idx) => {
+            const prev = this.diffs[idx - 1];
+            if (!prev) {
+                return true;
+            }
+            if (diff.index < prev.tailIndex) {
+                return false;
+            }
+            return true;
+        });
     }
 
     concat(other: ChangeSet): this {

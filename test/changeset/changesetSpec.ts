@@ -6,6 +6,58 @@ import { makeChangeSet, ChangeSet } from "../../lib/changeset";
 import { Diff } from "../../lib/changeset/diff";
 
 describe("ChangeSet", () => {
+    describe(".constructor", () => {
+        it("can reject Overlapping diff, pattern p.index === c.index", () => {
+            const base = "例えば今日の晩御飯は鶏の唐揚げだとする。";
+            let diffs: Diff[] = [];
+            {
+                const pattern = /例え/g;
+                const expected = "たとえ";
+                const extraDiffs = collectAll(pattern, base)
+                    .map(matches => {
+                        return new Diff({ pattern, expected, index: matches.index, matches });
+                    });
+                diffs = [...diffs, ...extraDiffs];
+            }
+            {
+                const pattern = /例えば/g;
+                const expected = "たとえば";
+                const extraDiffs = collectAll(pattern, base)
+                    .map(matches => {
+                        return new Diff({ pattern, expected, index: matches.index, matches });
+                    });
+                diffs = [...diffs, ...extraDiffs];
+            }
+            const changeSets = new ChangeSet({ content: base, diffs });
+            assert(changeSets.diffs.length === 1);
+            assert(changeSets.diffs[0].matches[0] === "例えば");
+        });
+        it("can reject Overlapping diff, pattern p.index !== c.index", () => {
+            const base = "ABCDE";
+            let diffs: Diff[] = [];
+            {
+                const pattern = /AB/g;
+                const expected = "ab";
+                const extraDiffs = collectAll(pattern, base)
+                    .map(matches => {
+                        return new Diff({ pattern, expected, index: matches.index, matches });
+                    });
+                diffs = [...diffs, ...extraDiffs];
+            }
+            {
+                const pattern = /BC/g;
+                const expected = "bc";
+                const extraDiffs = collectAll(pattern, base)
+                    .map(matches => {
+                        return new Diff({ pattern, expected, index: matches.index, matches });
+                    });
+                diffs = [...diffs, ...extraDiffs];
+            }
+            const changeSets = new ChangeSet({ content: base, diffs });
+            assert(changeSets.diffs.length === 1);
+            assert(changeSets.diffs[0].matches[0] === "AB");
+        });
+    });
     describe(".applyChangeSets", () => {
         it("can apply change sets. pattern shorten", () => {
             const pattern = /Webだー*/g;
