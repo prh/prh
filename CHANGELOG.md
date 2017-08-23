@@ -1,3 +1,13 @@
+<a name="5.4.3"></a>
+## [5.4.3](https://github.com/prh/prh/compare/5.4.2...5.4.3) (2017-08-23)
+
+
+### Bug Fixes
+
+* **prh:** 検出したDiffの範囲に重複がある場合、重複したDiffを無視するようにした ([837c422](https://github.com/prh/prh/commit/837c422))
+
+
+
 <a name="5.4.2"></a>
 ## [5.4.2](https://github.com/prh/prh/compare/5.4.1...5.4.2) (2017-08-22)
 
