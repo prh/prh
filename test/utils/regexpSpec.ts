@@ -79,6 +79,8 @@ describe("regexp", () => {
             try {
                 concat([/Hello/g, /TypeScript/im]);
             } catch (e) {
+                assert.strictEqual(e.message, `combining different flags g and im.
+The pattern /TypeScript/im has different flag with other patterns.`);
                 return;
             }
             assert.fail("spec succeed unexpectedly");
@@ -126,6 +128,8 @@ describe("regexp", () => {
             try {
                 combine([/Hello/g, /TypeScript/im]);
             } catch (e) {
+                assert.strictEqual(e.message, `combining different flags g and im.
+The pattern /TypeScript/im has different flag with other patterns.`);
                 return;
             }
             assert.fail("spec succeed unexpectedly");

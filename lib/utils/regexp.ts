@@ -32,7 +32,8 @@ export function concat(args: (string | RegExp)[], flags?: string): RegExp {
             const currentFlags = c.flags.split("").sort().join("");
             if (foundRegExp) {
                 if (prevFlags !== currentFlags) {
-                    throw new Error(`combining different flags ${prevFlags} and ${currentFlags}`);
+                    throw new Error(`combining different flags ${prevFlags} and ${currentFlags}.
+The pattern ${c} has different flag with other patterns.`);
                 }
             }
             prevFlags = currentFlags;
@@ -56,7 +57,8 @@ export function combine(args: (string | RegExp)[], flags?: string): RegExp {
             const currentFlags = arg.flags.split("").sort().join("");
             if (foundRegExp) {
                 if (prevFlags !== currentFlags) {
-                    throw new Error(`combining different flags ${prevFlags} and ${currentFlags}`);
+                    throw new Error(`combining different flags ${prevFlags} and ${currentFlags}.
+The pattern ${arg} has different flag with other patterns.`);
                 }
             }
             prevFlags = currentFlags;
