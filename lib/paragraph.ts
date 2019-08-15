@@ -18,6 +18,7 @@ export class Paragraph {
     constructor(index: number, content: string) {
         this.index = index;
         this.content = content;
+        this.ignoreAll = false;
 
         // prh:disable:良い|悪い みたいなパターンからチェックをパスさせる表現を作る
         // prh:disable だけの場合は全部パスさせる
