@@ -1,3 +1,17 @@
+## [5.4.4](https://github.com/prh/prh/compare/5.4.3...5.4.4) (2019-08-15)
+
+
+### Bug Fixes
+
+* **regexp:** improve concat error message ([#31](https://github.com/prh/prh/issues/31)) ([f587881](https://github.com/prh/prh/commit/f587881))
+
+
+### Features
+
+* **prh:** update dependencies ([ff81f44](https://github.com/prh/prh/commit/ff81f44))
+
+
+
 <a name="5.4.3"></a>
 ## [5.4.3](https://github.com/prh/prh/compare/5.4.2...5.4.3) (2017-08-23)
 
