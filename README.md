@@ -1,4 +1,4 @@
-# proofread-helper [![Circle CI](https://circleci.com/gh/prh/prh.svg?style=svg)](https://circleci.com/gh/prh/prh)
+# proofreading-helper [![Circle CI](https://circleci.com/gh/prh/prh.svg?style=svg)](https://circleci.com/gh/prh/prh)
 
 あなたの校正を手伝ってくれるライブラリ。
 
