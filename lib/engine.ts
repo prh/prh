@@ -16,7 +16,7 @@ export class Engine {
 
     constructor(src: raw.Config) {
         if (!src) {
-            throw new Error("src is requried");
+            throw new Error("src is required");
         }
         this.version = +src.version || 1;
         this.targets = (src.targets || []).map(target => new Target(target));

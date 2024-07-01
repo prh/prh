@@ -18,7 +18,7 @@ export class Rule {
 
     constructor(src: string | raw.Rule) {
         if (!src) {
-            throw new Error("src is requried");
+            throw new Error("src is required");
         }
         let rawRule: raw.Rule;
         if (typeof src === "string") {

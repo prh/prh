@@ -6,7 +6,7 @@ export class TargetPattern {
 
     constructor(src: string | raw.TargetPattern) {
         if (!src) {
-            throw new Error("src is requried");
+            throw new Error("src is required");
         }
         if (typeof src === "string") {
             this.pattern = parseRegExpString(src) || new RegExp(escapeSpecialChars(src));
@@ -14,7 +14,7 @@ export class TargetPattern {
             return;
         } else {
             if (!src.pattern) {
-                throw new Error("pattern is requried");
+                throw new Error("pattern is required");
             }
             this.pattern = parseRegExpString(src.pattern) || addDefaultFlags(new RegExp(escapeSpecialChars(src.pattern)));
             this.pattern = addDefaultFlags(this.pattern);
