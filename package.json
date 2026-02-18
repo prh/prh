@@ -13,7 +13,6 @@
     "node": ">=18"
   },
   "scripts": {
-    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
     "build": "tsc",
     "lint": "eslint lib/ test/",
     "format": "prettier --write 'lib/**/*.ts' 'test/**/*.ts'",
@@ -40,7 +39,6 @@
     "@types/diff": "^5.0.0",
     "@types/js-yaml": "^4.0.0",
     "@types/node": "^22.0.0",
-    "conventional-changelog-cli": "^5.0.0",
     "eslint": "^9.0.0",
     "eslint-config-prettier": "^9.0.0",
     "glob": "^10.0.0",
