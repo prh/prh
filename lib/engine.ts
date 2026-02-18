@@ -19,8 +19,8 @@ export class Engine {
             throw new Error("src is requried");
         }
         this.version = +src.version || 1;
-        this.targets = (src.targets || []).map(target => new Target(target));
-        this.rules = (src.rules || []).map(rule => new Rule(rule));
+        this.targets = (src.targets || []).map((target) => new Target(target));
+        this.rules = (src.rules || []).map((rule) => new Rule(rule));
         this.sourcePaths = [];
     }
 
@@ -31,21 +31,21 @@ export class Engine {
         if (this.version !== other.version) {
             throw new Error("version mismatch!");
         }
-        other.sourcePaths.forEach(sourcePath => {
-            const exists = this.sourcePaths.filter(otherSourcePath => otherSourcePath === sourcePath).length !== 0;
+        other.sourcePaths.forEach((sourcePath) => {
+            const exists = this.sourcePaths.filter((otherSourcePath) => otherSourcePath === sourcePath).length !== 0;
             if (!exists) {
                 this.sourcePaths.push(sourcePath);
             }
         });
-        other.targets.forEach(otherTarget => {
-            const exists = this.targets.filter(target => equals(target.file, otherTarget.file)).length !== 0;
+        other.targets.forEach((otherTarget) => {
+            const exists = this.targets.filter((target) => equals(target.file, otherTarget.file)).length !== 0;
             if (!exists) {
                 this.targets.push(otherTarget);
             }
         });
         // NOTE https://github.com/vvakame/prh/issues/18#issuecomment-222524140
-        const reqRules = other.rules.filter(otherRule => {
-            return this.rules.filter(rule => rule.expected === otherRule.expected).length === 0;
+        const reqRules = other.rules.filter((otherRule) => {
+            return this.rules.filter((rule) => rule.expected === otherRule.expected).length === 0;
         });
         this.rules = this.rules.concat(reqRules);
     }
@@ -68,19 +68,19 @@ export class Engine {
             }
         }
 
-        const diffs = paragraphs.map(p => p.makeDiffs(this.rules)).reduce((p, c) => p.concat(c), []);
+        const diffs = paragraphs.map((p) => p.makeDiffs(this.rules)).reduce((p, c) => p.concat(c), []);
         let changeSet = new ChangeSet({ filePath, content, diffs });
 
         let includes: ChangeSet | null = null;
         let excludes: ChangeSet | null = null;
-        this.targets.forEach(target => {
+        this.targets.forEach((target) => {
             target.reset();
             if (!target.file.test(filePath)) {
                 return;
             }
             if (target.includes.length !== 0) {
                 // .ts の // の後や /* */ の内部だけ対象にしたい場合のための機能
-                target.includes.forEach(include => {
+                target.includes.forEach((include) => {
                     const intersect = makeChangeSet(filePath, content, include.pattern);
                     if (includes) {
                         includes = includes.concat(intersect);
@@ -91,7 +91,7 @@ export class Engine {
             }
             if (target.excludes.length !== 0) {
                 // .re の #@ の後を対象にしたくない場合のための機能
-                target.excludes.forEach(exclude => {
+                target.excludes.forEach((exclude) => {
                     const subsract = makeChangeSet(filePath, content, exclude.pattern);
                     if (excludes) {
                         excludes = excludes.concat(subsract);

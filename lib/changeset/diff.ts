@@ -40,7 +40,7 @@ export class Diff {
 
         const result = this.expected.replace(/\$([0-9]{1,2})/g, (match: string, g1: string) => {
             const index = parseInt(g1, 10);
-            if (index === 0 || (this.matches.length - 1) < index) {
+            if (index === 0 || this.matches.length - 1 < index) {
                 return match;
             }
             return this.matches[index] || "";
@@ -54,7 +54,7 @@ export class Diff {
      * @param content 置き換えたいコンテンツ
      * @param delta diffの処理対象の地点がいくつズレているか 複数diffを順次適用する場合に必要
      */
-    apply(content: string, delta = 0): { replaced: string; newDelta: number; } | null {
+    apply(content: string, delta = 0): { replaced: string; newDelta: number } | null {
         if (this.newText == null) {
             return null;
         }
@@ -67,11 +67,11 @@ export class Diff {
         };
     }
 
-    isEncloser(other: { index: number; tailIndex: number; }) {
+    isEncloser(other: { index: number; tailIndex: number }) {
         return this.index < other.index && other.tailIndex < this.tailIndex;
     }
 
-    isCollide(other: { index: number; tailIndex: number; }) {
+    isCollide(other: { index: number; tailIndex: number }) {
         if (other.index < this.index && this.index < other.tailIndex) {
             return true;
         }
@@ -81,13 +81,13 @@ export class Diff {
         return false;
     }
 
-    isBefore(other: { index: number; }) {
+    isBefore(other: { index: number }) {
         return this.index < other.index;
     }
 
     toJSON() {
         const result: any = {};
-        Object.keys(this).forEach(key => {
+        Object.keys(this).forEach((key) => {
             if (key[0] === "_") {
                 return;
             }

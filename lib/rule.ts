@@ -32,11 +32,13 @@ export class Rule {
             if (patterns === "") {
                 throw new Error("pattern can't be empty");
             }
-            Array.isArray(patterns) && patterns.forEach(pattern => {
-                if (pattern === "") {
-                    throw new Error("patterns can't be empty");
-                }
-            });
+            if (Array.isArray(patterns)) {
+                patterns.forEach((pattern) => {
+                    if (pattern === "") {
+                        throw new Error("patterns can't be empty");
+                    }
+                });
+            }
         }
         checkEmptyPattern(rawRule.pattern);
         checkEmptyPattern(rawRule.patterns);
@@ -57,10 +59,10 @@ export class Rule {
 
         // for JSON order
         const options = this.options;
-        delete this.options;
+        delete (this as any).options;
         this.options = options;
 
-        this.specs = (rawRule.specs || []).map(spec => new RuleSpec(spec));
+        this.specs = (rawRule.specs || []).map((spec) => new RuleSpec(spec));
 
         this.raw = rawRule;
 
@@ -87,7 +89,7 @@ export class Rule {
             }
             return addDefaultFlags(result);
         } else if (pattern instanceof Array) {
-            const result = combine(pattern.map(p => this._patternToRegExp(p)));
+            const result = combine(pattern.map((p) => this._patternToRegExp(p)));
             return addDefaultFlags(result!);
         } else {
             throw new Error(`unexpected pattern: ${pattern}`);
@@ -115,12 +117,14 @@ export class Rule {
     }
 
     check() {
-        this.specs.forEach(spec => {
+        this.specs.forEach((spec) => {
             const diffs = this.applyRule(spec.from);
             const changeSet = new ChangeSet({ content: spec.from, diffs });
             const result = changeSet.applyChangeSets(spec.from);
             if (spec.to !== result) {
-                throw new Error(`${this.expected} spec failed. "${spec.from}", expected "${spec.to}", but got "${result}", ${this.pattern}`);
+                throw new Error(
+                    `${this.expected} spec failed. "${spec.from}", expected "${spec.to}", but got "${result}", ${this.pattern}`,
+                );
             }
         });
     }
@@ -129,7 +133,7 @@ export class Rule {
         this.reset();
         const resultList = collectAll(this.pattern, content);
         return resultList
-            .map(matches => {
+            .map((matches) => {
                 // JavaScriptでの正規表現では /(?<!記|大)事/ のような書き方ができない
                 // /(記|大)事/ で regexpMustEmpty $1 の場合、第一グループが空じゃないとマッチしない、というルールにして回避
                 if (this.regexpMustEmpty) {
@@ -154,7 +158,7 @@ export class Rule {
                     rule: this,
                 });
             })
-            .filter(v => !!v) as any as Diff[]; // (Diff | null)[] を Diff[] に変換したい
+            .filter((v) => !!v) as any as Diff[]; // (Diff | null)[] を Diff[] に変換したい
     }
 
     toJSON() {

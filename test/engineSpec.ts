@@ -1,10 +1,9 @@
-import * as assert from "assert";
+import { describe, it, expect } from "vitest";
 
 import * as fs from "fs";
 import * as path from "path";
 
-import * as glob from "glob";
-import * as mkdirp from "mkdirp";
+import { globSync } from "glob";
 
 import { fromYAMLFilePath } from "../lib/";
 
@@ -14,14 +13,16 @@ describe("Engine", () => {
     it("parse raw.Config", () => {
         const engine = new Engine({
             version: 1,
-            rules: [{
-                expected: "vvakame",
-            }],
+            rules: [
+                {
+                    expected: "vvakame",
+                },
+            ],
         });
 
-        assert(engine.version === 1);
-        assert(engine.rules.length === 1);
-        assert(engine.rules[0].pattern instanceof RegExp);
+        expect(engine.version).toBe(1);
+        expect(engine.rules.length).toBe(1);
+        expect(engine.rules[0].pattern).toBeInstanceOf(RegExp);
     });
 
     it("merge other Engine", () => {
@@ -40,10 +41,12 @@ describe("Engine", () => {
                 {
                     expected: "Web",
                     pattern: "ウェブ",
-                }, {
+                },
+                {
                     expected: "Web",
                     pattern: "ウェッブ",
-                }, {
+                },
+                {
                     // ignored
                     expected: "Test",
                     pattern: "テスト",
@@ -52,75 +55,72 @@ describe("Engine", () => {
         });
         main.merge(sub);
 
-        assert(main.version === 1);
-        assert(main.rules.length === 3);
-        assert(main.rules[0].expected === "Test");
-        assert(main.rules[0].pattern.source === "てすと");
-        assert(main.rules[1].expected === "Web");
-        assert(main.rules[1].pattern.source === "ウェブ");
-        assert(main.rules[2].expected === "Web");
-        assert(main.rules[2].pattern.source === "ウェッブ");
+        expect(main.version).toBe(1);
+        expect(main.rules.length).toBe(3);
+        expect(main.rules[0].expected).toBe("Test");
+        expect(main.rules[0].pattern.source).toBe("てすと");
+        expect(main.rules[1].expected).toBe("Web");
+        expect(main.rules[1].pattern.source).toBe("ウェブ");
+        expect(main.rules[2].expected).toBe("Web");
+        expect(main.rules[2].pattern.source).toBe("ウェッブ");
     });
 
     it("makeChangeSet", () => {
         {
             const engine = new Engine({
                 version: 1,
-                rules: [
-                    { expected: "A" },
-                    { expected: "B" },
-                    { expected: "C" },
-                ],
+                rules: [{ expected: "A" }, { expected: "B" }, { expected: "C" }],
             });
 
-            const changeSet = engine.makeChangeSet("test.re", `
+            const changeSet = engine.makeChangeSet(
+                "test.re",
+                `
 #@# prh:disable:b
 テストaとb。
 
 テストaとbとc。
 #@# prh:disable:c
-        `);
+        `,
+            );
 
-            assert(changeSet.diffs.length === 3);
-            assert(changeSet.diffs[0].index === 22);
-            assert(changeSet.diffs[1].index === 31);
-            assert(changeSet.diffs[2].index === 33);
+            expect(changeSet.diffs.length).toBe(3);
+            expect(changeSet.diffs[0].index).toBe(22);
+            expect(changeSet.diffs[1].index).toBe(31);
+            expect(changeSet.diffs[2].index).toBe(33);
         }
         {
             const engine = new Engine({
                 version: 1,
-                rules: [
-                    { expected: "Web" },
-                    { expected: "jQuery" },
-                ],
+                rules: [{ expected: "Web" }, { expected: "jQuery" }],
             });
 
-            const changeSet = engine.makeChangeSet("test.md", `
+            const changeSet = engine.makeChangeSet(
+                "test.md",
+                `
 <!-- prh:disable:web -->
 # webmaster
 webmasterだよー
 
 <!-- prh:disable:jquery -->
 [リンクだよー](https://jquery.com/)
-        `);
+        `,
+            );
 
-            assert(changeSet.diffs.length === 0);
+            expect(changeSet.diffs.length).toBe(0);
         }
         {
             const engine = new Engine({
                 version: 1,
-                rules: [
-                    { expected: "Web", pattern: "/\\bWeb\\b/i" },
-                ],
+                rules: [{ expected: "Web", pattern: "/\\bWeb\\b/i" }],
             });
 
             const changeSet = engine.makeChangeSet("test.md", "webとWebとWEB");
 
             console.log(JSON.stringify(changeSet.diffs, null, 2));
 
-            assert(changeSet.diffs.length === 2);
-            assert(changeSet.diffs[0].matches[0] === "web");
-            assert(changeSet.diffs[1].matches[0] === "WEB");
+            expect(changeSet.diffs.length).toBe(2);
+            expect(changeSet.diffs[0].matches[0]).toBe("web");
+            expect(changeSet.diffs[1].matches[0]).toBe("WEB");
         }
     });
 
@@ -128,23 +128,22 @@ webmasterだよー
         const fixtureDir = "test/fixture/";
         const expectedDir = "test/expected/";
 
-        glob.sync(`${fixtureDir}/*`).forEach(dir => {
+        globSync(`${fixtureDir}/*`).forEach((dir) => {
             it(dir, () => {
                 const prhYaml = path.join(dir, "prh.yml");
                 const engine = fromYAMLFilePath(prhYaml);
 
-                glob.sync(`${dir}/*`)
-                    .filter(file => file !== prhYaml)
-                    .forEach(file => {
+                globSync(`${dir}/*`)
+                    .filter((file) => file !== prhYaml)
+                    .forEach((file) => {
                         const result = engine.replaceByRule(file);
 
                         const target = file.replace(fixtureDir, expectedDir);
                         if (fs.existsSync(target)) {
                             const expected = fs.readFileSync(target, { encoding: "utf8" });
-                            assert(result === expected);
-
+                            expect(result).toBe(expected);
                         } else {
-                            mkdirp.sync(path.dirname(target));
+                            fs.mkdirSync(path.dirname(target), { recursive: true });
                             fs.writeFileSync(target, result);
                         }
                     });

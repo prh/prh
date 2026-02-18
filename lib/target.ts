@@ -14,12 +14,12 @@ export class Target {
         }
         this.file = parseRegExpString(src.file) || new RegExp(escapeSpecialChars(src.file));
         if (src.includes) {
-            this.includes = src.includes.map(include => new TargetPattern(include));
+            this.includes = src.includes.map((include) => new TargetPattern(include));
         } else {
             this.includes = [];
         }
         if (src.excludes) {
-            this.excludes = src.excludes.map(exclude => new TargetPattern(exclude));
+            this.excludes = src.excludes.map((exclude) => new TargetPattern(exclude));
         } else {
             this.excludes = [];
         }
@@ -27,8 +27,8 @@ export class Target {
 
     reset() {
         this.file.lastIndex = 0;
-        this.includes.forEach(include => include.reset());
-        this.excludes.forEach(exclude => exclude.reset());
+        this.includes.forEach((include) => include.reset());
+        this.excludes.forEach((exclude) => exclude.reset());
     }
 
     toJSON() {

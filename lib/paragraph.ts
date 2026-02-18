@@ -12,7 +12,7 @@ export class Paragraph {
     content: string;
     ignoreAll: boolean;
     /* @internal */
-    _pragmaRanges: { index: number; tailIndex: number; }[];
+    _pragmaRanges: { index: number; tailIndex: number }[];
     ignorePatterns: RegExp[];
 
     constructor(index: number, content: string) {
@@ -43,20 +43,22 @@ export class Paragraph {
     }
 
     makeDiffs(rules: Rule[]): Diff[] {
-        let diffs = rules.map(rule => rule.applyRule(this.content)).reduce((p, c) => p.concat(c), []);
+        let diffs = rules.map((rule) => rule.applyRule(this.content)).reduce((p, c) => p.concat(c), []);
         // pragmaに被る範囲の検出は無視する
-        diffs = diffs.filter(diff => this._pragmaRanges.every(range => !diff.isCollide(range)));
+        diffs = diffs.filter((diff) => this._pragmaRanges.every((range) => !diff.isCollide(range)));
 
-        diffs.forEach(diff => diff.index += this.index);
+        diffs.forEach((diff) => (diff.index += this.index));
 
         if (this.ignoreAll) {
             return [];
         }
 
-        return diffs.filter(diff => {
-            return this.ignorePatterns.filter(ignorePattern => {
-                return diff.matches[0].match(ignorePattern);
-            }).length === 0;
+        return diffs.filter((diff) => {
+            return (
+                this.ignorePatterns.filter((ignorePattern) => {
+                    return diff.matches[0].match(ignorePattern);
+                }).length === 0
+            );
         });
     }
 }
