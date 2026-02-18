@@ -30,7 +30,7 @@
   },
   "homepage": "https://github.com/prh/prh",
   "dependencies": {
-    "commander": "^12.0.0",
+    "commander": "^14.0.3",
     "diff": "^8.0.3",
     "js-yaml": "^4.1.0"
   },
