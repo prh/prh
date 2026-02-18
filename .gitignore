@@ -1,5 +1,6 @@
 # misc
 .DS_Store
+.claude/settings.local.json
 
 # for IDE
 .vscode/.browse.VC*

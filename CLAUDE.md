@@ -29,7 +29,7 @@ vitestはTypeScriptソースを直接実行するが、`npm test`はビルドも
 
 ## CI
 
-GitHub Actions（`.github/workflows/ci.yml`）でCI実行。master へのpush/PRで `yarn install`、`yarn run build`、`yarn test` を実行。サブモジュール（prh-rules）は自動チェックアウトされる。
+GitHub Actions（`.github/workflows/ci.yml`）でCI実行。master へのpush/PRで `npm ci`、`npm run build`、`npm test` を実行。サブモジュール（prh-rules）は自動チェックアウトされる。
 
 ## アーキテクチャ
 
