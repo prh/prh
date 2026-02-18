@@ -8,7 +8,7 @@ export interface Config {
 export interface ImportSpec {
     path: string;
     disableImports?: boolean;
-    // when string comming, evaluate to { pattern: string; }
+    // when string coming, evaluate to { pattern: string; }
     ignoreRules?: (string | IgnoreRule)[];
 }
 

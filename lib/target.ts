@@ -10,7 +10,7 @@ export class Target {
 
     constructor(src: raw.Target) {
         if (!src) {
-            throw new Error("src is requried");
+            throw new Error("src is required");
         }
         this.file = parseRegExpString(src.file) || new RegExp(escapeSpecialChars(src.file));
         if (src.includes) {

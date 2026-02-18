@@ -6,13 +6,13 @@ export class RuleSpec {
 
     constructor(src: raw.RuleSpec) {
         if (!src) {
-            throw new Error("src is requried");
+            throw new Error("src is required");
         }
         if (!src.from) {
-            throw new Error("from is requried");
+            throw new Error("from is required");
         }
         if (!src.to) {
-            throw new Error("to is requried");
+            throw new Error("to is required");
         }
         this.from = src.from;
         this.to = src.to;
