@@ -1,4 +1,4 @@
-import * as assert from "assert";
+import { describe, it, expect } from "vitest";
 
 import { Rule } from "../lib/rule";
 
@@ -8,7 +8,7 @@ describe("Rule", () => {
             expected: "vvakame",
         });
 
-        assert(rule.pattern instanceof RegExp);
+        expect(rule.pattern).toBeInstanceOf(RegExp);
     });
     it("parse pattern same as patterns", () => {
         const ruleA = new Rule({
@@ -20,7 +20,7 @@ describe("Rule", () => {
             pattern: ["/vvakame/i"],
         });
 
-        assert(ruleA.pattern.flags === ruleB.pattern.flags);
+        expect(ruleA.pattern.flags).toBe(ruleB.pattern.flags);
     });
     describe("#_patternToRegExp", () => {
         it("filled pattern from null, expected spread to alphabet, number", () => {
@@ -29,8 +29,8 @@ describe("Rule", () => {
                 pattern: null,
             });
 
-            assert(rule.pattern.source === "[VvＶｖ][VvＶｖ]");
-            assert(rule.pattern.global === true);
+            expect(rule.pattern.source).toBe("[VvＶｖ][VvＶｖ]");
+            expect(rule.pattern.global).toBe(true);
         });
         it("filled pattern from null, expected spread to alphabet, number with word boundary", () => {
             const rule = new Rule({
@@ -41,8 +41,8 @@ describe("Rule", () => {
                 },
             });
 
-            assert(rule.pattern.source === "\\b[VvＶｖ][VvＶｖ]\\b");
-            assert(rule.pattern.global === true);
+            expect(rule.pattern.source).toBe("\\b[VvＶｖ][VvＶｖ]\\b");
+            expect(rule.pattern.global).toBe(true);
         });
         it("filled pattern from string (not regexp style)", () => {
             const rule = new Rule({
@@ -50,8 +50,8 @@ describe("Rule", () => {
                 pattern: "vv",
             });
 
-            assert(rule.pattern.source === "vv");
-            assert(rule.pattern.global === true);
+            expect(rule.pattern.source).toBe("vv");
+            expect(rule.pattern.global).toBe(true);
         });
         it("filled pattern from string (not regexp style)", () => {
             const rule = new Rule({
@@ -62,41 +62,35 @@ describe("Rule", () => {
                 },
             });
 
-            assert(rule.pattern.source === "\\bvv\\b");
-            assert(rule.pattern.global === true);
+            expect(rule.pattern.source).toBe("\\bvv\\b");
+            expect(rule.pattern.global).toBe(true);
         });
 
         it("filled pattern from string[], string with word boundary", () => {
             const rule = new Rule({
                 expected: "vv",
-                pattern: [
-                    "VV",
-                    "AA",
-                ],
+                pattern: ["VV", "AA"],
                 options: {
                     wordBoundary: true,
                 },
             });
 
-            assert(rule.pattern.source === "(?:\\bVV\\b|\\bAA\\b)");
-            assert(rule.pattern.flags === "gmu");
-            assert(rule.pattern.global === true);
+            expect(rule.pattern.source).toBe("(?:\\bVV\\b|\\bAA\\b)");
+            expect(rule.pattern.flags).toBe("gmu");
+            expect(rule.pattern.global).toBe(true);
         });
         it("filled pattern from string[] (regexp style), string with word boundary", () => {
             const rule = new Rule({
                 expected: "vv",
-                pattern: [
-                    "/VV/i",
-                    "/AA/i",
-                ],
+                pattern: ["/VV/i", "/AA/i"],
                 options: {
                     wordBoundary: true,
                 },
             });
 
-            assert(rule.pattern.source === "(?:\\bVV\\b|\\bAA\\b)");
-            assert(rule.pattern.flags === "gimu");
-            assert(rule.pattern.global === true);
+            expect(rule.pattern.source).toBe("(?:\\bVV\\b|\\bAA\\b)");
+            expect(rule.pattern.flags).toBe("gimu");
+            expect(rule.pattern.global).toBe(true);
         });
         it("filled pattern from string (regexp style)", () => {
             const rule = new Rule({
@@ -104,21 +98,18 @@ describe("Rule", () => {
                 pattern: "/vv/m",
             });
 
-            assert(rule.pattern.source === "vv");
-            assert(rule.pattern.global === true);
-            assert(rule.pattern.multiline === true);
+            expect(rule.pattern.source).toBe("vv");
+            expect(rule.pattern.global).toBe(true);
+            expect(rule.pattern.multiline).toBe(true);
         });
         it("filled pattern from string[]", () => {
             const rule = new Rule({
                 expected: "vv",
-                pattern: [
-                    "/vv/",
-                    "aa",
-                ],
+                pattern: ["/vv/", "aa"],
             });
 
-            assert(rule.pattern.source === "(?:vv|aa)");
-            assert(rule.pattern.global === true);
+            expect(rule.pattern.source).toBe("(?:vv|aa)");
+            expect(rule.pattern.global).toBe(true);
         });
         it("filled pattern**s** from string", () => {
             const rule = new Rule({
@@ -126,31 +117,25 @@ describe("Rule", () => {
                 patterns: "vv",
             });
 
-            assert(rule.pattern.source === "vv");
-            assert(rule.pattern.global === true);
+            expect(rule.pattern.source).toBe("vv");
+            expect(rule.pattern.global).toBe(true);
         });
         it("filled pattern**s** from string[]", () => {
             const rule = new Rule({
                 expected: "vv",
-                patterns: [
-                    "/vv/",
-                    "aa",
-                ],
+                patterns: ["/vv/", "aa"],
             });
 
-            assert(rule.pattern.source === "(?:vv|aa)");
-            assert(rule.pattern.global === true);
+            expect(rule.pattern.source).toBe("(?:vv|aa)");
+            expect(rule.pattern.global).toBe(true);
         });
         it("reject empty pattern", () => {
-            try {
+            expect(() => {
                 new Rule({
                     expected: "vv",
                     pattern: "",
                 });
-            } catch (e) {
-                return;
-            }
-            assert.fail("spec succeed unexpectedly");
+            }).toThrow();
         });
     });
     describe("#_shouldIgnore", () => {
@@ -160,7 +145,7 @@ describe("Rule", () => {
                 pattern: null,
             });
 
-            assert(rule._shouldIgnore({ expected: "vv" }) === true);
+            expect(rule._shouldIgnore({ expected: "vv" })).toBe(true);
         });
         it("ignore expected only pattern", () => {
             const rule = new Rule({
@@ -168,7 +153,7 @@ describe("Rule", () => {
                 pattern: "vv",
             });
 
-            assert(rule._shouldIgnore({ pattern: "/vv/gmu" }) === true);
+            expect(rule._shouldIgnore({ pattern: "/vv/gmu" })).toBe(true);
         });
     });
     describe("#applyRule", () => {
@@ -189,40 +174,41 @@ describe("Rule", () => {
                 ],
             });
             const diffs = rule.applyRule("レイヤーとプレイヤー");
-            assert(diffs.length === 1);
-            assert(diffs[0].expected === "レイヤ");
+            expect(diffs.length).toBe(1);
+            expect(diffs[0].expected).toBe("レイヤ");
         });
         it("can process regexpMustEmpty", () => {
             const rule = new Rule({
                 expected: "Web",
             });
             const diffs = rule.applyRule("ここでWebです");
-            assert(diffs.length === 0);
+            expect(diffs.length).toBe(0);
         });
     });
     describe("#check", () => {
         it("succeed spec", () => {
             new Rule({
                 expected: "vvakame",
-                specs: [{
-                    from: "ＶＶＡＫＡＭＥ",
-                    to: "vvakame",
-                }],
+                specs: [
+                    {
+                        from: "ＶＶＡＫＡＭＥ",
+                        to: "vvakame",
+                    },
+                ],
             });
         });
         it("failed spec", () => {
-            try {
+            expect(() => {
                 new Rule({
                     expected: "vvakame",
-                    specs: [{
-                        from: "masahiro",
-                        to: "vvakame",
-                    }],
+                    specs: [
+                        {
+                            from: "masahiro",
+                            to: "vvakame",
+                        },
+                    ],
                 });
-            } catch (e) {
-                return;
-            }
-            assert.fail("spec succeed unexpectedly");
+            }).toThrow();
         });
     });
 });

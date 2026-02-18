@@ -1,4 +1,4 @@
-import * as assert from "assert";
+import { describe, it, expect } from "vitest";
 
 import { Diff } from "../../lib/changeset/diff";
 
@@ -11,7 +11,7 @@ describe("Diff", () => {
 
             const matches = pattern.exec(base)!;
             const diff = new Diff({ pattern, expected, index: matches.index, matches });
-            assert(diff.newText === "次の");
+            expect(diff.newText).toBe("次の");
         });
     });
 });

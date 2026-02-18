@@ -1,13 +1,12 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es2020",
     "module": "commonjs",
     "lib": [
-      "es2016"
+      "es2020"
     ],
     "types": [
-      "node",
-      "mocha"
+      "node"
     ],
     "strict": true,
     "stripInternal": true,
@@ -19,7 +18,8 @@
     "noFallthroughCasesInSwitch": true,
     "newLine": "LF",
     "noEmitOnError": true,
-    "inlineSources": true
+    "inlineSources": true,
+    "skipLibCheck": true
   },
   "include": [
     "lib/**/*.ts",

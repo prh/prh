@@ -64,7 +64,7 @@ export class ChangeSet {
         this._prepare();
 
         let delta = 0;
-        this.diffs.forEach(diff => {
+        this.diffs.forEach((diff) => {
             const applied = diff.apply(str, delta);
             if (applied == null) {
                 return;
@@ -83,7 +83,7 @@ export class ChangeSet {
         const result: ChangeSet = new ChangeSet({
             filePath: this.filePath,
             content: this.content,
-            diffs: this.diffs.map(v => v),
+            diffs: this.diffs.map((v) => v),
         });
         let m = 0;
         let s = 0;

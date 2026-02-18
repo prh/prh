@@ -1,0 +1,5 @@
+node_modules/
+prh-rules/
+*.js
+*.d.ts
+*.js.map

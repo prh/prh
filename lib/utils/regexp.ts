@@ -1,7 +1,8 @@
 const regexpRegexp = /^\/(.*)\/([gimy]*)$/;
 
 const hankakuAlphaNum = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-const zenkakuAlphaNum = "ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ０１２３４５６７８９";
+const zenkakuAlphaNum =
+    "ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ０１２３４５６７８９";
 
 export const supportRegExpUnicodeFlag = (() => {
     try {
@@ -49,25 +50,27 @@ The pattern ${c} has different flag with other patterns.`);
 export function combine(args: (string | RegExp)[], flags?: string): RegExp {
     let prevFlags = flags || "";
     let foundRegExp = false;
-    const result = args.map(arg => {
-        if (typeof arg === "string") {
-            return arg;
-        } else if (arg instanceof RegExp) {
-            arg.flags.split("").sort();
-            const currentFlags = arg.flags.split("").sort().join("");
-            if (foundRegExp) {
-                if (prevFlags !== currentFlags) {
-                    throw new Error(`combining different flags ${prevFlags} and ${currentFlags}.
+    const result = args
+        .map((arg) => {
+            if (typeof arg === "string") {
+                return arg;
+            } else if (arg instanceof RegExp) {
+                arg.flags.split("").sort();
+                const currentFlags = arg.flags.split("").sort().join("");
+                if (foundRegExp) {
+                    if (prevFlags !== currentFlags) {
+                        throw new Error(`combining different flags ${prevFlags} and ${currentFlags}.
 The pattern ${arg} has different flag with other patterns.`);
+                    }
                 }
+                prevFlags = currentFlags;
+                foundRegExp = true;
+                return arg.source;
+            } else {
+                throw new Error(`unknown type: ${arg}`);
             }
-            prevFlags = currentFlags;
-            foundRegExp = true;
-            return arg.source;
-        } else {
-            throw new Error(`unknown type: ${arg}`);
-        }
-    }).join("|");
+        })
+        .join("|");
     return concat(["(?:", result, ")"], foundRegExp ? prevFlags : void 0);
 }
 
@@ -94,19 +97,22 @@ export function parseRegExpString(str: string): RegExp | null {
 }
 
 export function spreadAlphaNum(str: string): RegExp {
-    const result = str.split("").map(v => {
-        const tmpIdx1 = hankakuAlphaNum.indexOf(v.toUpperCase());
-        const tmpIdx2 = hankakuAlphaNum.indexOf(v.toLowerCase());
-        if (tmpIdx1 === -1 && tmpIdx2 === -1) {
-            // not alpha num
-            return v;
-        } else if (tmpIdx1 === tmpIdx2) {
-            // num
-            return `[${v}${zenkakuAlphaNum.charAt(tmpIdx1)}]`;
-        } else {
-            return `[${v.toUpperCase()}${v.toLowerCase()}${zenkakuAlphaNum.charAt(tmpIdx1)}${zenkakuAlphaNum.charAt(tmpIdx2)}]`;
-        }
-    }).join("");
+    const result = str
+        .split("")
+        .map((v) => {
+            const tmpIdx1 = hankakuAlphaNum.indexOf(v.toUpperCase());
+            const tmpIdx2 = hankakuAlphaNum.indexOf(v.toLowerCase());
+            if (tmpIdx1 === -1 && tmpIdx2 === -1) {
+                // not alpha num
+                return v;
+            } else if (tmpIdx1 === tmpIdx2) {
+                // num
+                return `[${v}${zenkakuAlphaNum.charAt(tmpIdx1)}]`;
+            } else {
+                return `[${v.toUpperCase()}${v.toLowerCase()}${zenkakuAlphaNum.charAt(tmpIdx1)}${zenkakuAlphaNum.charAt(tmpIdx2)}]`;
+            }
+        })
+        .join("");
     return new RegExp(result);
 }
 
@@ -122,7 +128,7 @@ export function addDefaultFlags(regexp: RegExp) {
 }
 
 export function escapeSpecialChars(str: string): string {
-    regexpSpecialChars.forEach(char => {
+    regexpSpecialChars.forEach((char) => {
         str = str.replace(new RegExp(`\\${char}`, "g"), `\\${char}`);
     });
     return str;

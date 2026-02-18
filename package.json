@@ -9,10 +9,15 @@
   "directories": {
     "test": "test"
   },
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
-    "build": "tslint --fix -c tslint.json -p tsconfig.json && tsfmt -r && tsc",
-    "test": "npm run build && mocha --reporter spec --require intelli-espower-loader",
+    "build": "tsc",
+    "lint": "eslint lib/ test/",
+    "format": "prettier --write 'lib/**/*.ts' 'test/**/*.ts'",
+    "test": "npm run build && vitest run",
     "update-submodules": "git submodule foreach 'git pull --rebase'"
   },
   "repository": {
@@ -26,25 +31,22 @@
   },
   "homepage": "https://github.com/prh/prh",
   "dependencies": {
-    "commandpost": "^1.2.1",
-    "diff": "^4.0.1",
-    "js-yaml": "^3.9.1"
+    "commander": "^12.0.0",
+    "diff": "^5.0.0",
+    "js-yaml": "^4.1.0"
   },
   "devDependencies": {
-    "@types/diff": "^4.0.2",
-    "@types/glob": "^7.1.1",
-    "@types/js-yaml": "^3.12.1",
-    "@types/mkdirp": "^0.5.2",
-    "@types/mocha": "^5.2.7",
-    "@types/node": "^12.7.2",
-    "conventional-changelog-cli": "^2.0.23",
-    "glob": "^7.1.2",
-    "intelli-espower-loader": "^1.0.1",
-    "mkdirp": "^0.5.1",
-    "mocha": "^6.2.0",
-    "power-assert": "^1.4.4",
-    "tslint": "^5.5.0",
-    "typescript": "^3.5.3",
-    "typescript-formatter": "^7.2.2"
+    "@eslint/js": "^9.0.0",
+    "@types/diff": "^5.0.0",
+    "@types/js-yaml": "^4.0.0",
+    "@types/node": "^22.0.0",
+    "conventional-changelog-cli": "^5.0.0",
+    "eslint": "^9.0.0",
+    "eslint-config-prettier": "^9.0.0",
+    "glob": "^10.0.0",
+    "prettier": "^3.0.0",
+    "typescript": "^5.7.0",
+    "typescript-eslint": "^8.0.0",
+    "vitest": "^3.0.0"
   }
 }

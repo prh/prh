@@ -10,7 +10,7 @@ export { Engine, ChangeSet, Diff };
 
 export function fromYAMLFilePaths(...configPaths: string[]): Engine {
     const engine = fromYAMLFilePath(configPaths[0]);
-    configPaths.splice(1).forEach(path => {
+    configPaths.splice(1).forEach((path) => {
         engine.merge(fromYAMLFilePath(path));
     });
     return engine;
@@ -26,7 +26,7 @@ export function fromYAMLFilePath(configPath: string, opts: Options = {}): Engine
 }
 
 export function fromYAML(configPath: string, yamlContent: string, opts: Options = {}): Engine {
-    const rawConfig = yaml.load(yamlContent);
+    const rawConfig = yaml.load(yamlContent) as raw.Config;
     return fromRowConfig(configPath, rawConfig, opts);
 }
 
@@ -42,11 +42,13 @@ export function fromRowConfig(configPath: string, rawConfig: raw.Config, opts: O
 
         let importSpecs: raw.ImportSpec[];
         if (typeof rawConfig.imports === "string") {
-            importSpecs = [{
-                path: rawConfig.imports,
-            }];
+            importSpecs = [
+                {
+                    path: rawConfig.imports,
+                },
+            ];
         } else {
-            importSpecs = rawConfig.imports.map(imp => {
+            importSpecs = rawConfig.imports.map((imp) => {
                 if (typeof imp === "string") {
                     return {
                         path: imp,
@@ -55,17 +57,17 @@ export function fromRowConfig(configPath: string, rawConfig: raw.Config, opts: O
                 return imp;
             });
         }
-        importSpecs.forEach(importSpec => {
+        importSpecs.forEach((importSpec) => {
             const importedConfigPath = path.join(path.dirname(configPath), importSpec.path);
             const newEngine = fromYAMLFilePath(importedConfigPath, {
                 disableImports: !!importSpec.disableImports,
             });
 
-            const ignoreRules = (importSpec.ignoreRules || []).map(ignoreRule => {
+            const ignoreRules = (importSpec.ignoreRules || []).map((ignoreRule) => {
                 return typeof ignoreRule === "string" ? { pattern: ignoreRule } : ignoreRule;
             });
-            newEngine.rules = newEngine.rules.filter(rule => {
-                return ignoreRules.every(ignoreRule => {
+            newEngine.rules = newEngine.rules.filter((rule) => {
+                return ignoreRules.every((ignoreRule) => {
                     return !rule._shouldIgnore(ignoreRule);
                 });
             });

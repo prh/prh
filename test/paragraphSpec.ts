@@ -1,4 +1,4 @@
-import * as assert from "assert";
+import { describe, it, expect } from "vitest";
 
 import { Paragraph } from "../lib/paragraph";
 import { Rule } from "../lib/rule";
@@ -18,9 +18,9 @@ describe("Paragraph", () => {
                     }),
                 ]);
 
-                assert(diffs.length === 1);
-                assert(diffs[0].expected === "jQuery");
-                assert(diffs[0].index === 10 + "// prh:disable:web\nwebmasterや".length);
+                expect(diffs.length).toBe(1);
+                expect(diffs[0].expected).toBe("jQuery");
+                expect(diffs[0].index).toBe(10 + "// prh:disable:web\nwebmasterや".length);
             }
             {
                 const base = "// prh:disable\nwebmasterやjquery";
@@ -34,7 +34,7 @@ describe("Paragraph", () => {
                     }),
                 ]);
 
-                assert(diffs.length === 0);
+                expect(diffs.length).toBe(0);
             }
             {
                 const base = "// prh:disable:abc\n";
@@ -45,7 +45,7 @@ describe("Paragraph", () => {
                     }),
                 ]);
 
-                assert(diffs.length === 0);
+                expect(diffs.length).toBe(0);
             }
             {
                 const base = "// prh:disable:A\nABC\n// prh:disable:C";
@@ -62,8 +62,8 @@ describe("Paragraph", () => {
                     }),
                 ]);
 
-                assert(diffs.length === 1);
-                assert(diffs[0].expected === "b");
+                expect(diffs.length).toBe(1);
+                expect(diffs[0].expected).toBe("b");
             }
         });
     });

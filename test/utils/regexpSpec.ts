@@ -1,178 +1,181 @@
-import * as assert from "assert";
+import { describe, it, expect } from "vitest";
 
 import {
-    jpHira, jpKana, jpKanji, jpChar,
-    concat, combine, equals,
-    addBoundary, parseRegExpString, spreadAlphaNum, addDefaultFlags, escapeSpecialChars, collectAll, supportRegExpUnicodeFlag,
+    jpHira,
+    jpKana,
+    jpKanji,
+    jpChar,
+    concat,
+    combine,
+    equals,
+    addBoundary,
+    parseRegExpString,
+    spreadAlphaNum,
+    addDefaultFlags,
+    escapeSpecialChars,
+    collectAll,
+    supportRegExpUnicodeFlag,
 } from "../../lib/utils/regexp";
 
 describe("regexp", () => {
     describe("jpHira", () => {
         it("can detect hiragana", () => {
-            assert(jpHira.test("a") === false);
-            assert(jpHira.test("あ") === true);
-            assert(jpHira.test("ア") === false);
-            assert(jpHira.test("神") === false);
+            expect(jpHira.test("a")).toBe(false);
+            expect(jpHira.test("あ")).toBe(true);
+            expect(jpHira.test("ア")).toBe(false);
+            expect(jpHira.test("神")).toBe(false);
         });
     });
 
     describe("jpKana", () => {
         it("can detect katakana", () => {
-            assert(jpKana.test("a") === false);
-            assert(jpKana.test("あ") === false);
-            assert(jpKana.test("ア") === true);
-            assert(jpKana.test("神") === false);
+            expect(jpKana.test("a")).toBe(false);
+            expect(jpKana.test("あ")).toBe(false);
+            expect(jpKana.test("ア")).toBe(true);
+            expect(jpKana.test("神")).toBe(false);
         });
     });
 
     describe("jpKanji", () => {
         it("can detect kanji", () => {
-            assert(jpKanji.test("a") === false);
-            assert(jpKanji.test("あ") === false);
-            assert(jpKanji.test("ア") === false);
-            assert(jpKanji.test("神") === true);
+            expect(jpKanji.test("a")).toBe(false);
+            expect(jpKanji.test("あ")).toBe(false);
+            expect(jpKanji.test("ア")).toBe(false);
+            expect(jpKanji.test("神")).toBe(true);
         });
     });
 
     describe("jpChar", () => {
         it("can detect japanese character", () => {
-            assert(jpChar.test("a") === false);
-            assert(jpChar.test("あ") === true);
-            assert(jpChar.test("ア") === true);
-            assert(jpChar.test("神") === true);
+            expect(jpChar.test("a")).toBe(false);
+            expect(jpChar.test("あ")).toBe(true);
+            expect(jpChar.test("ア")).toBe(true);
+            expect(jpChar.test("神")).toBe(true);
         });
     });
 
     describe("concat", () => {
         it("concat string:string", () => {
             const regexp = concat(["Hello", "TypeScript"]);
-            assert(regexp.source === "HelloTypeScript");
+            expect(regexp.source).toBe("HelloTypeScript");
 
-            assert(regexp.test("HelloTypeScript"));
+            expect(regexp.test("HelloTypeScript")).toBe(true);
         });
         it("concat string:regexp", () => {
             const regexp = concat(["Hello", /TypeScript/]);
-            assert(regexp.source === "HelloTypeScript");
+            expect(regexp.source).toBe("HelloTypeScript");
 
-            assert(regexp.test("HelloTypeScript"));
+            expect(regexp.test("HelloTypeScript")).toBe(true);
         });
         it("concat regexp:string", () => {
             const regexp = concat([/Hello/, "TypeScript"]);
-            assert(regexp.source === "HelloTypeScript");
+            expect(regexp.source).toBe("HelloTypeScript");
 
-            assert(regexp.test("HelloTypeScript"));
+            expect(regexp.test("HelloTypeScript")).toBe(true);
         });
         it("concat regexp:regexp", () => {
             const regexp = concat([/Hello/, /TypeScript/]);
-            assert(regexp.source === "HelloTypeScript");
+            expect(regexp.source).toBe("HelloTypeScript");
 
-            assert(regexp.test("HelloTypeScript"));
+            expect(regexp.test("HelloTypeScript")).toBe(true);
         });
         it("concat regexp flags", () => {
             const regexp = concat([/Hello/im, /TypeScript/im]);
-            assert(regexp.source === "HelloTypeScript");
-            assert(regexp.flags === "im");
+            expect(regexp.source).toBe("HelloTypeScript");
+            expect(regexp.flags).toBe("im");
 
-            assert(regexp.test("HelloTypeScript"));
+            expect(regexp.test("HelloTypeScript")).toBe(true);
         });
         it("can't concat different regexp flags", () => {
-            try {
+            expect(() => {
                 concat([/Hello/g, /TypeScript/im]);
-            } catch (e) {
-                assert.strictEqual(e.message, `combining different flags g and im.
+            }).toThrow(`combining different flags g and im.
 The pattern /TypeScript/im has different flag with other patterns.`);
-                return;
-            }
-            assert.fail("spec succeed unexpectedly");
         });
     });
 
     describe("combine", () => {
         it("combine string:string", () => {
             const regexp = combine(["Hello", "TypeScript"]);
-            assert(regexp.source === "(?:Hello|TypeScript)");
+            expect(regexp.source).toBe("(?:Hello|TypeScript)");
 
-            assert(regexp.test("Hello"));
-            assert(regexp.test("TypeScript"));
+            expect(regexp.test("Hello")).toBe(true);
+            expect(regexp.test("TypeScript")).toBe(true);
         });
         it("combine string:regexp", () => {
             const regexp = combine(["Hello", /TypeScript/]);
-            assert(regexp.source === "(?:Hello|TypeScript)");
+            expect(regexp.source).toBe("(?:Hello|TypeScript)");
 
-            assert(regexp.test("Hello"));
-            assert(regexp.test("TypeScript"));
+            expect(regexp.test("Hello")).toBe(true);
+            expect(regexp.test("TypeScript")).toBe(true);
         });
         it("combine regexp:string", () => {
             const regexp = combine([/Hello/, "TypeScript"]);
-            assert(regexp.source === "(?:Hello|TypeScript)");
+            expect(regexp.source).toBe("(?:Hello|TypeScript)");
 
-            assert(regexp.test("Hello"));
-            assert(regexp.test("TypeScript"));
+            expect(regexp.test("Hello")).toBe(true);
+            expect(regexp.test("TypeScript")).toBe(true);
         });
         it("combine regexp:regexp", () => {
             const regexp = combine([/Hello/, /TypeScript/]);
-            assert(regexp.source === "(?:Hello|TypeScript)");
+            expect(regexp.source).toBe("(?:Hello|TypeScript)");
 
-            assert(regexp.test("Hello"));
-            assert(regexp.test("TypeScript"));
+            expect(regexp.test("Hello")).toBe(true);
+            expect(regexp.test("TypeScript")).toBe(true);
         });
         it("combine regexp flags", () => {
             const regexp = combine([/Hello/im, /TypeScript/im]);
-            assert(regexp.source === "(?:Hello|TypeScript)");
-            assert(regexp.flags === "im");
+            expect(regexp.source).toBe("(?:Hello|TypeScript)");
+            expect(regexp.flags).toBe("im");
 
-            assert(regexp.test("hello"));
-            assert(regexp.test("typescript"));
+            expect(regexp.test("hello")).toBe(true);
+            expect(regexp.test("typescript")).toBe(true);
         });
         it("can't combine different regexp flags", () => {
-            try {
+            expect(() => {
                 combine([/Hello/g, /TypeScript/im]);
-            } catch (e) {
-                assert.strictEqual(e.message, `combining different flags g and im.
+            }).toThrow(`combining different flags g and im.
 The pattern /TypeScript/im has different flag with other patterns.`);
-                return;
-            }
-            assert.fail("spec succeed unexpectedly");
         });
     });
 
     describe("addBoundary", () => {
         it("addBoundary to string", () => {
             const regexp = addBoundary("Hello");
-            assert(regexp.source === "\\bHello\\b");
+            expect(regexp.source).toBe("\\bHello\\b");
 
-            assert(regexp.test("Hello"));
+            expect(regexp.test("Hello")).toBe(true);
         });
         it("addBoundary to regexp", () => {
             const regexp = addBoundary(/Hello/);
-            assert(regexp.source === "\\bHello\\b");
+            expect(regexp.source).toBe("\\bHello\\b");
 
-            assert(regexp.test("Hello"));
+            expect(regexp.test("Hello")).toBe(true);
         });
         it("detect word boundary by alphabet", () => {
             const regexp = addBoundary(/js/);
 
-            assert(regexp.test("js") === true);
-            assert(regexp.test("A js B") === true);
-            assert(regexp.test("A altjs B") === false);
-            assert(regexp.test("A jsdoit B") === false);
+            expect(regexp.test("js")).toBe(true);
+            expect(regexp.test("A js B")).toBe(true);
+            expect(regexp.test("A altjs B")).toBe(false);
+            expect(regexp.test("A jsdoit B")).toBe(false);
         });
     });
 
     describe("parseRegExpString", () => {
         it("parse regexp style string", () => {
             const regexp = parseRegExpString("/[3-9]th/ig");
-            assert(!!regexp);
+            expect(regexp).toBeTruthy();
 
-            assert(regexp!.source === "[3-9]th");
-            assert(regexp!.ignoreCase === true);
-            assert(regexp!.global === true);
-            assert(regexp!.multiline === false);
+            expect(regexp!.source).toBe("[3-9]th");
+            expect(regexp!.ignoreCase).toBe(true);
+            expect(regexp!.global).toBe(true);
+            expect(regexp!.multiline).toBe(false);
         });
         it("can't parse non-regexp style string", () => {
             const regexp = parseRegExpString("Hi!");
 
-            assert(regexp === null);
+            expect(regexp).toBeNull();
         });
     });
 
@@ -180,19 +183,21 @@ The pattern /TypeScript/im has different flag with other patterns.`);
         it("spread alphabet & number to widely", () => {
             const regexp = spreadAlphaNum("abcdefghijklmnopqrstuvwxyz0123456789");
 
-            assert(regexp.source === "[AaＡａ][BbＢｂ][CcＣｃ][DdＤｄ][EeＥｅ][FfＦｆ][GgＧｇ][HhＨｈ][IiＩｉ][JjＪｊ][KkＫｋ][LlＬｌ][MmＭｍ][NnＮｎ][OoＯｏ][PpＰｐ][QqＱｑ][RrＲｒ][SsＳｓ][TtＴｔ][UuＵｕ][VvＶｖ][WwＷｗ][XxＸｘ][YyＹｙ][ZzＺｚ][0０][1１][2２][3３][4４][5５][6６][7７][8８][9９]");
+            expect(regexp.source).toBe(
+                "[AaＡａ][BbＢｂ][CcＣｃ][DdＤｄ][EeＥｅ][FfＦｆ][GgＧｇ][HhＨｈ][IiＩｉ][JjＪｊ][KkＫｋ][LlＬｌ][MmＭｍ][NnＮｎ][OoＯｏ][PpＰｐ][QqＱｑ][RrＲｒ][SsＳｓ][TtＴｔ][UuＵｕ][VvＶｖ][WwＷｗ][XxＸｘ][YyＹｙ][ZzＺｚ][0０][1１][2２][3３][4４][5５][6６][7７][8８][9９]",
+            );
         });
         it("match widely expression", () => {
             const regexp = spreadAlphaNum("web");
 
-            assert(regexp.test("Web") === true);
-            assert(regexp.test("web") === true);
-            assert(regexp.test("WEB") === true);
-            assert(regexp.test("Ｗｅｂ") === true);
-            assert(regexp.test("ｗｅｂ") === true);
-            assert(regexp.test("ＷＥＢ") === true);
+            expect(regexp.test("Web")).toBe(true);
+            expect(regexp.test("web")).toBe(true);
+            expect(regexp.test("WEB")).toBe(true);
+            expect(regexp.test("Ｗｅｂ")).toBe(true);
+            expect(regexp.test("ｗｅｂ")).toBe(true);
+            expect(regexp.test("ＷＥＢ")).toBe(true);
 
-            assert(regexp.test("foo") === false);
+            expect(regexp.test("foo")).toBe(false);
         });
     });
 
@@ -200,27 +205,27 @@ The pattern /TypeScript/im has different flag with other patterns.`);
         it("add g, u & m flags", () => {
             const regexp = addDefaultFlags(/hello/);
 
-            assert(regexp.source === "hello");
-            assert(regexp.global === true);
-            assert(regexp.ignoreCase === false);
-            assert(regexp.multiline === true);
+            expect(regexp.source).toBe("hello");
+            expect(regexp.global).toBe(true);
+            expect(regexp.ignoreCase).toBe(false);
+            expect(regexp.multiline).toBe(true);
             if (supportRegExpUnicodeFlag) {
-                assert(regexp.unicode === true);
+                expect(regexp.unicode).toBe(true);
             } else {
-                assert(regexp.unicode == null);
+                expect(regexp.unicode).toBeUndefined();
             }
         });
         it("add g flags and keep i flag", () => {
             const regexp = addDefaultFlags(/hello/i);
 
-            assert(regexp.source === "hello");
-            assert(regexp.global === true);
-            assert(regexp.ignoreCase === true);
-            assert(regexp.multiline === true);
+            expect(regexp.source).toBe("hello");
+            expect(regexp.global).toBe(true);
+            expect(regexp.ignoreCase).toBe(true);
+            expect(regexp.multiline).toBe(true);
             if (supportRegExpUnicodeFlag) {
-                assert(regexp.unicode === true);
+                expect(regexp.unicode).toBe(true);
             } else {
-                assert(regexp.unicode == null);
+                expect(regexp.unicode).toBeUndefined();
             }
         });
     });
@@ -229,53 +234,53 @@ The pattern /TypeScript/im has different flag with other patterns.`);
         it("replace special characters 1", () => {
             const result = escapeSpecialChars("/(?!S)ML/");
 
-            assert(result === "\\/\\(\\?!S\\)ML\\/");
+            expect(result).toBe("\\/\\(\\?!S\\)ML\\/");
         });
         it("replace special characters 2", () => {
             const result = escapeSpecialChars("¥*+.?{}()[]^$-|/");
 
-            assert(result === "\\¥\\*\\+\\.\\?\\{\\}\\(\\)\\[\\]\\^\\$\\-\\|\\/");
+            expect(result).toBe("\\¥\\*\\+\\.\\?\\{\\}\\(\\)\\[\\]\\^\\$\\-\\|\\/");
         });
     });
 
     describe("collectAll", () => {
         it("collect all matching place", () => {
             const str = "今日まで広くC言語は使われてきました。\nしかし、ここに至りC++やC#などが登場し隆盛を極め…";
-            const result = collectAll(/(C(\+\+|\#)?)/g, str);
+            const result = collectAll(/(C(\+\+|#)?)/g, str);
 
-            assert(result.length === 3);
+            expect(result.length).toBe(3);
 
-            assert(result[0].length === 3);
-            assert(result[0][0] === "C");
-            assert(result[0][1] === "C");
-            assert(result[0][2] === void 0);
-            assert(result[0].index === 6);
+            expect(result[0].length).toBe(3);
+            expect(result[0][0]).toBe("C");
+            expect(result[0][1]).toBe("C");
+            expect(result[0][2]).toBeUndefined();
+            expect(result[0].index).toBe(6);
 
-            assert(result[1].length === 3);
-            assert(result[1][0] === "C++");
-            assert(result[1][1] === "C++");
-            assert(result[1][2] === "++");
-            assert(result[1].index === 29);
+            expect(result[1].length).toBe(3);
+            expect(result[1][0]).toBe("C++");
+            expect(result[1][1]).toBe("C++");
+            expect(result[1][2]).toBe("++");
+            expect(result[1].index).toBe(29);
 
-            assert(result[2].length === 3);
-            assert(result[2][0] === "C#");
-            assert(result[2][1] === "C#");
-            assert(result[2][2] === "#");
-            assert(result[2].index === 33);
+            expect(result[2].length).toBe(3);
+            expect(result[2][0]).toBe("C#");
+            expect(result[2][1]).toBe("C#");
+            expect(result[2][2]).toBe("#");
+            expect(result[2].index).toBe(33);
         });
     });
 
     describe("equals", () => {
         it("can test equality", () => {
-            assert(equals(/a/, /a/));
-            assert(equals(/a/i, /a/i));
-            assert(equals(/a/g, /a/g));
-            assert(equals(/a/m, /a/m));
+            expect(equals(/a/, /a/)).toBe(true);
+            expect(equals(/a/i, /a/i)).toBe(true);
+            expect(equals(/a/g, /a/g)).toBe(true);
+            expect(equals(/a/m, /a/m)).toBe(true);
 
-            assert(!equals(/a/, /b/));
-            assert(!equals(/a/i, /a/));
-            assert(!equals(/a/g, /a/));
-            assert(!equals(/a/m, /a/));
+            expect(equals(/a/, /b/)).toBe(false);
+            expect(equals(/a/i, /a/)).toBe(false);
+            expect(equals(/a/g, /a/)).toBe(false);
+            expect(equals(/a/m, /a/)).toBe(false);
         });
     });
 });

@@ -19,12 +19,14 @@ tools/
 # misc
 .gitignore
 .editorconfig
-.circleci/
-circle.yml
+.github/
 setup.sh
 Gruntfile.js
 dtsm.json
-tslint.json
+eslint.config.mjs
+.prettierrc.json
+.prettierignore
+vitest.config.ts
 
 npm-shrinkwrap.json
 npm-debug.log

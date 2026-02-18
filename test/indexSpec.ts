@@ -1,26 +1,18 @@
-import * as assert from "assert";
+import { describe, it, expect } from "vitest";
 
 import * as fs from "fs";
 import * as path from "path";
 
 import { fromYAMLFilePaths, fromYAMLFilePath, fromYAMLFilePathAsync, fromYAML, getRuleFilePath } from "../lib/";
 
-import "./engineSpec";
-import "./ruleSpec";
-import "./paragraphSpec";
-import "./changeset/changesetSpec";
-import "./changeset/diffSpec";
-import "./utils/regexpSpec";
-import "./utils/contentSpec";
-
 describe("index", () => {
     describe("fromYAMLFilePaths", () => {
         it("parse yaml files to Config", () => {
             const engine = fromYAMLFilePaths("./prh-rules/media/WEB+DB_PRESS.yml", "./prh-rules/files/markdown.yml");
 
-            assert(engine.sourcePaths.length === 2);
-            assert(engine.sourcePaths[0] === "prh-rules/media/WEB+DB_PRESS.yml");
-            assert(engine.sourcePaths[1] === "prh-rules/files/markdown.yml");
+            expect(engine.sourcePaths.length).toBe(2);
+            expect(engine.sourcePaths[0]).toBe("prh-rules/media/WEB+DB_PRESS.yml");
+            expect(engine.sourcePaths[1]).toBe("prh-rules/files/markdown.yml");
         });
     });
     describe("fromYAMLFilePath", () => {
@@ -31,14 +23,10 @@ describe("index", () => {
     describe("fromYAMLFilePathAsync", () => {
         it("parse yaml file to Config", async () => {
             const engine = await fromYAMLFilePathAsync("./prh-rules/media/WEB+DB_PRESS.yml");
-            assert(!!engine);
+            expect(engine).toBeTruthy();
         });
         it("can convert exception to rejected Promise", () => {
-            return fromYAMLFilePathAsync("./notFound.yml").then(() => {
-                assert.fail("should be failed");
-            }, () => {
-                // OK!
-            });
+            return expect(fromYAMLFilePathAsync("./notFound.yml")).rejects.toThrow();
         });
     });
     describe("fromYAML", () => {
@@ -50,15 +38,14 @@ describe("index", () => {
     });
     describe("getRuleFilePath", () => {
         it("can find prh.yml", () => {
-            assert(getRuleFilePath("./misc") === path.join(process.cwd(), "misc/prh.yml"));
+            expect(getRuleFilePath("./misc")).toBe(path.join(process.cwd(), "misc/prh.yml"));
         });
     });
     describe("try all yml files in misc", () => {
         const targetDir = path.resolve(__dirname, "..", "misc");
-        fs
-            .readdirSync(targetDir)
-            .filter(file => /\.yml$/.test(file))
-            .forEach(file => {
+        fs.readdirSync(targetDir)
+            .filter((file) => /\.yml$/.test(file))
+            .forEach((file) => {
                 it(`try ${file}`, () => {
                     const configPath = `${targetDir}/${file}`;
                     const yamlContent = fs.readFileSync(configPath, { encoding: "utf8" });
@@ -72,18 +59,18 @@ describe("index", () => {
 
         const engine = fromYAMLFilePath("./misc/imports.yml");
 
-        assert(engine.rules.length === miscPrhEngine.rules.length + miscSampleEngine.rules.length);
+        expect(engine.rules.length).toBe(miscPrhEngine.rules.length + miscSampleEngine.rules.length);
 
-        assert(engine.sourcePaths.length === 5);
-        assert(engine.sourcePaths[0] === "misc/imports.yml");
-        assert(engine.sourcePaths[1] === "misc/imports-a.yml");
-        assert(engine.sourcePaths[2] === "misc/imports-b.yml");
-        assert(engine.sourcePaths[3] === "misc/imports-c.yml");
-        assert(engine.sourcePaths[4] === "misc/imports-d.yml");
+        expect(engine.sourcePaths.length).toBe(5);
+        expect(engine.sourcePaths[0]).toBe("misc/imports.yml");
+        expect(engine.sourcePaths[1]).toBe("misc/imports-a.yml");
+        expect(engine.sourcePaths[2]).toBe("misc/imports-b.yml");
+        expect(engine.sourcePaths[3]).toBe("misc/imports-c.yml");
+        expect(engine.sourcePaths[4]).toBe("misc/imports-d.yml");
     });
     it("passed disableImports option", () => {
         const engine = fromYAMLFilePath("./misc/imports.yml", { disableImports: true });
 
-        assert(engine.rules.length === 0);
+        expect(engine.rules.length).toBe(0);
     });
 });
