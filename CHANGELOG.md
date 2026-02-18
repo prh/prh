@@ -1,3 +1,5 @@
+> **Note:** このCHANGELOGは今後更新されません。最新のリリース情報は [GitHub Releases](https://github.com/prh/prh/releases) を参照してください。
+
 ## [5.4.4](https://github.com/prh/prh/compare/5.4.3...5.4.4) (2019-08-15)
 
 
