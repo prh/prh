@@ -179,6 +179,21 @@ Markdownであれば `<!-- prh:disable -->` とすることができます。
 このため、無視するルールの記述に半角スペースを利用することができなくなっています。
 代わりに `\s` などを使ってください。
 
+## リリース手順
+
+npmへのpublishはGitHub Actionsで自動化されています。
+GitHub Releaseを作成すると自動的にnpmにpublishされます。
+
+```bash
+# 1. バージョンを更新（package.json更新 + コミット + gitタグ作成）
+$ npm version patch   # patch: 5.4.4 → 5.4.5, minor: 5.4.4 → 5.5.0, major: 5.4.4 → 6.0.0
+
+# 2. リモートに反映
+$ git push && git push --tags
+```
+
+その後、GitHubで該当タグからReleaseを作成してください。
+
 ## 関連ツール
 
 Atomのプラグインである[language-review](https://atom.io/packages/language-review)に組み込まれています。

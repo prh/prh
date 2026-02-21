@@ -1,10 +1,10 @@
 {
   "name": "prh",
-  "version": "5.4.4",
+  "version": "6.0.0",
   "description": "proofreading helper",
   "main": "index.js",
   "bin": {
-    "prh": "./bin/prh"
+    "prh": "bin/prh"
   },
   "directories": {
     "test": "test"
@@ -21,7 +21,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/prh/prh.git"
+    "url": "git+https://github.com/prh/prh.git"
   },
   "author": "vvakame",
   "license": "MIT",

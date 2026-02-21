@@ -54,6 +54,13 @@ YAML設定 → Engine → テキストをParagraphに分割 → Ruleを適用 �
 - ルールは構築時に`specs`（from/toのテストケース）を検証し、不正なルールは即座にエラーを投げる
 - コンパイル済みの`.js`、`.js.map`、`.d.ts`ファイルは`.ts`ソースと同じディレクトリに出力される（別ディレクトリへの出力なし）
 
+## リリース手順
+
+1. `npm version patch`（またはminor/major）でpackage.jsonのバージョン更新・コミット・gitタグ作成
+2. `git push && git push --tags` でリモートに反映
+3. GitHub上でそのタグからReleaseを作成
+4. `.github/workflows/publish.yml` が自動的にトリガーされ、npmにpublishされる
+
 ## コードスタイル
 
 - TypeScript strictモード、ターゲットES2020/CommonJS

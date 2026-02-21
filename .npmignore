@@ -1,9 +1,13 @@
 .git/
 prh-rules/.git/
-.gitsubmodule
+.gitmodules
 
 # for VSCode
 .vscode/
+
+# for Claude Code
+.claude/
+CLAUDE.md
 
 # for npm
 node_modules/
