@@ -237,9 +237,9 @@ The pattern /TypeScript/im has different flag with other patterns.`);
             expect(result).toBe("\\/\\(\\?!S\\)ML\\/");
         });
         it("replace special characters 2", () => {
-            const result = escapeSpecialChars("¥*+.?{}()[]^$-|/");
+            const result = escapeSpecialChars("\\*+.?{}()[]^$-|/");
 
-            expect(result).toBe("\\¥\\*\\+\\.\\?\\{\\}\\(\\)\\[\\]\\^\\$\\-\\|\\/");
+            expect(result).toBe("\\\\\\*\\+\\.\\?\\{\\}\\(\\)\\[\\]\\^\\$\\-\\|\\/");
         });
     });
 

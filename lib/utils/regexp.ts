@@ -20,8 +20,6 @@ export const jpKana = /[ァ-ヺ]/;
 export const jpKanji = /(?:[々〇〻\u3400-\u9FFF\uF900-\uFAFF]|[\uD840-\uD87F][\uDC00-\uDFFF])/;
 export const jpChar = combine([jpHira, jpKana, jpKanji]);
 
-const regexpSpecialChars = "¥*+.?{}()[]^$-|/".split("");
-
 export function concat(args: (string | RegExp)[], flags?: string): RegExp {
     let prevFlags = flags || "";
     let foundRegExp = false;
@@ -127,11 +125,10 @@ export function addDefaultFlags(regexp: RegExp) {
     return new RegExp(regexp.source, flags);
 }
 
+// Note: Node.js v24がターゲット下限になったらRegExp.escape()に置き換えられる
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/escape
 export function escapeSpecialChars(str: string): string {
-    regexpSpecialChars.forEach((char) => {
-        str = str.replace(new RegExp(`\\${char}`, "g"), `\\${char}`);
-    });
-    return str;
+    return str.replace(/[\\*+.?{}()|^$[\]/-]/g, "\\$&");
 }
 
 export function collectAll(regexp: RegExp, src: string) {
