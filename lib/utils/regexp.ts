@@ -20,7 +20,7 @@ export const jpKana = /[ァ-ヺ]/;
 export const jpKanji = /(?:[々〇〻\u3400-\u9FFF\uF900-\uFAFF]|[\uD840-\uD87F][\uDC00-\uDFFF])/;
 export const jpChar = combine([jpHira, jpKana, jpKanji]);
 
-const regexpSpecialChars = "¥*+.?{}()[]^$-|/".split("");
+const regexpSpecialChars = "\\*+.?{}()[]^$-|/".split("");
 
 export function concat(args: (string | RegExp)[], flags?: string): RegExp {
     let prevFlags = flags || "";
