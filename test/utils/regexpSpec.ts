@@ -14,7 +14,6 @@ import {
     addDefaultFlags,
     escapeSpecialChars,
     collectAll,
-    supportRegExpUnicodeFlag,
 } from "../../lib/utils/regexp";
 
 describe("regexp", () => {
@@ -209,11 +208,7 @@ The pattern /TypeScript/im has different flag with other patterns.`);
             expect(regexp.global).toBe(true);
             expect(regexp.ignoreCase).toBe(false);
             expect(regexp.multiline).toBe(true);
-            if (supportRegExpUnicodeFlag) {
-                expect(regexp.unicode).toBe(true);
-            } else {
-                expect(regexp.unicode).toBeUndefined();
-            }
+            expect(regexp.unicode).toBe(true);
         });
         it("add g flags and keep i flag", () => {
             const regexp = addDefaultFlags(/hello/i);
@@ -222,11 +217,7 @@ The pattern /TypeScript/im has different flag with other patterns.`);
             expect(regexp.global).toBe(true);
             expect(regexp.ignoreCase).toBe(true);
             expect(regexp.multiline).toBe(true);
-            if (supportRegExpUnicodeFlag) {
-                expect(regexp.unicode).toBe(true);
-            } else {
-                expect(regexp.unicode).toBeUndefined();
-            }
+            expect(regexp.unicode).toBe(true);
         });
     });
 
