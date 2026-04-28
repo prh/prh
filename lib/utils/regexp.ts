@@ -1,4 +1,4 @@
-const regexpRegexp = /^\/(.*)\/([gimy]*)$/;
+const regexpRegexp = /^\/(.*)\/([gimsuy]*)$/;
 
 const hankakuAlphaNum = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 const zenkakuAlphaNum =

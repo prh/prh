@@ -176,6 +176,31 @@ The pattern /TypeScript/im has different flag with other patterns.`);
 
             expect(regexp).toBeNull();
         });
+        it("parse regexp with unicode flag", () => {
+            const regexp = parseRegExpString("/\\p{Script=Han}/u");
+            expect(regexp).toBeTruthy();
+
+            expect(regexp!.source).toBe("\\p{Script=Han}");
+            expect(regexp!.unicode).toBe(true);
+        });
+        it("parse regexp with dotAll flag", () => {
+            const regexp = parseRegExpString("/./s");
+            expect(regexp).toBeTruthy();
+
+            expect(regexp!.source).toBe(".");
+            expect(regexp!.dotAll).toBe(true);
+        });
+        it("parse regexp with multiple modern flags", () => {
+            const regexp = parseRegExpString("/pattern/gimsuy");
+            expect(regexp).toBeTruthy();
+
+            expect(regexp!.global).toBe(true);
+            expect(regexp!.ignoreCase).toBe(true);
+            expect(regexp!.multiline).toBe(true);
+            expect(regexp!.sticky).toBe(true);
+            expect(regexp!.unicode).toBe(true);
+            expect(regexp!.dotAll).toBe(true);
+        });
     });
 
     describe("spreadAlphaNum", () => {
