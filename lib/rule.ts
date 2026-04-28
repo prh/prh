@@ -1,4 +1,4 @@
-import { spreadAlphaNum, addBoundary, addDefaultFlags, parseRegExpString, escapeSpecialChars, combine, collectAll } from "./utils/regexp";
+import { spreadAlphaNum, addBoundary, addDefaultFlags, parseRegExpString, escapeSpecialChars, combine } from "./utils/regexp";
 
 import { Options } from "./options";
 import { RuleSpec } from "./ruleSpec";
@@ -131,7 +131,7 @@ export class Rule {
 
     applyRule(content: string): Diff[] {
         this.reset();
-        const resultList = collectAll(this.pattern, content);
+        const resultList = [...content.matchAll(this.pattern)];
         return resultList
             .map((matches) => {
                 // JavaScriptでの正規表現では /(?<!記|大)事/ のような書き方ができない
