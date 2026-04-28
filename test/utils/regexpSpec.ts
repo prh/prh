@@ -267,11 +267,17 @@ The pattern /TypeScript/im has different flag with other patterns.`);
             expect(equals(/a/i, /a/i)).toBe(true);
             expect(equals(/a/g, /a/g)).toBe(true);
             expect(equals(/a/m, /a/m)).toBe(true);
+            expect(equals(/a/u, /a/u)).toBe(true);
+            expect(equals(/a/y, /a/y)).toBe(true);
+            expect(equals(/a/s, /a/s)).toBe(true);
 
             expect(equals(/a/, /b/)).toBe(false);
             expect(equals(/a/i, /a/)).toBe(false);
             expect(equals(/a/g, /a/)).toBe(false);
             expect(equals(/a/m, /a/)).toBe(false);
+            expect(equals(/a/u, /a/)).toBe(false);
+            expect(equals(/a/y, /a/)).toBe(false);
+            expect(equals(/a/s, /a/)).toBe(false);
         });
     });
 });
