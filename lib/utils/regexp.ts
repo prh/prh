@@ -116,7 +116,7 @@ export function addDefaultFlags(regexp: RegExp) {
 // Note: Node.js v24がターゲット下限になったらRegExp.escape()に置き換えられる
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/escape
 export function escapeSpecialChars(str: string): string {
-    return str.replace(/[\\*+.?{}()|^$[\]/-]/g, "\\$&");
+    return str.replace(/[\\*+.?{}()|^$[\]/]/g, "\\$&");
 }
 
 export function collectAll(regexp: RegExp, src: string) {
