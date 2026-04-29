@@ -230,7 +230,19 @@ The pattern /TypeScript/im has different flag with other patterns.`);
         it("replace special characters 2", () => {
             const result = escapeSpecialChars("\\*+.?{}()[]^$-|/");
 
-            expect(result).toBe("\\\\\\*\\+\\.\\?\\{\\}\\(\\)\\[\\]\\^\\$\\-\\|\\/");
+            // In Unicode mode, - is not escaped (only special inside [])
+            // Actual: \\ \ * \ + \ . \ ? \ { \ } \ ( \ ) \ [ \ ] \ ^ \ $ - \ | \ /
+            expect(result).toBe("\\\\\\*\\+\\.\\?\\{\\}\\(\\)\\[\\]\\^\\$-\\|\\/");
+        });
+        it("should not escape hyphen in Unicode mode (Issue #34)", () => {
+            const result = escapeSpecialChars("R-18");
+            expect(result).toBe("R-18");
+            // Verify it works with prh's default gmu flags
+            expect(() => new RegExp(result, "gmu")).not.toThrow();
+        });
+        it("should escape brackets properly", () => {
+            const result = escapeSpecialChars("[A-Z]");
+            expect(result).toBe("\\[A-Z\\]");
         });
     });
 
