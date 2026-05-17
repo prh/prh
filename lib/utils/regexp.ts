@@ -18,7 +18,6 @@ export function concat(args: (string | RegExp)[], flags?: string): RegExp {
         if (typeof c === "string") {
             return p + c;
         } else if (c instanceof RegExp) {
-            c.flags.split("").sort();
             const currentFlags = c.flags.split("").sort().join("");
             if (foundRegExp) {
                 if (prevFlags !== currentFlags) {
@@ -44,7 +43,6 @@ export function combine(args: (string | RegExp)[], flags?: string): RegExp {
             if (typeof arg === "string") {
                 return arg;
             } else if (arg instanceof RegExp) {
-                arg.flags.split("").sort();
                 const currentFlags = arg.flags.split("").sort().join("");
                 if (foundRegExp) {
                     if (prevFlags !== currentFlags) {
