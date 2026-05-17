@@ -13,7 +13,6 @@ import {
     spreadAlphaNum,
     addDefaultFlags,
     escapeSpecialChars,
-    collectAll,
 } from "../../lib/utils/regexp";
 
 describe("regexp", () => {
@@ -234,10 +233,10 @@ The pattern /TypeScript/im has different flag with other patterns.`);
         });
     });
 
-    describe("collectAll", () => {
+    describe("matchAll", () => {
         it("collect all matching place", () => {
             const str = "今日まで広くC言語は使われてきました。\nしかし、ここに至りC++やC#などが登場し隆盛を極め…";
-            const result = collectAll(/(C(\+\+|#)?)/g, str);
+            const result = [...str.matchAll(/(C(\+\+|#)?)/g)];
 
             expect(result.length).toBe(3);
 

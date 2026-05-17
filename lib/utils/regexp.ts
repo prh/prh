@@ -119,25 +119,6 @@ export function escapeSpecialChars(str: string): string {
     return str.replace(/[\\*+.?{}()|^$[\]/-]/g, "\\$&");
 }
 
-export function collectAll(regexp: RegExp, src: string) {
-    if (!regexp.global) {
-        throw new Error("g flag is required");
-    }
-    if (!regexp.source) {
-        throw new Error("source is required");
-    }
-    const resultList: RegExpExecArray[] = [];
-    let result: RegExpExecArray | null;
-    do {
-        result = regexp.exec(src);
-        if (result) {
-            resultList.push(result);
-        }
-    } while (result);
-
-    return resultList;
-}
-
 export function equals(a: RegExp, b: RegExp) {
     if (a.source !== b.source) {
         return false;

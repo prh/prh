@@ -1,7 +1,5 @@
 import { describe, it, expect } from "vitest";
 
-import { collectAll } from "../../lib/utils/regexp";
-
 import { makeChangeSet, ChangeSet } from "../../lib/changeset";
 import { Diff } from "../../lib/changeset/diff";
 
@@ -13,7 +11,7 @@ describe("ChangeSet", () => {
             {
                 const pattern = /例え/g;
                 const expected = "たとえ";
-                const extraDiffs = collectAll(pattern, base).map((matches) => {
+                const extraDiffs = [...base.matchAll(pattern)].map((matches) => {
                     return new Diff({ pattern, expected, index: matches.index, matches });
                 });
                 diffs = [...diffs, ...extraDiffs];
@@ -21,7 +19,7 @@ describe("ChangeSet", () => {
             {
                 const pattern = /例えば/g;
                 const expected = "たとえば";
-                const extraDiffs = collectAll(pattern, base).map((matches) => {
+                const extraDiffs = [...base.matchAll(pattern)].map((matches) => {
                     return new Diff({ pattern, expected, index: matches.index, matches });
                 });
                 diffs = [...diffs, ...extraDiffs];
@@ -36,7 +34,7 @@ describe("ChangeSet", () => {
             {
                 const pattern = /AB/g;
                 const expected = "ab";
-                const extraDiffs = collectAll(pattern, base).map((matches) => {
+                const extraDiffs = [...base.matchAll(pattern)].map((matches) => {
                     return new Diff({ pattern, expected, index: matches.index, matches });
                 });
                 diffs = [...diffs, ...extraDiffs];
@@ -44,7 +42,7 @@ describe("ChangeSet", () => {
             {
                 const pattern = /BC/g;
                 const expected = "bc";
-                const extraDiffs = collectAll(pattern, base).map((matches) => {
+                const extraDiffs = [...base.matchAll(pattern)].map((matches) => {
                     return new Diff({ pattern, expected, index: matches.index, matches });
                 });
                 diffs = [...diffs, ...extraDiffs];
@@ -59,7 +57,7 @@ describe("ChangeSet", () => {
             const pattern = /Webだー*/g;
             const expected = "Webさ";
             const base = "今日の晩御飯はWebだーーーーーーー！そしておかずもWebだ！";
-            const diffs = collectAll(pattern, base).map((matches) => {
+            const diffs = [...base.matchAll(pattern)].map((matches) => {
                 return new Diff({ pattern, expected, index: matches.index, matches });
             });
             const changeSets = new ChangeSet({ content: base, diffs });
@@ -70,7 +68,7 @@ describe("ChangeSet", () => {
             const pattern = /Web/g;
             const expected = "ウェッブ";
             const base = "今日の晩御飯はWebだ！そしておかずもWebだ！";
-            const diffs = collectAll(pattern, base).map((matches) => {
+            const diffs = [...base.matchAll(pattern)].map((matches) => {
                 return new Diff({ pattern, expected, index: matches.index, matches });
             });
             const changeSets = new ChangeSet({ content: base, diffs });
@@ -81,7 +79,7 @@ describe("ChangeSet", () => {
             const pattern = /(博多)の(潮)/g;
             const expected = "伯方($1ではない)の塩($2ではない)";
             const base = "白いご飯と博多の潮！";
-            const diffs = collectAll(pattern, base).map((matches) => {
+            const diffs = [...base.matchAll(pattern)].map((matches) => {
                 return new Diff({ pattern, expected, index: matches.index, matches });
             });
             const changeSets = new ChangeSet({ content: base, diffs });
@@ -92,10 +90,10 @@ describe("ChangeSet", () => {
             const patternA = /Web/gi;
             const patternB = /火/gi;
             const base = "ある火のWEBと、とある火のwebの話";
-            const diffA = collectAll(patternA, base).map((matches) => {
+            const diffA = [...base.matchAll(patternA)].map((matches) => {
                 return new Diff({ pattern: patternA, expected: "Web", index: matches.index, matches });
             });
-            const diffB = collectAll(patternB, base).map((matches) => {
+            const diffB = [...base.matchAll(patternB)].map((matches) => {
                 return new Diff({ pattern: patternB, expected: "日", index: matches.index, matches });
             });
             const changeSetsA = new ChangeSet({ content: base, diffs: diffA });
