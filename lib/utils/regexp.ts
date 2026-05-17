@@ -151,6 +151,15 @@ export function equals(a: RegExp, b: RegExp) {
     if (a.multiline !== b.multiline) {
         return false;
     }
+    if (a.unicode !== b.unicode) {
+        return false;
+    }
+    if (a.sticky !== b.sticky) {
+        return false;
+    }
+    if (a.dotAll !== b.dotAll) {
+        return false;
+    }
 
     return true;
 }
