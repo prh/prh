@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prh/prh/master/prh.schema.json
 version: 1
 
 # 本ファイルは設定の仕方の見本であり、実用的な校正ルールではありません。
@@ -9,7 +10,7 @@ version: 1
 # リポジトリの設定 git submodule add https://github.com/prh/rules.git prh-rules
 
 # 別の設定ファイルを読み込み、mergeすることもできます。
-imports:
+imports: []
   # - ./prh-rules/media/techbooster.yml
   # - ./prh-rules/files/markdown.yml
   # - ./prh-rules/files/review.yml
