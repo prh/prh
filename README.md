@@ -83,7 +83,8 @@ see prh/rules collection https://github.com/prh/rules
 実用上は `git submodule add https://github.com/prh/rules.git prh-rules` して好きなルールを使います。
 これを参照するprh.ymlは次のように書きます。
 
-```prh.yml
+```yaml
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prh/prh/master/prh.schema.json
 version: 1
 
 imports:

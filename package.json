@@ -13,7 +13,8 @@
     "node": ">=22"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "npm run generate-schema && tsc",
+    "generate-schema": "ts-json-schema-generator --path lib/raw.ts --type Config --out prh.schema.json",
     "lint": "eslint lib/ test/",
     "format": "prettier --write 'lib/**/*.ts' 'test/**/*.ts'",
     "test": "npm run build && vitest run",
@@ -43,6 +44,7 @@
     "eslint-config-prettier": "^10.1.8",
     "glob": "^13.0.5",
     "prettier": "^3.0.0",
+    "ts-json-schema-generator": "^2.9.0",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.0.0",
     "vitest": "^4.0.18"
