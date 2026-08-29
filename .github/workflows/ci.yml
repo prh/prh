@@ -17,4 +17,6 @@ jobs:
           cache: "npm"
       - run: npm ci
       - run: npm run build
+      # lib/raw.ts の変更が prh.schema.json に反映済みか確認する
+      - run: git diff --exit-code prh.schema.json
       - run: npm test

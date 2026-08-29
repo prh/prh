@@ -14,7 +14,7 @@
   },
   "scripts": {
     "build": "npm run generate-schema && tsc",
-    "generate-schema": "ts-json-schema-generator --path lib/raw.ts --type Config --out prh.schema.json",
+    "generate-schema": "ts-json-schema-generator --path lib/raw.ts --type Config --id https://raw.githubusercontent.com/prh/prh/master/prh.schema.json --markdown-description --out prh.schema.json",
     "lint": "eslint lib/ test/",
     "format": "prettier --write 'lib/**/*.ts' 'test/**/*.ts'",
     "test": "npm run build && vitest run",

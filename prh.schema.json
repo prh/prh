@@ -1,4 +1,5 @@
 {
+  "$id": "https://raw.githubusercontent.com/prh/prh/master/prh.schema.json",
   "$ref": "#/definitions/Config",
   "$schema": "http://json-schema.org/draft-07/schema#",
   "definitions": {
@@ -24,15 +25,41 @@
               "type": "array"
             }
           ],
-          "description": "現在の設定へ統合する別の設定ファイルを指定します。パスは現在の設定ファイルを基準に解決されます。"
+          "description": "現在の設定へ統合する別の設定ファイルを指定します。パスは現在の設定ファイルを基準に解決されます。",
+          "examples": [
+            "./prh-rules/media/techbooster.yml",
+            [
+              "./prh-rules/media/techbooster.yml",
+              "./prh-rules/files/markdown.yml"
+            ],
+            [
+              {
+                "ignoreRules": [
+                  "/テストB/gmu"
+                ],
+                "path": "./prh-rules/media/techbooster.yml"
+              }
+            ]
+          ],
+          "markdownDescription": "現在の設定へ統合する別の設定ファイルを指定します。パスは現在の設定ファイルを基準に解決されます。"
         },
         "meta": {
           "additionalProperties": {},
           "description": "ルールセットのメタデータを指定します。この値は校正処理には影響しません。",
+          "markdownDescription": "ルールセットのメタデータを指定します。この値は校正処理には影響しません。",
           "type": "object"
         },
         "rules": {
           "description": "適用する校正ルールを指定します。文字列を指定すると、その文字列を`expected`に指定したルールとして扱われます。",
+          "examples": [
+            [
+              "Cookie",
+              {
+                "expected": "デフォルト",
+                "pattern": "ディフォルト"
+              }
+            ]
+          ],
           "items": {
             "anyOf": [
               {
@@ -43,17 +70,33 @@
               }
             ]
           },
+          "markdownDescription": "適用する校正ルールを指定します。文字列を指定すると、その文字列を`expected`に指定したルールとして扱われます。",
           "type": "array"
         },
         "targets": {
           "description": "ファイルパスごとに、ファイル内で校正対象とする範囲と除外する範囲を指定します。",
+          "examples": [
+            [
+              {
+                "excludes": [
+                  "/`.*?`/"
+                ],
+                "file": "/\\.md$/"
+              }
+            ]
+          ],
           "items": {
             "$ref": "#/definitions/Target"
           },
+          "markdownDescription": "ファイルパスごとに、ファイル内で校正対象とする範囲と除外する範囲を指定します。",
           "type": "array"
         },
         "version": {
           "description": "設定ファイル形式のバージョンを指定します。",
+          "examples": [
+            1
+          ],
+          "markdownDescription": "設定ファイル形式のバージョンを指定します。",
           "type": "number"
         }
       },
@@ -67,10 +110,18 @@
       "properties": {
         "expected": {
           "description": "除外するルールを、校正後に期待する文字列で指定します。",
+          "examples": [
+            "テストA"
+          ],
+          "markdownDescription": "除外するルールを、校正後に期待する文字列で指定します。",
           "type": "string"
         },
         "pattern": {
-          "description": "除外するルールを、照合用正規表現を表す文字列で指定します。たとえば、`pattern: テストB`のルールを除外する場合は`/テストB/gmu`を指定します。",
+          "description": "除外するルールを、照合用正規表現を表す文字列で指定します。たとえば、`pattern: テストB`のルールを除外する場合は`/テストB/gmu`を指定します。 `pattern`を省略したルールでは`expected`から生成された正規表現になるため、`prh --rules-yaml`の出力で実際の値を確認してください。",
+          "examples": [
+            "/テストB/gmu"
+          ],
+          "markdownDescription": "除外するルールを、照合用正規表現を表す文字列で指定します。たとえば、`pattern: テストB`のルールを除外する場合は`/テストB/gmu`を指定します。\n`pattern`を省略したルールでは`expected`から生成された正規表現になるため、`prh --rules-yaml`の出力で実際の値を確認してください。",
           "type": "string"
         }
       },
@@ -80,11 +131,23 @@
       "additionalProperties": false,
       "properties": {
         "disableImports": {
+          "default": false,
           "description": "`true`の場合、指定した設定ファイル内の`imports`を処理しません。",
+          "markdownDescription": "`true`の場合、指定した設定ファイル内の`imports`を処理しません。",
           "type": "boolean"
         },
         "ignoreRules": {
           "description": "指定した設定ファイルから読み込まれたルールのうち、統合から除外するルールを指定します。要素に文字列を指定した場合は、同じ文字列を`pattern`に指定したものとして扱われます。",
+          "examples": [
+            [
+              "/テストB/gmu"
+            ],
+            [
+              {
+                "expected": "テストA"
+              }
+            ]
+          ],
           "items": {
             "anyOf": [
               {
@@ -95,10 +158,15 @@
               }
             ]
           },
+          "markdownDescription": "指定した設定ファイルから読み込まれたルールのうち、統合から除外するルールを指定します。要素に文字列を指定した場合は、同じ文字列を`pattern`に指定したものとして扱われます。",
           "type": "array"
         },
         "path": {
           "description": "統合する設定ファイルのパスを指定します。パスは現在の設定ファイルを基準に解決されます。",
+          "examples": [
+            "./prh-rules/media/techbooster.yml"
+          ],
+          "markdownDescription": "統合する設定ファイルのパスを指定します。パスは現在の設定ファイルを基準に解決されます。",
           "type": "string"
         }
       },
@@ -111,7 +179,9 @@
       "additionalProperties": false,
       "properties": {
         "wordBoundary": {
+          "default": false,
           "description": "`true`の場合、照合用の正規表現の前後に単語境界（`\\b`）を追加します。",
+          "markdownDescription": "`true`の場合、照合用の正規表現の前後に単語境界（`\\b`）を追加します。",
           "type": "boolean"
         }
       },
@@ -121,12 +191,23 @@
       "additionalProperties": false,
       "properties": {
         "expected": {
-          "description": "校正後に期待する文字列を指定します。",
+          "description": "校正後に期待する文字列を指定します。`pattern`のキャプチャグループを`$1`の形式で参照できます。",
+          "examples": [
+            "ソフトウェア",
+            "（$1）"
+          ],
+          "markdownDescription": "校正後に期待する文字列を指定します。`pattern`のキャプチャグループを`$1`の形式で参照できます。",
           "type": "string"
         },
         "options": {
           "$ref": "#/definitions/Options",
-          "description": "ルールの照合に使用するオプションを指定します。"
+          "description": "ルールの照合に使用するオプションを指定します。",
+          "examples": [
+            {
+              "wordBoundary": true
+            }
+          ],
+          "markdownDescription": "ルールの照合に使用するオプションを指定します。"
         },
         "pattern": {
           "anyOf": [
@@ -143,7 +224,17 @@
               "type": "null"
             }
           ],
-          "description": "修正対象に一致する文字列、正規表現形式の文字列、またはそれらの配列を指定します。省略すると`expected`からパターンを生成します。"
+          "description": "修正対象に一致する文字列、正規表現形式の文字列、またはそれらの配列を指定します。 `pattern`と`patterns`のどちらも省略した場合は`expected`からパターンを生成します。",
+          "examples": [
+            "ディフォルト",
+            "/サーバ(?!ー)/",
+            [
+              "ハードウエアー",
+              "ハードウェアー",
+              "ハードウエア"
+            ]
+          ],
+          "markdownDescription": "修正対象に一致する文字列、正規表現形式の文字列、またはそれらの配列を指定します。\n`pattern`と`patterns`のどちらも省略した場合は`expected`からパターンを生成します。"
         },
         "patterns": {
           "anyOf": [
@@ -160,21 +251,50 @@
               "type": "null"
             }
           ],
-          "description": "修正対象に一致する文字列、正規表現形式の文字列、またはそれらの配列を指定します。`pattern`の別名であり、両方を指定すると`pattern`が優先されます。両方を省略すると`expected`からパターンを生成します。"
+          "description": "修正対象に一致する文字列、正規表現形式の文字列、またはそれらの配列を指定します。`pattern`の別名であり、両方を指定すると`pattern`が優先されます。両方を省略すると`expected`からパターンを生成します。",
+          "examples": [
+            [
+              "ハードウエアー",
+              "ハードウェアー",
+              "ハードウエア"
+            ]
+          ],
+          "markdownDescription": "修正対象に一致する文字列、正規表現形式の文字列、またはそれらの配列を指定します。`pattern`の別名であり、両方を指定すると`pattern`が優先されます。両方を省略すると`expected`からパターンを生成します。"
         },
         "prh": {
           "description": "外部ツール向けの補足メッセージを指定します。この値はprh本体の校正処理には影響しません。",
+          "examples": [
+            "半角カッコの代わりに全角カッコを使うこと。文字のバランスが崩れるためです"
+          ],
+          "markdownDescription": "外部ツール向けの補足メッセージを指定します。この値はprh本体の校正処理には影響しません。",
           "type": "string"
         },
         "regexpMustEmpty": {
           "description": "`pattern`のキャプチャグループが空であることをルールの適用条件として指定します。対象のグループは`$1`の形式で指定します。",
+          "examples": [
+            "$1"
+          ],
+          "markdownDescription": "`pattern`のキャプチャグループが空であることをルールの適用条件として指定します。対象のグループは`$1`の形式で指定します。",
           "type": "string"
         },
         "specs": {
           "description": "ルールの変換結果を検証するテストケースを指定します。期待と異なる場合は設定ファイルの読み込みに失敗します。",
+          "examples": [
+            [
+              {
+                "from": "jquery",
+                "to": "jQuery"
+              },
+              {
+                "from": "ＪＱＵＥＲＹ",
+                "to": "jQuery"
+              }
+            ]
+          ],
           "items": {
             "$ref": "#/definitions/RuleSpec"
           },
+          "markdownDescription": "ルールの変換結果を検証するテストケースを指定します。期待と異なる場合は設定ファイルの読み込みに失敗します。",
           "type": "array"
         }
       },
@@ -188,10 +308,18 @@
       "properties": {
         "from": {
           "description": "ルールのテストに使用する入力文字列を指定します。",
+          "examples": [
+            "ＪＱＵＥＲＹ"
+          ],
+          "markdownDescription": "ルールのテストに使用する入力文字列を指定します。",
           "type": "string"
         },
         "to": {
           "description": "入力文字列にルールを適用した結果として期待する文字列を指定します。",
+          "examples": [
+            "jQuery"
+          ],
+          "markdownDescription": "入力文字列にルールを適用した結果として期待する文字列を指定します。",
           "type": "string"
         }
       },
@@ -206,6 +334,17 @@
       "properties": {
         "excludes": {
           "description": "ファイル内で校正対象から除外する範囲を指定します。`includes`と`excludes`の両方に一致する範囲は除外されます。",
+          "examples": [
+            [
+              "/`.*?`/",
+              "/\\[[^\\]]*\\]\\([^)]+\\)/"
+            ],
+            [
+              {
+                "pattern": "/^#@.*$/"
+              }
+            ]
+          ],
           "items": {
             "anyOf": [
               {
@@ -216,14 +355,25 @@
               }
             ]
           },
+          "markdownDescription": "ファイル内で校正対象から除外する範囲を指定します。`includes`と`excludes`の両方に一致する範囲は除外されます。",
           "type": "array"
         },
         "file": {
           "description": "校正範囲の設定を適用するファイルパスに一致する文字列または正規表現形式の文字列を指定します。",
+          "examples": [
+            "/\\.md$/",
+            "/\\.re$/"
+          ],
+          "markdownDescription": "校正範囲の設定を適用するファイルパスに一致する文字列または正規表現形式の文字列を指定します。",
           "type": "string"
         },
         "includes": {
           "description": "ファイル内で校正対象とする範囲を指定します。複数指定した場合は、いずれかに一致する範囲が対象になります。",
+          "examples": [
+            [
+              "/\\/\\/.*$/"
+            ]
+          ],
           "items": {
             "anyOf": [
               {
@@ -234,6 +384,7 @@
               }
             ]
           },
+          "markdownDescription": "ファイル内で校正対象とする範囲を指定します。複数指定した場合は、いずれかに一致する範囲が対象になります。",
           "type": "array"
         }
       },
@@ -247,6 +398,10 @@
       "properties": {
         "pattern": {
           "description": "ファイル内の範囲に一致する文字列または正規表現形式の文字列を指定します。",
+          "examples": [
+            "/^#@.*$/"
+          ],
+          "markdownDescription": "ファイル内の範囲に一致する文字列または正規表現形式の文字列を指定します。",
           "type": "string"
         }
       },
