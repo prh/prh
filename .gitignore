@@ -1,6 +1,7 @@
 # misc
 .DS_Store
 .claude/settings.local.json
+.claude/worktrees/
 
 # for IDE
 .vscode/.browse.VC*
