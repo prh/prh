@@ -108,6 +108,9 @@ export interface Rule {
     patterns?: string | string[] | null; // string | regexp style string or array
     /**
      * `pattern`のキャプチャグループが空であることをルールの適用条件として指定します。対象のグループは`$1`の形式で指定します。
+     * JavaScriptが否定後読み（`(?<!...)`）をサポートする前に、そのワークアラウンドとして用意されたフィールドです。
+     * なお、否定後読み（`(?<!...)`）はJavaScriptの正規表現でサポートされています。
+     * また、`pattern`をスラッシュなしの素の文字列で書くと、正規表現ではなくその文字列自体へのリテラルマッチとして扱われます。
      * @example "$1"
      */
     regexpMustEmpty?: string;

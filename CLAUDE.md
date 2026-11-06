@@ -41,7 +41,7 @@ YAML設定 → Engine → テキストをParagraphに分割 → Ruleを適用 �
 
 1. **`lib/index.ts`** — 公開API。YAML設定の読み込み、importsの再帰的解決、`Engine`インスタンスの生成
 2. **`lib/engine.ts`** — `Engine`クラス。ルールとターゲットを保持。テキストを空行区切りで`Paragraph`に分割し、ルールを適用して`ChangeSet`を生成。ターゲットによるinclude/excludeフィルタリングも担当
-3. **`lib/rule.ts`** — `Rule`クラス。YAMLのルール定義を`RegExp`パターンに変換。patternが未指定の場合、`expected`値から`spreadAlphaNum`で半角/全角のバリエーションを自動生成。`regexpMustEmpty`はJSに否定後読みがないことへの回避策
+3. **`lib/rule.ts`** — `Rule`クラス。YAMLのルール定義を`RegExp`パターンに変換。patternが未指定の場合、`expected`値から`spreadAlphaNum`で半角/全角のバリエーションを自動生成。`regexpMustEmpty`はキャプチャグループが空であることを指定するフィールド
 4. **`lib/paragraph.ts`** — `Paragraph`クラス。`prh:disable`プラグマ（`#@# prh:disable`や`<!-- prh:disable -->`）によるチェック無効化を処理
 5. **`lib/changeset/`** — `ChangeSet`（ファイル単位のdiff集合）と`Diff`（単一の置換）。ターゲットフィルタリング用の集合演算（`intersect`, `subtract`, `concat`）をサポート
 6. **`lib/utils/regexp.ts`** — 正規表現ユーティリティ: `spreadAlphaNum`（半角/全角展開）、`addBoundary`、`parseRegExpString`、`combine`、`concat`

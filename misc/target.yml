@@ -10,8 +10,7 @@ imports:
 
 rules:
   - expected: こと
-    pattern:  /(記|大|出来|悪)?事(?!件)/
-    regexpMustEmpty: $1 # キャプチャグループ1 は必ず空(undefined)でなければならない
+    pattern:  /(?<!記|大|出来|悪)事(?!件)/
     specs:
       - from: 事
         to:   こと

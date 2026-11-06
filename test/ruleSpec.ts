@@ -177,7 +177,26 @@ describe("Rule", () => {
             expect(diffs.length).toBe(1);
             expect(diffs[0].expected).toBe("レイヤ");
         });
-        it("can process regexpMustEmpty", () => {
+        it("supports native negative lookbehind", () => {
+            const rule = new Rule({
+                expected: "レイヤ",
+                pattern: "/(?<!プ)レイヤー/",
+                specs: [
+                    {
+                        from: "レイヤー",
+                        to: "レイヤ",
+                    },
+                    {
+                        from: "プレイヤー",
+                        to: "プレイヤー",
+                    },
+                ],
+            });
+            const diffs = rule.applyRule("レイヤーとプレイヤー");
+            expect(diffs.length).toBe(1);
+            expect(diffs[0].expected).toBe("レイヤ");
+        });
+        it("returns no diffs when expected equals matched text", () => {
             const rule = new Rule({
                 expected: "Web",
             });
