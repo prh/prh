@@ -302,30 +302,31 @@ describe("Rule", () => {
             expect(diffs[0].matches[0]).toBe("(?<!日経)ソフトウエア");
         });
         it("supports native negative lookbehind in a patterns array", () => {
+            // 各パターンが他方では拾えない表記を担当し、どちらでも否定後読みが効くことを確かめる
             const rule = new Rule({
-                expected: "こと",
-                patterns: ["/(?<!記|大|出来|悪)事(?!件)/", "/事(?=案件)/"],
+                expected: "ソフトウェア",
+                patterns: ["/(?<!日経)ソフトウエア/", "/(?<!日経)ソフトウヱア/"],
                 specs: [
                     {
-                        from: "その事",
-                        to: "そのこと",
+                        from: "広義のソフトウエア",
+                        to: "広義のソフトウェア",
                     },
                     {
-                        from: "記事",
-                        to: "記事",
+                        from: "広義のソフトウヱア",
+                        to: "広義のソフトウェア",
                     },
                     {
-                        from: "出来事",
-                        to: "出来事",
+                        from: "日経ソフトウエア",
+                        to: "日経ソフトウエア",
                     },
                     {
-                        from: "事件",
-                        to: "事件",
+                        from: "日経ソフトウヱア",
+                        to: "日経ソフトウヱア",
                     },
                 ],
             });
-            const diffs = rule.applyRule("その事 記事 出来事 事件 事案件");
-            expect(diffs.map((d) => d.matches[0])).toEqual(["事", "事"]);
+            const diffs = rule.applyRule("日経ソフトウエア ソフトウエア 日経ソフトウヱア ソフトウヱア");
+            expect(diffs.map((d) => d.matches[0])).toEqual(["ソフトウエア", "ソフトウヱア"]);
         });
         it("returns no diffs when expected equals matched text", () => {
             const rule = new Rule({

@@ -14,7 +14,7 @@ export class Rule {
     regexpMustEmpty: string | undefined;
     options: Options;
     specs: RuleSpec[];
-    raw: any /* raw.Rule */;
+    raw: any; /* raw.Rule */
 
     constructor(src: string | raw.Rule) {
         if (!src) {
@@ -136,7 +136,7 @@ export class Rule {
             .map((matches) => {
                 // regexpMustEmpty は、JavaScriptが否定後読み（(?<!...)）をサポートする前に、そのワークアラウンドとして用意されたフィールド。
                 // キャプチャグループが空であることを要求して否定後読みを模倣する。
-                // 例: /(記|大)事/ で regexpMustEmpty $1 の場合、第一グループが空じゃないとマッチしない
+                // 例: /(記|大)?事/ で regexpMustEmpty $1 の場合、第一グループが空じゃないとマッチしない
                 // なお、スラッシュ付きの正規表現では否定後読み（/(?<!記|大)事/）がそのまま使える。
                 if (this.regexpMustEmpty) {
                     const match = /^\$([0-9]+)$/.exec(this.regexpMustEmpty);
