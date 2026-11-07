@@ -1,4 +1,4 @@
-const regexpRegexp = /^\/(.*)\/([gimy]*)$/;
+const regexpRegexp = /^\/(.*)\/([gimsuy]*)$/;
 
 const hankakuAlphaNum = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 const zenkakuAlphaNum =
@@ -107,6 +107,9 @@ export function addDefaultFlags(regexp: RegExp) {
     let flags = "gmu";
     if (regexp.ignoreCase) {
         flags += "i";
+    }
+    if (regexp.dotAll) {
+        flags += "s";
     }
     return new RegExp(regexp.source, flags);
 }
