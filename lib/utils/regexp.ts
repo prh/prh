@@ -5,10 +5,10 @@ const zenkakuAlphaNum =
     "ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ０１２３４５６７８９";
 
 // http://www.tamasoft.co.jp/ja/general-info/unicode.html
-export const jpHira = /[ぁ-ゖ]/;
-export const jpKana = /[ァ-ヺ]/;
+export const jpHira = /[ぁ-ゖ]/u;
+export const jpKana = /[ァ-ヺ]/u;
 // http://tama-san.com/?p=196
-export const jpKanji = /(?:[々〇〻\u3400-\u9FFF\uF900-\uFAFF]|[\uD840-\uD87F][\uDC00-\uDFFF])/;
+export const jpKanji = /[々〇〻\u3400-\u9FFF\uF900-\uFAFF\u{20000}-\u{2FFFF}]/u;
 export const jpChar = combine([jpHira, jpKana, jpKanji]);
 
 export function concat(args: (string | RegExp)[], flags?: string): RegExp {

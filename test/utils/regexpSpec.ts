@@ -41,6 +41,10 @@ describe("regexp", () => {
             expect(jpKanji.test("ア")).toBe(false);
             expect(jpKanji.test("神")).toBe(true);
         });
+        it("can detect supplementary plane kanji", () => {
+            expect(jpKanji.test("𠮟")).toBe(true); // U+20B9F
+            expect(jpKanji.test("𠮷")).toBe(true); // U+20BB7
+        });
     });
 
     describe("jpChar", () => {
@@ -49,6 +53,10 @@ describe("regexp", () => {
             expect(jpChar.test("あ")).toBe(true);
             expect(jpChar.test("ア")).toBe(true);
             expect(jpChar.test("神")).toBe(true);
+        });
+        it("can detect supplementary plane kanji", () => {
+            expect(jpChar.test("𠮟")).toBe(true); // U+20B9F
+            expect(jpChar.test("𠮷")).toBe(true); // U+20BB7
         });
     });
 
