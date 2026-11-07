@@ -25,7 +25,7 @@ npm run format
 npm run update-submodules
 ```
 
-vitestはTypeScriptソースを直接実行するが、`npm test`はビルドも行う（`npm run build && vitest run`）。
+`npm test`はビルドしてからvitestを実行する（`npm run build && vitest run`）。テストからの`import "../lib/"`は、ビルド済みの`.js`があればそちらに解決される（Viteの拡張子の解決順で`.js`が`.ts`より先）。`lib/`を変更したら、`vitest`を単体で実行する前にビルドし直すこと。
 
 ## CI
 

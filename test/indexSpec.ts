@@ -35,6 +35,25 @@ describe("index", () => {
             const yamlContent = fs.readFileSync(configPath, { encoding: "utf8" });
             fromYAML(configPath, yamlContent);
         });
+        it("supports YAML merge keys", () => {
+            const yamlContent = [
+                "version: 1",
+                "base: &base",
+                "  expected: ソフトウェア",
+                "  specs:",
+                "    - from: ソフトウエア",
+                "      to: ソフトウェア",
+                "rules:",
+                "  - <<: *base",
+                "    pattern: /(?<!日経)ソフトウエア/",
+                "",
+            ].join("\n");
+            const engine = fromYAML("merge.yml", yamlContent);
+
+            expect(engine.rules.length).toBe(1);
+            expect(engine.rules[0].expected).toBe("ソフトウェア");
+            expect(engine.rules[0].specs.length).toBe(1);
+        });
     });
     describe("getRuleFilePath", () => {
         it("can find prh.yml", () => {
