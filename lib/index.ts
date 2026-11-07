@@ -26,7 +26,9 @@ export function fromYAMLFilePath(configPath: string, opts: Options = {}): Engine
 }
 
 export function fromYAML(configPath: string, yamlContent: string, opts: Options = {}): Engine {
-    const rawConfig = yaml.load(yamlContent) as raw.Config;
+    // js-yaml v5 の既定スキーマは YAML 1.2 Core でマージキー(<<)を含まないため、v4 と同じく使えるように足す
+    // https://github.com/nodeca/js-yaml/blob/master/docs/migrate_v4_to_v5.md#schema
+    const rawConfig = yaml.load(yamlContent, { schema: yaml.CORE_SCHEMA.withTags(yaml.mergeTag) }) as raw.Config;
     return fromRowConfig(configPath, rawConfig, opts);
 }
 
