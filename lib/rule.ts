@@ -134,8 +134,10 @@ export class Rule {
         const resultList = [...content.matchAll(this.pattern)];
         return resultList
             .map((matches) => {
-                // JavaScriptでの正規表現では /(?<!記|大)事/ のような書き方ができない
-                // /(記|大)事/ で regexpMustEmpty $1 の場合、第一グループが空じゃないとマッチしない、というルールにして回避
+                // regexpMustEmpty は、JavaScriptが否定後読み（(?<!...)）をサポートする前に、そのワークアラウンドとして用意されたフィールド。
+                // キャプチャグループが空であることを要求して否定後読みを模倣する。
+                // 例: /(記|大)事/ で regexpMustEmpty $1 の場合、第一グループが空じゃないとマッチしない
+                // なお、スラッシュ付きの正規表現では否定後読み（/(?<!記|大)事/）がそのまま使える。
                 if (this.regexpMustEmpty) {
                     const match = /^\$([0-9]+)$/.exec(this.regexpMustEmpty);
                     if (match == null) {

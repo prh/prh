@@ -201,7 +201,133 @@ describe("Rule", () => {
             expect(diffs.length).toBe(1);
             expect(diffs[0].expected).toBe("レイヤ");
         });
-        it("can process regexpMustEmpty", () => {
+        it("supports native negative lookbehind", () => {
+            const rule = new Rule({
+                expected: "レイヤ",
+                pattern: "/(?<!プ)レイヤー/",
+                specs: [
+                    {
+                        from: "レイヤー",
+                        to: "レイヤ",
+                    },
+                    {
+                        from: "プレイヤー",
+                        to: "プレイヤー",
+                    },
+                ],
+            });
+            const diffs = rule.applyRule("レイヤーとプレイヤー");
+            expect(diffs.length).toBe(1);
+            expect(diffs[0].expected).toBe("レイヤ");
+        });
+        it("native negative lookbehind and regexpMustEmpty produce the same diffs", () => {
+            const content = "広義のソフトウエア と 日経ソフトウエア と ソフトウエア";
+            const specs = [
+                {
+                    from: "広義のソフトウエア",
+                    to: "広義のソフトウェア",
+                },
+                {
+                    from: "日経ソフトウエア",
+                    to: "日経ソフトウエア",
+                },
+            ];
+            const regexpMustEmptyRule = new Rule({
+                expected: "ソフトウェア",
+                pattern: "/(日経)?ソフトウエア/",
+                regexpMustEmpty: "$1",
+                specs,
+            });
+            const lookbehindRule = new Rule({
+                expected: "ソフトウェア",
+                pattern: "/(?<!日経)ソフトウエア/",
+                specs,
+            });
+            const viaMustEmpty = regexpMustEmptyRule.applyRule(content);
+            const viaLookbehind = lookbehindRule.applyRule(content);
+            expect(viaLookbehind.map((d) => d.matches[0])).toEqual(viaMustEmpty.map((d) => d.matches[0]));
+            expect(viaLookbehind.map((d) => d.index)).toEqual(viaMustEmpty.map((d) => d.index));
+        });
+        it("throws when regexpMustEmpty is not in $1 format", () => {
+            expect(
+                () =>
+                    new Rule({
+                        expected: "こと",
+                        pattern: "/(記)?事/",
+                        regexpMustEmpty: "1",
+                        specs: [
+                            {
+                                from: "その事",
+                                to: "そのこと",
+                            },
+                        ],
+                    }),
+            ).toThrow(/\$1 format/);
+        });
+        it("applies regexpMustEmpty to the referenced capture group", () => {
+            const rule = new Rule({
+                expected: "こと",
+                pattern: "/(大|記)?(出来)?事/",
+                regexpMustEmpty: "$2",
+                specs: [
+                    {
+                        from: "その事",
+                        to: "そのこと",
+                    },
+                    {
+                        from: "記事",
+                        to: "こと",
+                    },
+                    {
+                        from: "大事",
+                        to: "こと",
+                    },
+                    {
+                        from: "出来事",
+                        to: "出来事",
+                    },
+                ],
+            });
+            const diffs = rule.applyRule("その事 記事 大事 出来事");
+            expect(diffs.map((d) => d.matches[0])).toEqual(["事", "記事", "大事"]);
+        });
+        it("treats a plain string pattern as a literal, not a regex", () => {
+            const rule = new Rule({
+                expected: "ソフトウェア",
+                pattern: "(?<!日経)ソフトウエア",
+            });
+            // スラッシュなしの素の文字列はそのままエスケープされ、その文字列自体にのみマッチする
+            const diffs = rule.applyRule("広義のソフトウエア と (?<!日経)ソフトウエア");
+            expect(diffs.length).toBe(1);
+            expect(diffs[0].matches[0]).toBe("(?<!日経)ソフトウエア");
+        });
+        it("supports native negative lookbehind in a patterns array", () => {
+            const rule = new Rule({
+                expected: "こと",
+                patterns: ["/(?<!記|大|出来|悪)事(?!件)/", "/事(?=案件)/"],
+                specs: [
+                    {
+                        from: "その事",
+                        to: "そのこと",
+                    },
+                    {
+                        from: "記事",
+                        to: "記事",
+                    },
+                    {
+                        from: "出来事",
+                        to: "出来事",
+                    },
+                    {
+                        from: "事件",
+                        to: "事件",
+                    },
+                ],
+            });
+            const diffs = rule.applyRule("その事 記事 出来事 事件 事案件");
+            expect(diffs.map((d) => d.matches[0])).toEqual(["事", "事"]);
+        });
+        it("returns no diffs when expected equals matched text", () => {
             const rule = new Rule({
                 expected: "Web",
             });
