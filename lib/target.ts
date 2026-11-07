@@ -1,7 +1,7 @@
-import { parseRegExpString, escapeSpecialChars } from "./utils/regexp";
+import { parseRegExpString, escapeSpecialChars } from "./utils/regexp.js";
 
-import * as raw from "./raw";
-import { TargetPattern } from "./targetPattern";
+import * as raw from "./raw.js";
+import { TargetPattern } from "./targetPattern.js";
 
 export class Target {
     file: RegExp;

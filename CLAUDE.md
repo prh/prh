@@ -25,7 +25,7 @@ npm run format
 npm run update-submodules
 ```
 
-`npm test`はビルドしてからvitestを実行する（`npm run build && vitest run`）。テストからの`import "../lib/"`は、ビルド済みの`.js`があればそちらに解決される（Viteの拡張子の解決順で`.js`が`.ts`より先）。`lib/`を変更したら、`vitest`を単体で実行する前にビルドし直すこと。
+`npm test`はビルドしてからvitestを実行する（`npm run build && vitest run`）。テストからの`import "../lib/index.js"`は、ビルド済みの`.js`があればそちらに解決され、なければ`.ts`に解決される。`lib/`を変更したら、`vitest`を単体で実行する前にビルドし直すこと。
 
 ## CI
 
@@ -53,6 +53,7 @@ YAML設定 → Engine → テキストをParagraphに分割 → Ruleを適用 �
 - `Engine.merge()`はルールを`expected`値で重複排除する — 同じ`expected`を持つ後からのimportは無視される
 - ルールは構築時に`specs`（from/toのテストケース）を検証し、不正なルールは即座にエラーを投げる
 - コンパイル済みの`.js`、`.js.map`、`.d.ts`ファイルは`.ts`ソースと同じディレクトリに出力される（別ディレクトリへの出力なし）
+- パッケージはESMのみ（`"type": "module"`）。CommonJSの利用者はNode.jsのrequire(esm)で読み込む。`package.json`の`exports`は、内部ファイルの直接import（`prh/lib/rule`や`prh/lib/raw.js`）を拡張子の有無にかかわらず解決できるようにしている。既存の利用者が使っているため、外さないこと
 
 ## リリース手順
 
@@ -63,7 +64,7 @@ YAML設定 → Engine → テキストをParagraphに分割 → Ruleを適用 �
 
 ## コードスタイル
 
-- TypeScript strictモード、ターゲットES2020/CommonJS
+- TypeScript strictモード、ターゲットES2020、`module: nodenext`。相対importには`.js`拡張子を付け、ディレクトリは`/index.js`まで書く
 - lint: eslint + typescript-eslint（`eslint.config.mjs`）— prefer-const、prefer-template、eqeqeq、no-var等
-- フォーマット: prettier（`prettierrc.json`）— eslint-config-prettierでlintとの競合を回避
+- フォーマット: prettier（`.prettierrc.json`）— eslint-config-prettierでlintとの競合を回避
 - `npm run lint`でlintチェック、`npm run format`でフォーマット適用

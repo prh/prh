@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 
-import { Diff } from "../../lib/changeset/diff";
+import { Diff } from "../../lib/changeset/diff.js";
 
 describe("Diff", () => {
     describe(".newText", () => {

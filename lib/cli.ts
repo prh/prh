@@ -3,11 +3,11 @@ import * as fs from "fs";
 import * as yaml from "js-yaml";
 import * as diff from "diff";
 
-import { fromYAMLFilePaths, getRuleFilePath } from "./";
-import { indexToLineColumn } from "./utils/content";
+import { fromYAMLFilePaths, getRuleFilePath } from "./index.js";
+import { indexToLineColumn } from "./utils/content.js";
 
 import { Command } from "commander";
-const pkg = require("../package.json");
+const pkg = JSON.parse(fs.readFileSync(new URL("../package.json", import.meta.url), "utf8"));
 
 interface Options {
     rulesJson: boolean;
@@ -99,7 +99,7 @@ program
     .command("init")
     .description("generate prh.yml")
     .action(() => {
-        fs.createReadStream(path.resolve(__dirname, "../misc/prh.yml")).pipe(fs.createWriteStream("prh.yml"));
+        fs.createReadStream(path.resolve(import.meta.dirname, "../misc/prh.yml")).pipe(fs.createWriteStream("prh.yml"));
         console.log("create prh.yml");
         console.log("see prh/rules collection https://github.com/prh/rules");
     });

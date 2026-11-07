@@ -1,12 +1,12 @@
-import { spreadAlphaNum, addBoundary, addDefaultFlags, parseRegExpString, escapeSpecialChars, combine } from "./utils/regexp";
+import { spreadAlphaNum, addBoundary, addDefaultFlags, parseRegExpString, escapeSpecialChars, combine } from "./utils/regexp.js";
 
-import { Options } from "./options";
-import { RuleSpec } from "./ruleSpec";
+import { Options } from "./options.js";
+import { RuleSpec } from "./ruleSpec.js";
 
-import { Diff } from "./changeset/diff";
+import { Diff } from "./changeset/diff.js";
 
-import * as raw from "./raw";
-import { ChangeSet } from "./changeset";
+import * as raw from "./raw.js";
+import { ChangeSet } from "./changeset/index.js";
 
 export class Rule {
     expected: string;

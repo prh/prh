@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 
-import { Paragraph } from "../lib/paragraph";
-import { Rule } from "../lib/rule";
+import { Paragraph } from "../lib/paragraph.js";
+import { Rule } from "../lib/rule.js";
 
 describe("Paragraph", () => {
     describe(".makeDiffs", () => {

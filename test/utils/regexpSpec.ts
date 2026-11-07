@@ -13,7 +13,7 @@ import {
     spreadAlphaNum,
     addDefaultFlags,
     escapeSpecialChars,
-} from "../../lib/utils/regexp";
+} from "../../lib/utils/regexp.js";
 
 describe("regexp", () => {
     describe("jpHira", () => {
