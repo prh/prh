@@ -196,6 +196,44 @@ describe("Rule", () => {
             expect(diffs.length).toBe(1);
             expect(diffs[0].expected).toBe("レイヤ");
         });
+        it("native negative lookbehind and regexpMustEmpty produce the same diffs", () => {
+            const content = "広義のソフトウエア と 日経ソフトウエア と ソフトウエア";
+            const specs = [
+                {
+                    from: "広義のソフトウエア",
+                    to: "広義のソフトウェア",
+                },
+                {
+                    from: "日経ソフトウエア",
+                    to: "日経ソフトウエア",
+                },
+            ];
+            const regexpMustEmptyRule = new Rule({
+                expected: "ソフトウェア",
+                pattern: "/(日経)?ソフトウエア/",
+                regexpMustEmpty: "$1",
+                specs,
+            });
+            const lookbehindRule = new Rule({
+                expected: "ソフトウェア",
+                pattern: "/(?<!日経)ソフトウエア/",
+                specs,
+            });
+            const viaMustEmpty = regexpMustEmptyRule.applyRule(content);
+            const viaLookbehind = lookbehindRule.applyRule(content);
+            expect(viaLookbehind.map((d) => d.matches[0])).toEqual(viaMustEmpty.map((d) => d.matches[0]));
+            expect(viaLookbehind.map((d) => d.index)).toEqual(viaMustEmpty.map((d) => d.index));
+        });
+        it("treats a plain string pattern as a literal, not a regex", () => {
+            const rule = new Rule({
+                expected: "ソフトウェア",
+                pattern: "(?<!日経)ソフトウエア",
+            });
+            // スラッシュなしの素の文字列はそのままエスケープされ、その文字列自体にのみマッチする
+            const diffs = rule.applyRule("広義のソフトウエア と (?<!日経)ソフトウエア");
+            expect(diffs.length).toBe(1);
+            expect(diffs[0].matches[0]).toBe("(?<!日経)ソフトウエア");
+        });
         it("returns no diffs when expected equals matched text", () => {
             const rule = new Rule({
                 expected: "Web",
