@@ -224,6 +224,49 @@ describe("Rule", () => {
             expect(viaLookbehind.map((d) => d.matches[0])).toEqual(viaMustEmpty.map((d) => d.matches[0]));
             expect(viaLookbehind.map((d) => d.index)).toEqual(viaMustEmpty.map((d) => d.index));
         });
+        it("throws when regexpMustEmpty is not in $1 format", () => {
+            expect(
+                () =>
+                    new Rule({
+                        expected: "こと",
+                        pattern: "/(記)?事/",
+                        regexpMustEmpty: "1",
+                        specs: [
+                            {
+                                from: "その事",
+                                to: "そのこと",
+                            },
+                        ],
+                    }),
+            ).toThrow(/\$1 format/);
+        });
+        it("applies regexpMustEmpty to the referenced capture group", () => {
+            const rule = new Rule({
+                expected: "こと",
+                pattern: "/(大|記)?(出来)?事/",
+                regexpMustEmpty: "$2",
+                specs: [
+                    {
+                        from: "その事",
+                        to: "そのこと",
+                    },
+                    {
+                        from: "記事",
+                        to: "こと",
+                    },
+                    {
+                        from: "大事",
+                        to: "こと",
+                    },
+                    {
+                        from: "出来事",
+                        to: "出来事",
+                    },
+                ],
+            });
+            const diffs = rule.applyRule("その事 記事 大事 出来事");
+            expect(diffs.map((d) => d.matches[0])).toEqual(["事", "記事", "大事"]);
+        });
         it("treats a plain string pattern as a literal, not a regex", () => {
             const rule = new Rule({
                 expected: "ソフトウェア",
