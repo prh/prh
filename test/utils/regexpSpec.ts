@@ -243,6 +243,25 @@ The pattern /TypeScript/im has different flag with other patterns.`);
             expect(regexp.multiline).toBe(true);
             expect(regexp.unicode).toBe(true);
         });
+        it("add g flags and keep s flag", () => {
+            const regexp = addDefaultFlags(/hello/s);
+
+            expect(regexp.source).toBe("hello");
+            expect(regexp.global).toBe(true);
+            expect(regexp.multiline).toBe(true);
+            expect(regexp.unicode).toBe(true);
+            expect(regexp.dotAll).toBe(true);
+        });
+        it("keep both i and s flags", () => {
+            const regexp = addDefaultFlags(/hello/is);
+
+            expect(regexp.source).toBe("hello");
+            expect(regexp.global).toBe(true);
+            expect(regexp.ignoreCase).toBe(true);
+            expect(regexp.multiline).toBe(true);
+            expect(regexp.unicode).toBe(true);
+            expect(regexp.dotAll).toBe(true);
+        });
     });
 
     describe("escapeSpecialChars", () => {

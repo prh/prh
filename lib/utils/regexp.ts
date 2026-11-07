@@ -108,6 +108,9 @@ export function addDefaultFlags(regexp: RegExp) {
     if (regexp.ignoreCase) {
         flags += "i";
     }
+    if (regexp.dotAll) {
+        flags += "s";
+    }
     return new RegExp(regexp.source, flags);
 }
 

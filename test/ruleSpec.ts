@@ -129,6 +129,30 @@ describe("Rule", () => {
             expect(rule.pattern.source).toBe("(?:vv|aa)");
             expect(rule.pattern.global).toBe(true);
         });
+        it("keep s flag from string (regexp style)", () => {
+            const rule = new Rule({
+                expected: "AB",
+                pattern: "/A.B/s",
+                specs: [
+                    {
+                        from: "A\nB",
+                        to: "AB",
+                    },
+                ],
+            });
+
+            expect(rule.pattern.dotAll).toBe(true);
+            expect(rule.applyRule("A\nB").length).toBe(1);
+        });
+        it("keep s flag from string[] (regexp style)", () => {
+            const rule = new Rule({
+                expected: "AB",
+                patterns: ["/A.B/s"],
+            });
+
+            expect(rule.pattern.dotAll).toBe(true);
+            expect(rule.applyRule("A\nB").length).toBe(1);
+        });
         it("reject empty pattern", () => {
             expect(() => {
                 new Rule({
