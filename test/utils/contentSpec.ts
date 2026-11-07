@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 
-import { indexToLineColumn } from "../../lib/utils/content";
+import { indexToLineColumn } from "../../lib/utils/content.js";
 
 describe("content", () => {
     describe("indexToLineColumn", () => {

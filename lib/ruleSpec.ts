@@ -1,4 +1,4 @@
-import * as raw from "./raw";
+import * as raw from "./raw.js";
 
 export class RuleSpec {
     from: string;

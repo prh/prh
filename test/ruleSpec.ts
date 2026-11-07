@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 
-import { Rule } from "../lib/rule";
+import { Rule } from "../lib/rule.js";
 
 describe("Rule", () => {
     it("parse raw.Rule", () => {

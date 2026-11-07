@@ -1,12 +1,12 @@
 import * as fs from "fs";
 
-import { equals } from "./utils/regexp";
+import { equals } from "./utils/regexp.js";
 
-import * as raw from "./raw";
-import { Paragraph } from "./paragraph";
-import { Target } from "./target";
-import { Rule } from "./rule";
-import { makeChangeSet, ChangeSet } from "./changeset";
+import * as raw from "./raw.js";
+import { Paragraph } from "./paragraph.js";
+import { Target } from "./target.js";
+import { Rule } from "./rule.js";
+import { makeChangeSet, ChangeSet } from "./changeset/index.js";
 
 export class Engine {
     version: number;

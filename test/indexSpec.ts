@@ -3,7 +3,7 @@ import { describe, it, expect } from "vitest";
 import * as fs from "fs";
 import * as path from "path";
 
-import { fromYAMLFilePaths, fromYAMLFilePath, fromYAMLFilePathAsync, fromYAML, getRuleFilePath } from "../lib/";
+import { fromYAMLFilePaths, fromYAMLFilePath, fromYAMLFilePathAsync, fromYAML, getRuleFilePath } from "../lib/index.js";
 
 describe("index", () => {
     describe("fromYAMLFilePaths", () => {
@@ -61,7 +61,7 @@ describe("index", () => {
         });
     });
     describe("try all yml files in misc", () => {
-        const targetDir = path.resolve(__dirname, "..", "misc");
+        const targetDir = path.resolve(import.meta.dirname, "..", "misc");
         fs.readdirSync(targetDir)
             .filter((file) => /\.yml$/.test(file))
             .forEach((file) => {

@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 
-import { makeChangeSet, ChangeSet } from "../../lib/changeset";
-import { Diff } from "../../lib/changeset/diff";
+import { makeChangeSet, ChangeSet } from "../../lib/changeset/index.js";
+import { Diff } from "../../lib/changeset/diff.js";
 
 describe("ChangeSet", () => {
     describe(".constructor", () => {

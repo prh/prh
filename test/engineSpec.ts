@@ -5,9 +5,9 @@ import * as path from "path";
 
 import { globSync } from "glob";
 
-import { fromYAMLFilePath } from "../lib/";
+import { fromYAMLFilePath } from "../lib/index.js";
 
-import { Engine } from "../lib/engine";
+import { Engine } from "../lib/engine.js";
 
 describe("Engine", () => {
     it("parse raw.Config", () => {

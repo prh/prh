@@ -1,5 +1,5 @@
-import * as raw from "./raw";
-import { Rule } from "./rule";
+import * as raw from "./raw.js";
+import { Rule } from "./rule.js";
 
 export class Options {
     wordBoundary: boolean;

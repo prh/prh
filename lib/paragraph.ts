@@ -1,5 +1,5 @@
-import { Rule } from "./rule";
-import { Diff } from "./changeset/diff";
+import { Rule } from "./rule.js";
+import { Diff } from "./changeset/diff.js";
 
 // 設計思想
 // 文章の1ブロック毎にデータを保持する

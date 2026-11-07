@@ -1,5 +1,5 @@
-import { Diff } from "./diff";
-import { ChangeSet } from "./changeset";
+import { Diff } from "./diff.js";
+import { ChangeSet } from "./changeset.js";
 
 export { ChangeSet, Diff };
 

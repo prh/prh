@@ -2,9 +2,9 @@ import * as fs from "fs";
 import * as path from "path";
 import * as yaml from "js-yaml";
 
-import * as raw from "./raw";
-import { Engine } from "./engine";
-import { ChangeSet, Diff } from "./changeset/";
+import * as raw from "./raw.js";
+import { Engine } from "./engine.js";
+import { ChangeSet, Diff } from "./changeset/index.js";
 
 export { Engine, ChangeSet, Diff };
 

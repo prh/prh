@@ -1,4 +1,4 @@
-import { Diff } from "./diff";
+import { Diff } from "./diff.js";
 
 export interface ChangeSetParams {
     filePath?: string;

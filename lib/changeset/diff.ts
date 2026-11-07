@@ -1,4 +1,4 @@
-import { Rule } from "../rule";
+import { Rule } from "../rule.js";
 
 export interface DiffParams {
     pattern: RegExp;
