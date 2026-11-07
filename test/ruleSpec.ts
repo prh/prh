@@ -277,6 +277,32 @@ describe("Rule", () => {
             expect(diffs.length).toBe(1);
             expect(diffs[0].matches[0]).toBe("(?<!日経)ソフトウエア");
         });
+        it("supports native negative lookbehind in a patterns array", () => {
+            const rule = new Rule({
+                expected: "こと",
+                patterns: ["/(?<!記|大|出来|悪)事(?!件)/", "/事(?=案件)/"],
+                specs: [
+                    {
+                        from: "その事",
+                        to: "そのこと",
+                    },
+                    {
+                        from: "記事",
+                        to: "記事",
+                    },
+                    {
+                        from: "出来事",
+                        to: "出来事",
+                    },
+                    {
+                        from: "事件",
+                        to: "事件",
+                    },
+                ],
+            });
+            const diffs = rule.applyRule("その事 記事 出来事 事件 事案件");
+            expect(diffs.map((d) => d.matches[0])).toEqual(["事", "事"]);
+        });
         it("returns no diffs when expected equals matched text", () => {
             const rule = new Rule({
                 expected: "Web",
