@@ -65,7 +65,7 @@
     "@types/node": "^26.3.0",
     "eslint": "^10.0.0",
     "eslint-config-prettier": "^10.1.8",
-    "glob": "^13.0.5",
+    "glob": "^14.0.3",
     "prettier": "^3.0.0",
     "ts-json-schema-generator": "^2.9.0",
     "typescript": "^6.0.3",
